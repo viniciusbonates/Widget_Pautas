@@ -262,29 +262,48 @@ function slcReuniao() {
 }
 
 async function saveFormData(){
-    objGetReturn = {};
+    objGetReturn    = {};
+    objBodyreq      = {};
     objGetReturn['name']    = ['a'];
     objGetReturn['a']       = '';
     let numSolN             = objFieldsData['numSolN'];
+    
+    await orderMethodsMi.requestsActivitiesGETall(numSolN, objGetReturn);
+    console.log(objGetReturn['a'])
+    let movementSequence    = objGetReturn['a'].items[objGetReturn['a'].items.length - 1].movementSequence;
+    objBodyreq['movementSequence'] = movementSequence;
+
+    await orderMethodsMi.requestsGETall(numSolN, objGetReturn);
+    console.log(objGetReturn['a'])
+    objBodyreq['processVersion'] = objGetReturn['a']['processVersion'];
+    let formRecordId = objGetReturn['a'].formRecordId;
+
+    await orderMethodsMi.activeDocumentGETall(formRecordId, objGetReturn); 
+    console.log(objGetReturn['a'])
+    objBodyreq['version'] = objGetReturn['a']['content']['version'];
+
     await orderMethodsMi.requestsTasksGETall(numSolN, objGetReturn);
     console.log(objGetReturn['a'])
     let itns = objGetReturn['a'].items
     let ckResp = 0;
+    let mvS = 0;
     for(let i = 0; i < itns.length; i++){
         let itnN = itns[i];
         console.log(itns[i])
-        if(itnN['status'] == 'NOT_COMPLETED'){
+        if(itnN['status'] == 'NOT_COMPLETED' && itnN['movementSequence'] > mvS){
             codeN = itnN['assignee']['code'];
             (codeN.indexOf('Pool:Role:') != -1) ? ckResp = false : ckResp = true;
-            break;
+            objBodyreq['code']      = codeN;
+            objBodyreq['sequence']  = itnN['state']['sequence']
         }
     }
+    console.log(movementSequence)
     console.log(ckResp)
-    if(ckResp){
-        
+    /*if(ckResp){
+
     }else{
 
-    }
+    }*/
     /*
     await orderMethodsMi.requestsActivitiesGETall(numSolN, objGetReturn);
     console.log(objGetReturn['a'])

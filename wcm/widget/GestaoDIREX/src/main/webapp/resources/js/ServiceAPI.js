@@ -357,7 +357,7 @@ orderMethods.prototype.moveSubst = async function (NumSolicit, objGetReturn) {
     "credentials": "include"
     });
 }
-orderMethods.prototype.saveSubst = async function (NumSolicit, taskUserId, objGetReturn) {
+orderMethods.prototype.saveSubst = async function (NumSolicit, taskUserId, currentMovt, objBodyreq, objGetReturn) {
     await fetch("https://myweb.am.sebrae.com.br/ecm/api/rest/ecm/workflowView/send", {
         "headers": {
           "accept": "application/json, text/javascript, */*; q=0.01",
@@ -371,14 +371,14 @@ orderMethods.prototype.saveSubst = async function (NumSolicit, taskUserId, objGe
           "sec-fetch-site": "same-origin",
           "x-requested-with": "XMLHttpRequest"
         },
-        "referrer": "https://myweb.am.sebrae.com.br/portal/p/1/pageworkflowview?app_ecm_workflowview_processInstanceId="+NumSolicit+"&app_ecm_workflowview_currentMovto=5&app_ecm_workflowview_taskUserId="+taskUserId+"&app_ecm_workflowview_managerMode=false",
+        "referrer": "https://myweb.am.sebrae.com.br/portal/p/1/pageworkflowview?app_ecm_workflowview_processInstanceId="+NumSolicit+"&app_ecm_workflowview_currentMovto="+currentMovt+"&app_ecm_workflowview_taskUserId="+taskUserId+"&app_ecm_workflowview_managerMode=false",
         "referrerPolicy": "strict-origin-when-cross-origin",
-        "body": "{  \"processInstanceId\":79940,"+
+        "body": "{  \"processInstanceId\":"+objBodyreq['processInstanceId']+","+
                     "\"processId\":\"CadastrodeReuniãoDIREX\","+
-                    "\"version\":10,"+
-                    "\"taskUserId\":\"00000563\","+
+                    "\"version\":"+objBodyreq['processVersion']+","+
+                    "\"taskUserId\":\""+objBodyreq['code']+"\","+
                     "\"completeTask\":false,"+
-                    "\"currentMovto\":5,"+
+                    "\"currentMovto\":"+objBodyreq['movementSequence']+","+
                     "\"managerMode\":false,"+
                     "\"selectedDestinyAfterAutomatic\":-1,"+
                     "\"conditionAfterAutomatic\":-1,"+
@@ -423,12 +423,12 @@ orderMethods.prototype.saveSubst = async function (NumSolicit, taskUserId, objGe
                             "{\"name\":\"zm_emailsCopia\",\"value\":\"\"}],"+
                     "\"isDigitalSigned\":false,"+
                     "\"isLinkReturn\":null,"+
-                    "\"versionDoc\":34000,"+
-                    "\"selectedState\":8,"+
+                    "\"versionDoc\":"+objBodyreq['version']+","+
+                    "\"selectedState\":"+objBodyreq['sequence']+","+
                     "\"internalFields\":[],"+
                     "\"subProcessId\":null,"+
                     "\"subProcessSequence\":null,"+
-                    "\"currentState\":8"+
+                    "\"currentState\":"+objBodyreq['sequence']+""+
                 "}",
         "method": "POST",
         "mode": "cors",
