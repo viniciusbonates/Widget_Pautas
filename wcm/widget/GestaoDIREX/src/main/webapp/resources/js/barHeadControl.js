@@ -65,7 +65,7 @@ window.addEventListener('load', initRegistData)
 function formFieldsDefine(){
     objFieldsData = {
         numSolN: '',
-        arrF: ['dt_dataInicio', 'dt_datalimit', 'txt_Deliberacao', 'txt_FinDelibr', 'txt_IniDelibr', 'txt_tituloReuniao', 'txt_InfoDIRAF', 'txt_InfoDITEC', 'txt_InfoDISUP'],
+        arrF: ['cmb_NomeSolicita', 'hd_numState', 'dt_dataInicio', 'dt_datalimit', 'txt_Deliberacao', 'txt_FinDelibr', 'txt_IniDelibr', 'txt_tituloReuniao', 'txt_InfoDIRAF', 'txt_InfoDITEC', 'txt_InfoDISUP'],
         stAcess_reg: function (ds){
             for(let i = 0; i < this.arrF.length; i++){
                 document.getElementById(this.arrF[i]).value = ds[this.arrF[i]];
@@ -143,7 +143,7 @@ function defineElementsbar(){
 }
 window.addEventListener('load', defineElementsbar)
 
-function acessReg(){
+function acessRegist(){
     let btnAcess = document.getElementById('btnAcessar');
     console.log(btnAcess)
     btnAcess.addEventListener('click', setDataReg)
@@ -189,7 +189,7 @@ function acessReg(){
         }
     }
 }
-window.addEventListener('load', acessReg)
+window.addEventListener('load', acessRegist)
 
 function definePositionBarHeader(){
     slcReuniao()
@@ -297,6 +297,11 @@ async function saveFormData(){
             objBodyreq['sequence']  = itnN['state']['sequence']
         }
     }
+
+    for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
+        formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] = document.getElementById(formData_obj['fieldsNecessary'][j]).value 
+    }
+
     console.log(movementSequence)
     console.log(ckResp)
     /*if(ckResp){

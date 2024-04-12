@@ -181,8 +181,8 @@
 
 		<div id="CadastroReuniaoDIREX" style="padding-top: 255px">
 		</div>
-		<!--
-		<div class="panel panel-primary" id="DadosSolicitante">
+	
+		<div class="panel panel-primary" id="DadosSolicitante" style="display: none;">
 		<div class="panel-heading">
 			<h3 class="panel-title">
 				<b>Dados da Assessoria</b>
@@ -217,7 +217,7 @@
 		</div>
 		</div>
 		</div>
-		-->
+		
 
 		<div class="panel panel-primary" id="DadosCadastro" style="display: none;">
 			<div class="panel-heading">
@@ -568,7 +568,7 @@
 					<div class="col-md-4">
 						<div class="form-group">
 							<label for="slc_UCOF_vt">DIRAF</label>
-							<select class="form-control inpDlbr" name="slc_UCOF_vt" id="slc_DIRAF_vt">
+							<select class="form-control inpDlbr" name="slc_UCOF_vt" id="slc_UCOF_vt"><!--slc_DIRAF_vt-->
 								<option value="0"></option>
 								<option value="1">Aprovado</option>
 								<option value="2">Reprovado</option>
