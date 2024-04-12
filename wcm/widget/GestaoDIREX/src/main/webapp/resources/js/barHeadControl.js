@@ -261,6 +261,11 @@ function slcReuniao() {
     searchInpTemp()
 }
 
+function saveFormDataButtonSet(){
+    document.getElementById('save-op').addEventListener('click', async function (){
+        await saveFormData();
+    })
+}window.addEventListener('load',saveFormDataButtonSet)
 async function saveFormData(){
     objGetReturn    = {};
     objBodyreq      = {};
@@ -269,6 +274,7 @@ async function saveFormData(){
     let numSolN             = objFieldsData['numSolN'];
     formDataReq             = [];
 
+    objBodyreq['processInstanceId'] = numSolN;
     await orderMethodsMi.requestsActivitiesGETall(numSolN, objGetReturn);
     console.log(objGetReturn['a'])
     let movementSequence    = objGetReturn['a'].items[objGetReturn['a'].items.length - 1].movementSequence;
@@ -310,9 +316,12 @@ async function saveFormData(){
         objTempReq['value'] = formData_obj.formData_modified[formData_obj['fieldsNecessary'][l]];
         formDataReq.push(objTempReq) 
     }
+    objBodyreq['formData'] = JSON.stringify(formDataReq)
+    console.log(objBodyreq)
     console.log(formDataReq)
     console.log(movementSequence)
     console.log(ckResp)
+    await orderMethodsMi.saveSubst("79940", objBodyreq.code, objBodyreq.movementSequence, objBodyreq); 
     /*if(ckResp){
 
     }else{
