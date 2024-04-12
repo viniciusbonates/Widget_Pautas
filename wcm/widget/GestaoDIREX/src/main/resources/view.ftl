@@ -193,8 +193,10 @@
 		<div class="form-group row">
 		<div class="col-md-4">
 			<label for="cmb_NomeSolicita">Assessor(a):</label>
-			<select name="cmb_NomeSolicita" id="cmb_NomeSolicita" dataset="colleague" datasetkey="colleagueId" datasetvalue="colleagueName" 
+			<input type="text" class="form-control" name="cmb_NomeSolicita" id="cmb_NomeSolicita" readonly>
+			<!--<select name="cmb_NomeSolicita" id="cmb_NomeSolicita" dataset="colleague" datasetkey="colleagueId" datasetvalue="colleagueName" 
 			class="form-control" readonly></select>
+			-->
 		</div>
 		<div class="col-md-4">
 			<label for="dt_DataSolicita">Data e horário:</label>

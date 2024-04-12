@@ -1,4 +1,20 @@
-
+function valueToggle(){
+    let arrSw = ['switch_DISUP',
+    'switch_DIRAF',
+    'switch_DITEC']
+    for(let i = 0; i < arrSw.length; i++){
+        let swN = document.getElementById(arrSw[i])
+        swN.addEventListener('change', function (){
+            console.log(this)
+            this.value = (this.checked) ? "on" : "";  
+        }) 
+    }    
+    for(let i = 0; i < arrSw.length; i++){
+        let swN = document.getElementById(arrSw[i])
+        swN.value = (swN.checked) ? "on" : "";  
+    }
+}
+window.addEventListener('laod', valueToggle);
 function setControlNavTabs(){
     let navTabs = document.getElementById('navTabsOps');
     let navOps  = navTabs.children;

@@ -65,10 +65,9 @@ window.addEventListener('load', initRegistData)
 function formFieldsDefine(){
     objFieldsData = {
         numSolN: '',
-        arrF: ['cmb_NomeSolicita', 'hd_numState', 'dt_dataInicio', 'dt_datalimit', 'txt_Deliberacao', 'txt_FinDelibr', 'txt_IniDelibr', 'txt_tituloReuniao', 'txt_InfoDIRAF', 'txt_InfoDITEC', 'txt_InfoDISUP'],
         stAcess_reg: function (ds){
-            for(let i = 0; i < this.arrF.length; i++){
-                document.getElementById(this.arrF[i]).value = ds[this.arrF[i]];
+            for(let i = 0; i < formData_obj['fieldsNecessary'].length; i++){
+                document.getElementById(formData_obj['fieldsNecessary'][i]).value = ds[formData_obj['fieldsNecessary'][i]];
             }
         }
     }
@@ -179,8 +178,9 @@ function acessRegist(){
                     testDatatable.paramsInit(objMain);
                     dataTablemi = new dataTableConfig();
                     myEditor = new determineEditor();
-                    DemandResp()
-
+                    DemandResp();
+                    valueToggle();
+                    
                     formData_obj.defineFormDataValues('formData_origin', regN);
                 
                 }
@@ -297,6 +297,8 @@ async function saveFormData(){
             objBodyreq['sequence']  = itnN['state']['sequence']
         }
     }
+    
+    myEditor.setDataInputsParams()
 
     for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
         formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] = document.getElementById(formData_obj['fieldsNecessary'][j]).value 
