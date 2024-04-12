@@ -180,7 +180,7 @@ function acessRegist(){
                     myEditor = new determineEditor();
                     DemandResp();
                     valueToggle();
-                    
+
                     formData_obj.defineFormDataValues('formData_origin', regN);
                 
                 }
@@ -267,7 +267,8 @@ async function saveFormData(){
     objGetReturn['name']    = ['a'];
     objGetReturn['a']       = '';
     let numSolN             = objFieldsData['numSolN'];
-    
+    formDataReq             = [];
+
     await orderMethodsMi.requestsActivitiesGETall(numSolN, objGetReturn);
     console.log(objGetReturn['a'])
     let movementSequence    = objGetReturn['a'].items[objGetReturn['a'].items.length - 1].movementSequence;
@@ -303,7 +304,13 @@ async function saveFormData(){
     for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
         formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] = document.getElementById(formData_obj['fieldsNecessary'][j]).value 
     }
-
+    for(let l = 0; l < formData_obj.fieldsNecessary.length; l++){
+        let objTempReq = {};
+        objTempReq['name']  = formData_obj['fieldsNecessary'][l];
+        objTempReq['value'] = formData_obj.formData_modified[formData_obj['fieldsNecessary'][l]];
+        formDataReq.push(objTempReq) 
+    }
+    console.log(formDataReq)
     console.log(movementSequence)
     console.log(ckResp)
     /*if(ckResp){
