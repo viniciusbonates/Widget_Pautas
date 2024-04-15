@@ -458,8 +458,8 @@ dataTableConfig.prototype.changeEventInput = function () {
                 let assrAp = itenPauta['hdn_aprvAssr'];
                 let resAnalis = itenPauta['txt_resultAnalis'];              // <---- Campo resultado da Analise assessoria defini o Se foi para status 19 devido Deliberação ou devido Reprovação 
                 let inps = document.getElementsByClassName('inpDlbr') // < ------------- OBTEM OS INPUTS NO HTML 
-                arrNamesIt  = ['slc_demandante', 'slc_DISUP_vt', 'slc_DIRAF_vt', 'slc_DITEC_vt', 'txt_Deliberacao', 'txt_Justificativa', 'txt_obsDlbrDIRAF', 'txt_obsDlbrDITEC', 'txt_obsDlbrDISUP'] 
-                arrAlt      = ['hdn_DIRAF_vt', 'hdn_DISUP_vt', 'hdn_DITEC_vt', 'slc_demandante']
+                arrNamesIt  = ['slc_demandante', 'slc_DISUP_vt', 'slc_UCOF_vt', 'slc_DITEC_vt', 'txt_Deliberacao', 'txt_Justificativa', 'txt_obsDlbrDIRAF', 'txt_obsDlbrDITEC', 'txt_obsDlbrDISUP'] 
+                arrAlt      = ['slc_UCOF_vt', 'hdn_DISUP_vt', 'hdn_DITEC_vt', 'slc_demandante']
                 if(wrkflw.AnaliseAssr == assrAp){
                     document.getElementById('Delibr').style.display = 'block';
                     iten.getElementsByTagName('button')[0].disabled = true;
@@ -1211,7 +1211,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                                     itensTools.myToast('success', 'Ação realizada com sucesso!');
 
                                     let inps = document.getElementsByClassName('inpDlbr')
-                                    arrNamesIt = ['slc_DISUP_vt', 'slc_DIRAF_vt', 'slc_DITEC_vt', 'txt_obsDlbrDIRAF', 'txt_obsDlbrDITEC', 'txt_obsDlbrDISUP',] //'txt_Deliberacao'
+                                    arrNamesIt = ['slc_DISUP_vt', 'slc_UCOF_vt', 'slc_DITEC_vt', 'txt_obsDlbrDIRAF', 'txt_obsDlbrDITEC', 'txt_obsDlbrDISUP',] //'txt_Deliberacao'
                                     document.getElementById('Delibr').style.display = 'block';
                                     iten.getElementsByTagName('button')[0].disabled = true 
                                     for(let i = 0; i < inps.length; i++){
@@ -1446,7 +1446,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                             orderMethodsMi.indexFunctionsX();
                             itensTools.myToast('success', 'Ação realizada com sucesso!');
                             let inps = document.getElementsByClassName('inpDlbr')
-                            arrNamesIt = ['slc_DISUP_vt', 'slc_DIRAF_vt', 'slc_DITEC_vt', 'slc_demandante', 'txt_obsDlbrDIRAF', 'txt_obsDlbrDITEC', 'txt_obsDlbrDISUP',]
+                            arrNamesIt = ['slc_DISUP_vt', 'slc_UCOF_vt', 'slc_DITEC_vt', 'slc_demandante', 'txt_obsDlbrDIRAF', 'txt_obsDlbrDITEC', 'txt_obsDlbrDISUP',]
                             document.getElementById('Delibr').style.display = 'block';
                             itenBtn1.getElementsByTagName('button')[0].disabled = true;
                             for(let i = 0; i < inps.length; i++){
@@ -1568,7 +1568,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                             orderMethodsMi.indexFunctionsX();
                             itensTools.myToast('success', 'Ação realizada com sucesso!');
                             let inps = document.getElementsByClassName('inpDlbr')
-                            arrNamesIt = ['slc_DISUP_vt', 'slc_DIRAF_vt', 'slc_DITEC_vt', 'txt_obsDlbrDIRAF', 'txt_obsDlbrDITEC', 'txt_obsDlbrDISUP',] //'txt_Deliberacao',
+                            arrNamesIt = ['slc_DISUP_vt', 'slc_UCOF_vt', 'slc_DITEC_vt', 'txt_obsDlbrDIRAF', 'txt_obsDlbrDITEC', 'txt_obsDlbrDISUP',] //'txt_Deliberacao',
                             document.getElementById('Delibr').style.display = 'block';
                             itenBtn1.getElementsByTagName('button')[0].disabled = false;
                             for(let i = 0; i < inps.length; i++){
@@ -1631,7 +1631,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                 dtRN = dtRN.split('-')
                 dtRN = dtRN[2]+"/"+dtRN[1]+"/"+dtRN[0]
                 DISUP = inpsPanel['slc_DISUP_vt'].value;
-                DIRAF = inpsPanel['slc_DIRAF_vt'].value;
+                DIRAF = inpsPanel['slc_UCOF_vt'].value;
                 DITEC = inpsPanel['slc_DITEC_vt'].value;
                 votesThisItnNow = {
                     DISUP: DISUP,
@@ -1712,7 +1712,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                     else{ usersForEmail += ',' + arrUserEmails[forE];}
                 }
                 console.log(usersForEmail)
-                arrNamesInp = ['slc_demandante', 'slc_DISUP_vt', 'slc_DIRAF_vt', 'slc_DITEC_vt', 'txt_Deliberacao', 'txt_Justificativa'];
+                arrNamesInp = ['slc_demandante', 'slc_DISUP_vt', 'slc_UCOF_vt', 'slc_DITEC_vt', 'txt_Deliberacao', 'txt_Justificativa'];
                 ckY = 0
                 for(y = 0; y < inpsPanel.length; y++){
                     inpNow = inpsPanel[y];
@@ -1771,7 +1771,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                             colItem.innerHTML   = icn;
                             dataTablemi.resAPI  = {};
                             let inps = document.getElementsByClassName('inpDlbr')
-                            arrNamesIt = ['slc_DISUP_vt', 'slc_DIRAF_vt', 'slc_DITEC_vt', 'txt_Deliberacao', 'txt_Justificativa', 'slc_demandante']
+                            arrNamesIt = ['slc_DISUP_vt', 'slc_UCOF_vt', 'slc_DITEC_vt', 'txt_Deliberacao', 'txt_Justificativa', 'slc_demandante']
                             document.getElementById('Delibr').style.display = 'block';
                             itenBtn1.getElementsByTagName('button')[0].disabled = true;
                             for(let i = 0; i < inps.length; i++){
