@@ -323,12 +323,40 @@ async function saveFormData(){
             formDataReq.push(objTempReq) 
         }
         objBodyreq['formData'] = JSON.stringify(formDataReq)
+
+        rowMSN = document.getElementById('msnConfirm')
+        rowMSN.children[0].innerText = "Desejá realmente salvar as alterações ?";
+        document.getElementById('initSave').style.display = "block"
+
+        slcAcess = document.getElementById('slc_reuniao');
+        dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
+        dsRegs = dsReg.values;
+        ckModBase = false;
+        objModBaseGet = {}
+        for(let i = 0; i < dsRegs.length; i++){
+            regN = dsRegs[i]
+            if(slcAcess.value == regN['txt_NumProcess']){
+                for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
+                    if( formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] != regN[formData_obj['fieldsNecessary'][j]]){
+                        objModBaseGet[formData_obj['fieldsNecessary'][j]] = regN[formData_obj['fieldsNecessary'][j]]
+                        ckModBase = true;
+                    } 
+                }
+            }
+        }
+        dsReg.values[formData_obj['fieldsNecessary'][i]]
+
+        console.log(objModBaseGet)
+        console.log('*************************************************************************************************')
         console.log(objBodyreq)
         console.log(formDataReq)
         console.log(movementSequence)
         console.log(ckResp)
     }else{
         console.log('formulário sem modificações para serem salvas')
+        rowMSN = document.getElementById('msnConfirm')
+        rowMSN.children[0].innerText = "formulário sem modificações para serem salvas";
+        document.getElementById('initSave').style.display = "none"
     }
     
     //await orderMethodsMi.saveSubst("79940", objBodyreq.code, objBodyreq.movementSequence, objBodyreq); 

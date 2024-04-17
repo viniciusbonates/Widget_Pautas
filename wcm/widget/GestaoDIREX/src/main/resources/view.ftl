@@ -92,7 +92,7 @@
 		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closePainel"></button>
 		</div>
 		<div class="modal-body">
-			<div class="row">
+			<div class="row" id="msnConfirm">
 				<h3>Desejá realmente salvar as alterações ?</h3>
 		  	</div>
 			<div class="row">
