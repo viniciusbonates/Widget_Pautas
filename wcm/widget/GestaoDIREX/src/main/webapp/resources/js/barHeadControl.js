@@ -268,7 +268,7 @@ function saveFormDataButtonSet(){
 }window.addEventListener('load',saveFormDataButtonSet)
 async function saveFormData(){
     console.log('asdasdasdassadsdsdsa  save')
-    /*objGetReturn    = {};
+    objGetReturn    = {};
     objBodyreq      = {};
     objGetReturn['name']    = ['a'];
     objGetReturn['a']       = '';
@@ -308,22 +308,31 @@ async function saveFormData(){
     
     myEditor.setDataInputsParams()
 
+    let ckMod = false;
     for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
-        formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] = document.getElementById(formData_obj['fieldsNecessary'][j]).value 
+        formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] = document.getElementById(formData_obj['fieldsNecessary'][j]).value;
+        if(formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] != formData_obj.formData_origin[formData_obj['fieldsNecessary'][j]]){
+            ckMod = true;
+        } 
     }
-    for(let l = 0; l < formData_obj.fieldsNecessary.length; l++){
-        let objTempReq = {};
-        objTempReq['name']  = formData_obj['fieldsNecessary'][l];
-        objTempReq['value'] = formData_obj.formData_modified[formData_obj['fieldsNecessary'][l]];
-        formDataReq.push(objTempReq) 
+    if(ckMod){
+        for(let l = 0; l < formData_obj.fieldsNecessary.length; l++){
+            let objTempReq = {};
+            objTempReq['name']  = formData_obj['fieldsNecessary'][l];
+            objTempReq['value'] = formData_obj.formData_modified[formData_obj['fieldsNecessary'][l]];
+            formDataReq.push(objTempReq) 
+        }
+        objBodyreq['formData'] = JSON.stringify(formDataReq)
+        console.log(objBodyreq)
+        console.log(formDataReq)
+        console.log(movementSequence)
+        console.log(ckResp)
+    }else{
+        console.log('formulário sem modificações para serem salvas')
     }
-    objBodyreq['formData'] = JSON.stringify(formDataReq)
-    console.log(objBodyreq)
-    console.log(formDataReq)
-    console.log(movementSequence)
-    console.log(ckResp)
-    await orderMethodsMi.saveSubst("79940", objBodyreq.code, objBodyreq.movementSequence, objBodyreq); 
-    */
+    
+    //await orderMethodsMi.saveSubst("79940", objBodyreq.code, objBodyreq.movementSequence, objBodyreq); 
+    
     /*if(ckResp){
 
     }else{

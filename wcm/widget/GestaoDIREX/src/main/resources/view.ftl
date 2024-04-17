@@ -92,50 +92,20 @@
 		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closePainel"></button>
 		</div>
 		<div class="modal-body">
-			<div class="row p-3">
-				<div class="col-md-4" id="slc_userResp_div">
-					<label for="newUserResp" class="form-label">Usuário que assumirá a responsabilidade:</label>
-					<input type="text" class="form-control" aria-label="newUserResp" id="newUserResp" style="display: none">
-					<div class="col-md-4" style="padding: 0px 100px 700px 0px; top: -100px; left: 270px; position: absolute; background-color: white; overflow-y: scroll; scroll-snap-type: y mandatory; border: 1px solid black; border-radius: 5px; display: none;" id="slcNew">
-					   <!-- <div style="width: 97%;position: absolute; ">
-							<div style="width: 100%;float: left;font-size: 14px;opacity: 85%;border: transparent;border-width: 1px;border-radius: 4px;padding-left: 10px;padding-top: 5px;padding-bottom: 5px" class="a">Nascimento</div>
-							<div style="width: 100%;float: left;font-size: 14px;opacity: 85%;border: transparent;border-width: 1px;border-radius: 4px;padding-left: 10px;padding-top: 5px;padding-bottom: 5px" class="a">Adina Oliveira</div>
-							<div style="width: 100%;float: left;font-size: 14px;opacity: 85%;border: transparent;border-width: 1px;border-radius: 4px;padding-left: 10px;padding-top: 5px;padding-bottom: 5px" class="a">Alziney Castro Moreira</div>
-							<div style="width: 100%;float: left;font-size: 14px;opacity: 85%;border: transparent;border-width: 1px;border-radius: 4px;padding-left: 10px;padding-top: 5px;padding-bottom: 5px" class="a">ELDER SOUZA DOS SANTOS</div>
-							<div style="width: 100%;float: left;font-size: 14px;opacity: 85%;border: transparent;border-width: 1px;border-radius: 4px;padding-left: 10px;padding-top: 5px;padding-bottom: 5px" class="a">Eliana Sarmento da Costa</div>
-							<div style="width: 100%;float: left;font-size: 14px;opacity: 85%;border: transparent;border-width: 1px;border-radius: 4px;padding-left: 10px;padding-top: 5px;padding-bottom: 5px" class="a">Eliana Sarmento da Costa</div>
-							<div style="width: 100%;float: left;font-size: 14px;opacity: 85%;border: transparent;border-width: 1px;border-radius: 4px;padding-left: 10px;padding-top: 5px;padding-bottom: 5px" class="a">Eliana Sarmento da Costa</div>
-							<div style="width: 100%;float: left;font-size: 14px;opacity: 85%;border: transparent;border-width: 1px;border-radius: 4px;padding-left: 10px;padding-top: 5px;padding-bottom: 5px" class="a">Eliana Sarmento da Costa</div>
-						</div>-->
-					</div>
-
-				</div>
+			<div class="row">
+				<h3>Desejá realmente salvar as alterações ?</h3>
+		  	</div>
+			<div class="row">
+				<div class="col-md-4" style="color: green;"><b>Transferidas com sucesso</b></div><div class="col-md-2" id="trsSucess"><b></b></div>
 			</div>
-			<table class="table" id="tbSelecteds">
-				<thead>
-				  <tr>
-					<th scope="col">N°Solicitação</th>
-					<th scope="col">Responsável Atual</th>
-					<th scope="col">Etapa Atual</th>
-					<th scope="col">Status</th>
-					<th scope="col">#</th>
-				  </tr>
-				</thead>
-				<tbody>
-				  
-				</tbody>
-			  </table>
-			  <div class="row">
-					<div class="col-md-4" style="color: green;"><b>Transferidas com sucesso</b></div><div class="col-md-2" id="trsSucess"><b></b></div>
-			  </div>
-			  <div class="row">
+			<div class="row">
 				<div class="col-md-4" style="color: red;"><b>Falhas</b></div><div class="col-md-2" id="trsFail"><b></b></div>
-		  </div>
+		  	</div>
 		</div>
 		<div class="modal-footer">
-			<button class="btn btn-secondary" data-bs-dismiss="modal" id="cancelTransfer">fechar</button>
-			<button class="btn btn-primary" id="initTransfer">
-				Processar Transferencias
+			<button class="btn btn-secondary" data-bs-dismiss="modal" id="cancelSave">Cancelar</button>
+			<button class="btn btn-primary" id="initSave">
+				Sim 
 			</button>
 		</div>
 	  </div>
