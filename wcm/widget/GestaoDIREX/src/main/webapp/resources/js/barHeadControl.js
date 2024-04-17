@@ -1,4 +1,4 @@
-myLoading = FLUIGC.loading('#wcm-all-content');
+myLoading = FLUIGC.loading('#wcm-content');
 function initRegistData(){
     dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
     formData_obj = {
@@ -267,7 +267,8 @@ function saveFormDataButtonSet(){
     })
 }window.addEventListener('load',saveFormDataButtonSet)
 async function saveFormData(){
-    objGetReturn    = {};
+    console.log('asdasdasdassadsdsdsa  save')
+    /*objGetReturn    = {};
     objBodyreq      = {};
     objGetReturn['name']    = ['a'];
     objGetReturn['a']       = '';
@@ -322,38 +323,11 @@ async function saveFormData(){
     console.log(movementSequence)
     console.log(ckResp)
     await orderMethodsMi.saveSubst("79940", objBodyreq.code, objBodyreq.movementSequence, objBodyreq); 
+    */
     /*if(ckResp){
 
     }else{
 
     }*/
-    /*
-    await orderMethodsMi.requestsActivitiesGETall(numSolN, objGetReturn);
-    console.log(objGetReturn['a'])
-    let movementSequence    = objGetReturn['a'].items[objGetReturn['a'].items.length - 1].movementSequence;
-    let targetAssignee      = orderMethodsMi.targetAssignee
-    await orderMethodsMi.assumeTaskall(targetAssignee, numSolN, movementSequence, objGetReturn);
-    console.log(objGetReturn['a'])
-    await orderMethodsMi.requestsGETall(numSolN, objGetReturn);
-    console.log(objGetReturn['a'])
-    let formRecordId = objGetReturn['a'].formRecordId;
-    await orderMethodsMi.activeDocumentGETall(formRecordId, objGetReturn);
-    console.log(objGetReturn['a'])
-    let versionDoc = objGetReturn['a'].content.version;
-    */
-   
-    /*
-    orderMethods.prototype.activeDocumentGETall = async function (docId, objGetReturn) {
-    await $.ajax({
-        method: "GET",
-        url: this.host+"/api/public/ecm/document/activedocument/"+docId,
-        contentType: "application/json",
-        }).done(async function (response) { 
-            nameAtt = objGetReturn['name'][0];
-            objGetReturn[nameAtt] = response;
-            await response
-        })
-}
-*/
 
 }

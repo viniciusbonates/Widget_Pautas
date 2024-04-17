@@ -84,6 +84,64 @@
   }
 </style>
 
+<div class="modal modal-lg fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+	<div class="modal-dialog modal-dialog-centered">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Painel de Transferência</h1>
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closePainel"></button>
+		</div>
+		<div class="modal-body">
+			<div class="row p-3">
+				<div class="col-md-4" id="slc_userResp_div">
+					<label for="newUserResp" class="form-label">Usuário que assumirá a responsabilidade:</label>
+					<input type="text" class="form-control" aria-label="newUserResp" id="newUserResp" style="display: none">
+					<div class="col-md-4" style="padding: 0px 100px 700px 0px; top: -100px; left: 270px; position: absolute; background-color: white; overflow-y: scroll; scroll-snap-type: y mandatory; border: 1px solid black; border-radius: 5px; display: none;" id="slcNew">
+					   <!-- <div style="width: 97%;position: absolute; ">
+							<div style="width: 100%;float: left;font-size: 14px;opacity: 85%;border: transparent;border-width: 1px;border-radius: 4px;padding-left: 10px;padding-top: 5px;padding-bottom: 5px" class="a">Nascimento</div>
+							<div style="width: 100%;float: left;font-size: 14px;opacity: 85%;border: transparent;border-width: 1px;border-radius: 4px;padding-left: 10px;padding-top: 5px;padding-bottom: 5px" class="a">Adina Oliveira</div>
+							<div style="width: 100%;float: left;font-size: 14px;opacity: 85%;border: transparent;border-width: 1px;border-radius: 4px;padding-left: 10px;padding-top: 5px;padding-bottom: 5px" class="a">Alziney Castro Moreira</div>
+							<div style="width: 100%;float: left;font-size: 14px;opacity: 85%;border: transparent;border-width: 1px;border-radius: 4px;padding-left: 10px;padding-top: 5px;padding-bottom: 5px" class="a">ELDER SOUZA DOS SANTOS</div>
+							<div style="width: 100%;float: left;font-size: 14px;opacity: 85%;border: transparent;border-width: 1px;border-radius: 4px;padding-left: 10px;padding-top: 5px;padding-bottom: 5px" class="a">Eliana Sarmento da Costa</div>
+							<div style="width: 100%;float: left;font-size: 14px;opacity: 85%;border: transparent;border-width: 1px;border-radius: 4px;padding-left: 10px;padding-top: 5px;padding-bottom: 5px" class="a">Eliana Sarmento da Costa</div>
+							<div style="width: 100%;float: left;font-size: 14px;opacity: 85%;border: transparent;border-width: 1px;border-radius: 4px;padding-left: 10px;padding-top: 5px;padding-bottom: 5px" class="a">Eliana Sarmento da Costa</div>
+							<div style="width: 100%;float: left;font-size: 14px;opacity: 85%;border: transparent;border-width: 1px;border-radius: 4px;padding-left: 10px;padding-top: 5px;padding-bottom: 5px" class="a">Eliana Sarmento da Costa</div>
+						</div>-->
+					</div>
+
+				</div>
+			</div>
+			<table class="table" id="tbSelecteds">
+				<thead>
+				  <tr>
+					<th scope="col">N°Solicitação</th>
+					<th scope="col">Responsável Atual</th>
+					<th scope="col">Etapa Atual</th>
+					<th scope="col">Status</th>
+					<th scope="col">#</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  
+				</tbody>
+			  </table>
+			  <div class="row">
+					<div class="col-md-4" style="color: green;"><b>Transferidas com sucesso</b></div><div class="col-md-2" id="trsSucess"><b></b></div>
+			  </div>
+			  <div class="row">
+				<div class="col-md-4" style="color: red;"><b>Falhas</b></div><div class="col-md-2" id="trsFail"><b></b></div>
+		  </div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-secondary" data-bs-dismiss="modal" id="cancelTransfer">fechar</button>
+			<button class="btn btn-primary" id="initTransfer">
+				Processar Transferencias
+			</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+
 <div class="fluig-style-guide">
 	<form name="form" role="form">
 		<div class="paragraph-is-required system-message-information alert alert-info" role="alert"
@@ -131,7 +189,7 @@
 					</div>
 
 					<div id="icon-S" style="float: left; padding-top: 30px; padding-left: 10px; padding-right: 10px; display: none;">
-						<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16" style="cursor: pointer" id="save-op">
+						<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16" style="cursor: pointer" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" id="save-op">
 							<path d="M11 2H9v3h2z"/>
 							<path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z"/>
 						  </svg>
