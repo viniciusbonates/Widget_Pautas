@@ -104,6 +104,7 @@ function defineElementsbar(){
             for(let i = 0; i < rs.length; i++){
                 let regItmN = rs[i]
                 if(regItmN.active == true){
+                    objDefineStatus.sequnce = regItmN.state.sequence;                   // <--- obtem estado atual para utilizar em getPDF e getPDF_ptd
                     let numProc = regItmN.state.sequence + 'n';
                     divAtN = mnWk.children[numProc];
                     if(divAtN != undefined){

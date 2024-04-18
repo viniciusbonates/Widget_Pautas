@@ -48,7 +48,7 @@ function info_setItns(){
 //window.addEventListener('load', info_setItns)
 function updatePDF_ptd(dirIndx){
     //document.scrollingElement.scrollTop = 0
-    var state = 8 //window.parentOBJ.ECM.workflowView.sequence
+    var state = objDefineStatus.sequnce //8 //window.parentOBJ.ECM.workflowView.sequence
     var iniTxt = document.getElementById('txt_IniDelibr').value;
     var finTxt = document.getElementById('txt_FinDelibr').value;
     //var dt_slc 	= document.getElementById('dt_dataInicio').value;
