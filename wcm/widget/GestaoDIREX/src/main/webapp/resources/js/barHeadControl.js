@@ -181,6 +181,7 @@ function acessRegist(){
                     definePainelEnabled()
                     setControlNavTabs()
                     getPDF_ptd();
+                    info_setItns()
                     DemandResp();
                     valueToggle();
 

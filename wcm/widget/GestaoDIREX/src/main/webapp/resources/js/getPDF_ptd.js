@@ -45,7 +45,7 @@ function info_setItns(){
         }    
     }
 }
-window.addEventListener('load', info_setItns)
+//window.addEventListener('load', info_setItns)
 function updatePDF_ptd(dirIndx){
     //document.scrollingElement.scrollTop = 0
     var state = 8 //window.parentOBJ.ECM.workflowView.sequence
