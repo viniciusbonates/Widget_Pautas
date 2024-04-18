@@ -68,7 +68,9 @@ function updatePDF_ptd(dirIndx){
     var ds_und_ger_pdf  = dsc_Unidades;
     var matDir          = dirIndx;
     var dirImed         = 0;
-    var mat             = window.parent.WCMAPI.userCode;
+    var mat             = objDefineStatus.mat
+    console.log(mat)
+    console.log(objDefineStatus)
     var arrItns_Dir 	= [];
     var stateParamIs    = 15;
     var und             = dirIndx;
@@ -238,7 +240,7 @@ function getPDF_ptd () {
     und = ''
     matDir = ''
     for(var i = 0; i <ds_mat_ger_pdf.values.length; i++){
-        if(mat == ds_mat_ger_pdf.values[i]['colleaguePK.colleagueId']){
+        if(objDefineStatus.mat == ds_mat_ger_pdf.values[i]['colleaguePK.colleagueId']){
             und = ds_mat_ger_pdf.values[i]['groupId'];
             for(var j=0;j<ds_und_ger_pdf.values.length;j++){
                 if(und == ds_und_ger_pdf.values[j]['AntigaSigla']){
@@ -275,4 +277,4 @@ function getPDF_ptd () {
         }
     }
 }
-window.addEventListener('load', getPDF_ptd)
+//window.addEventListener('load', getPDF_ptd)

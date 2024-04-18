@@ -174,10 +174,13 @@ function acessRegist(){
                     objDefinitionBar.descDefine(objTdesc);
 
                     objFieldsData.stAcess_reg(regN);
-                    
+
                     testDatatable.paramsInit(objMain);
                     dataTablemi = new dataTableConfig();
                     myEditor = new determineEditor();
+                    definePainelEnabled()
+                    setControlNavTabs()
+                    getPDF_ptd();
                     DemandResp();
                     valueToggle();
 

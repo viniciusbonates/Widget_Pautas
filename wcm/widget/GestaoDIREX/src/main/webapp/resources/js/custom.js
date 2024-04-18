@@ -1,3 +1,538 @@
+    function getDirVinc(){
+        objDefineStatus = {}
+        objDefineStatus.stts = 14
+        objDefineStatus.mat = window.parent.WCMAPI.userCode;
+    
+        var atvd = 8
+        var ds_mat = DatasetFactory.getDataset("colleague", null, null, null);
+        var ds_und = DatasetFactory.getDataset("dsc_Unidades", null, null, null);
+        var matDir = 0
+        var mat = objDefineStatus.mat;
+        if (atvd == 8) {
+            for (var i = 0; i < ds_mat.values.length; i++) {
+                if (mat == ds_mat.values[i]['colleaguePK.colleagueId']) {
+                    var und = ds_mat.values[i]['groupId'];
+                    console.log(und)
+                    for (var j = 0; j < ds_und.values.length; j++) {
+                        if (und == ds_und.values[j]['AntigaSigla']) {
+                            console.log("%Pool:Role:" + ds_und.values[j]['Sigla'] + "%")
+                            if (ds_und.values[j]['Sigla'] == 'NTIC') {
+                                matDir = "%Pool:Role:DIRAF%";
+                            } else {
+                                matDir = "%Pool:Role:" + ds_und.values[j]['Sigla'] + "%";
+                            }
+                        }
+                    }
+                }
+            }
+            c1 = DatasetFactory.createConstraint("hdn_dir_vinc", matDir, matDir, ConstraintType.MUST, true);
+            cnst = new Array(c1)
+        } else {
+            c1 = DatasetFactory.createConstraint("hdn_dir_vinc", "%Pool:Role:%", "%Pool:Role:%", ConstraintType.MUST, true);
+            cnst = new Array(c1)
+        }
+        objDefineStatus.matDir = matDir
+        objMain = {
+            /**
+             * 	1 = Preencher toda a tabela
+             * 	2 = Inserir coluna
+             * 
+            */
+            objCollection: DatasetFactory.getDataset('Pauta DIREX', null, cnst, null).values,
+            arrColumnsRender: ['txt_NumProcess', 'dataSelected', 'dt_DataSolicita', 'cmb_NomeSolicita', 'zm_UnidadeSolicitante', 'txt_titulo', 'Assess'], //dt_DataSolicita //txt_Justificativa
+            attRefer: 'cmb_NomeSolicita',
+            hder: [
+                { 'title': 'N° Solicitação' },
+                { 'title': 'Reunião Selecionada' },
+                { 'title': 'Data Solicitação' },
+                { 'title': 'Nome Solicitante' },
+                { 'title': 'Unidade' },
+                { 'title': 'Assunto' },
+                //{'title': 'Justificativa'},
+                { 'title': 'Aprov.Assessoria' }
+            ],
+            operation: '1',
+            condValidation: [
+                { 'fncName': 'validation', 'fncParam': 'dt_DataSolicita' }
+            ],
+            validation: function () {
+                let dataItm = item['dt_DataSolicita'];
+                let numItm = item['txt_NumProcess'];
+                var dtRn = item['dataSelected'];
+                var statusForValidate = item['hdn_aprvAssr'];
+                let dtDeterm = document.getElementById('dt_dataInicio').value //"2024-03-18"
+                var arrResult = [];
+                let dataNow = new Date()
+                let anoNow = dataNow.getFullYear();
+                dataItm = dataItm.split(' ')[0];
+                dataItm = dataItm.split('/');
+    
+                cnst1 = DatasetFactory.createConstraint("workflowProcessPK.processInstanceId", numItm, numItm, ConstraintType.MUST);
+                cnstVld1 = new Array(cnst1)
+                resultVldProcess = DatasetFactory.getDataset('workflowProcess ', null, cnstVld1, null).values
+                console.log(resultVldProcess)
+                if (resultVldProcess.length != 0) {
+                    if (resultVldProcess[0]['status'] == 1) {
+                        arrResult.push(true);
+                    }
+                }
+                if (dataItm[2] != anoNow) {																// Se o ano é o mesmo que o atual
+                    arrResult.push(true);
+                }
+                if (statusForValidate == 35) {															// Se o ano é o mesmo que o atual
+                    arrResult.push(true);
+                }
+                if (numItm == '' || numItm == null || numItm == undefined) {
+                    arrResult.push(true);
+                }
+                if (dtRn != null && dtRn != undefined && dtRn != '') {									//Se a data selecionada pelo demandante é referente a data da reunião em questão
+                    dtRn = dtRn.split('/');
+                    dtRn = dtRn[2] + '-' + dtRn[1] + '-' + dtRn[0];
+                    if (dtRn != dtDeterm) {
+                        arrResult.push(true);
+                    }
+                } else { arrResult.push(true); }
+                ckii = 0;
+                for (ii = 0; ii < arrResult.length; ii++) {
+                    if (arrResult[ii] == true) { return true; }
+                    else { ckii = false }
+                }
+                if (ckii == false) { return false }
+    
+            },
+            fnc: [
+                { 'fncName': 'a', 'fncParam': 'cmb_NomeSolicita' },
+                { 'fncName': 'b', 'fncParam': 'txt_Justificativa' }
+            ],
+            a: function () {
+                /**
+                 * itens 	= this.objCollection
+                 * item 	= itens[i]
+                 * 
+                 * item: referente a um item contido no objCollection
+                */
+                let colleagueId = item['cmb_NomeSolicita'];
+                var c1 = DatasetFactory.createConstraint("colleaguePK.colleagueId", colleagueId, colleagueId, ConstraintType.MUST);
+                constraint = new Array(c1)
+                dataset = DatasetFactory.getDataset('colleague', null, constraint, null).values
+                let colleagueName = dataset[0]['colleagueName']
+                return colleagueName
+            },
+            b: function () {
+                valueIt = item['txt_Justificativa']
+                console.log(valueIt)
+                console.log(typeof valueIt)
+                if (typeof valueIt == 'string') {
+                    valueIt = valueIt.replace(/\r/g, '')
+                    valueIt = valueIt.replace(/\n/g, ' ')
+                    valueIt = valueIt.replace(/\t/g, ' ')
+                    valueIt = valueIt.replace(/"\"/g, '\\')
+                }
+                return valueIt
+            }
+        }
+    }
+    window.addEventListener('load', getDirVinc)
+	
+	var testDatatable = {
+		myTable: null,
+		tableData: null,
+		dataInit: null,
+		datafilt: null,
+		arrColumns: '',
+		attRefer: '',
+		hder: '',
+		objCollection: '',
+		condValidation: '',
+		fnc: '',
+		obj: '',
+		objFunc: {
+			fnc: [
+				{ 'fncName': '', 'metodhParam': '' }
+			]
+		},
+		paramsInit: function (objMain) {
+			this.arrColumns = objMain.arrColumnsRender
+			this.attRefer = objMain.attRefer
+			this.hder = objMain.hder
+			this.objCollection = objMain.objCollection
+			this.condValidation = objMain.condValidation
+			this.fnc = objMain.fnc
+			this.obj = objMain
+			this.loadTable()
+			btnCollection = document.getElementsByTagName('button')
+			for(let i = 0; i < btnCollection.length; i++){
+				if(btnCollection[i].attributes['data-nav-prev'] != undefined){
+					btnCollection[i].type = 'button'
+					console.log(btnCollection[i])
+				}
+				if(btnCollection[i].attributes['data-nav-next'] != undefined){
+					btnCollection[i].type = 'button'
+					console.log(btnCollection[i])
+				}
+			}
+		},
+		definePage: function (objData, dirr, itensCollection, press) {
+			/**
+			 * Press = Determina se a função definepage já foi executada e o Objeto já está formatado.
+			*/
+			objData.arrItens = [];
+			cols = this.arrColumns;
+			determineLenght = 5;
+			attIten = this.attRefer;
+
+
+			itens = itensCollection
+
+
+			fnc = this.fnc
+			condValidation = this.condValidation
+			objAll = this.obj
+			console.log(objAll)
+			console.log(fnc)
+			console.log(itens)
+			if (dirr == 1) {
+
+				i = objData.indIten
+				objData.pageAtual++
+				if (objData.pageAtual != 0) {
+					a = objData.pageAtual + 1
+					objData.indIten = (a * determineLenght) //+ 1
+				} else { objData.indIten = 5 }
+
+
+			} else if (dirr == 0) {
+				if (objData.pageAtual != 0) {
+					a = objData.pageAtual - 1
+					i = (a * determineLenght) //+ 1
+					a = objData.pageAtual
+					objData.indIten = (a * determineLenght) //+ 1
+				} else { objData.indIten = 0 }
+				objData.pageAtual--
+			}
+			function objS(rslt, ref) {
+				obj = {
+					rslt: rslt,
+					ref: ref
+				}
+				return obj
+			}
+			var objsFunc = [];
+			var count = 0;
+			for (i = i; objData.arrItens.length <= itens.length; i++) {
+				item = itens[i]
+				lgnt = objData.arrItens.length
+				if (item != undefined && item[attIten] != null && item[attIten] != '') {
+					/*********************** Validação ***********************************/
+					if (condValidation.length == 0 || condValidation != '') {
+						console.log(condValidation)
+						for (cv = 0; cv < condValidation.length; cv++) {
+							let nameVal = condValidation[cv].fncName
+							let aVal = objAll[nameVal]()
+							let refVal = condValidation[cv].fncParam
+							console.log(aVal)
+							if (aVal != true || aVal == undefined) {
+								/*********************** Validação ***********************************/
+								console.log(press)
+								if (fnc != '' && press != 1) {
+									for (t = 0; t < fnc.length; t++) {
+										let name = fnc[t].fncName
+										var a = objAll[name]()
+										var ref = fnc[t].fncParam
+										objsFunc[t] = new objS(a, ref)
+									}
+								}
+								console.log(objsFunc)
+								console.log(item)
+								var obj_din = ''
+								let inic = '{'
+								let final = '}'
+								let virg = ','
+								obj_din = obj_din + inic
+								for (j = 0; j < cols.length; j++) {
+									ckn = j + 1
+									valueIt = ''
+									nameCol = cols[j]
+									if (fnc != '') {
+										ckin = false;
+										for (k = 0; k < objsFunc.length; k++) {
+											funNow = objsFunc[k]
+											if (nameCol == funNow.ref) {
+												valueIt = funNow.rslt
+												ckin = true
+												//console.log(valueIt)
+												break
+											}
+										}
+										if (!ckin) { valueIt = item[cols[j]] }
+									}
+									obj_din = obj_din + '"' + cols[j] + '":"' + valueIt + '"'
+									if (ckn == cols.length) { obj_din = obj_din + final; }
+									else { obj_din = obj_din + virg }
+								}
+								if (lgnt == 0) {
+									if (objData.arrItens.length != determineLenght) {
+										objData.arrItens[0] = JSON.parse(obj_din);
+										//objData.indIten = i + 1; 
+									}
+									if (objData.markItensAll == 0) { objData.arrItensAll[0] = item; } //JSON.parse(obj_din)
+								} else {
+									count++
+
+									if (objData.arrItens.length != determineLenght) { objData.arrItens[lgnt] = JSON.parse(obj_din); } //objData.indIten = i + 1
+									if (objData.markItensAll == 0) { objData.arrItensAll[count] = item; } //JSON.parse(obj_din)
+								}
+							}
+						}
+					}
+				} else if (item == undefined) {
+					if (objData.arrItens.length != determineLenght) {
+						if (itens.length != objData.indIten) {
+							objData.indIten = i
+						} else { objData.indIten = i }
+					}
+					if (objData.markItensAll == 0) { objData.markItensAll = 1 }
+					break;
+				}
+			}
+			datafilt = objData.arrItensAll
+			console.log(objData)
+		},
+		loadTable: function () {
+			var that = this;
+			var thisObj = this;
+			var arrColumnsIn = this.arrColumns
+			var itensCollection = this.objCollection
+			var searchMark = 0
+			//Retira as datas com valor nullo	
+			var objData = {
+				arrItens: [],		// Array com os itens que serão apresentados na pagina atual 
+				arrItensAll: [], 	// Array produto final após a limpesa conforme condicionais determinadas
+				markItensAll: 0, 	// markItensAll == 1 - determina o fim da montagem do Array 'arrItensAll'
+				pageAtual: -1,		// numero da pagina começando com valor '0'
+				indIten: 0 			// Valor igual ao ultimo Index do 'this.objCollection' do item que foi validado e incluso no array 'arrItens' 
+			};
+			that.definePage(objData, 1, itensCollection);
+			that.myTable = FLUIGC.datatable('#target', {
+				dataRequest: objData.arrItens,
+				renderContent: this.arrColumns,
+				header: this.hder,
+				tableStyle: 'table table-bordered table-dark table-hover',
+				classSelected: 'success',
+				navButtons: {
+					enabled: true
+				},
+				search: {
+					enabled: true,
+					onlyEnterkey: true,
+					onSearch: function (res) {
+						if (!res) {
+							//that.myTable.reload(dataInit);
+							that.reload(that.myTable, that.dataInit, that.objFunc);
+							console.log(that.objFunc)
+							objData = {
+								arrItens: [],
+								arrItensAll: [],
+								markItensAll: 0,
+								pageAtual: -1,
+								indIten: 0
+							};
+							itensCollection = that.objCollection
+							searchMark = 0
+							//console.log(itensCollection)
+							that.definePage(objData, 1, itensCollection);
+							that.opsNav(1, objData.arrItensAll, objData, 2, that.myTable, that.objFunc);
+							//that.backward(that.myTable, itensCollection, objData, searchMark, thisObj, that.objFunc);	//param that.myTable & thisObj
+							//that.forward(that.myTable, itensCollection, objData, searchMark, thisObj, that.objFunc);	//param that.myTable & thisObj
+						}
+						var dataAll = datafilt
+						var search = dataAll.filter(function (el) {
+							let resp = 0;
+							for (i = 0; i < arrColumnsIn.length; i++) {
+								if (el[arrColumnsIn[i]] != null) {
+									if (el[arrColumnsIn[i]].toUpperCase().indexOf(res.toUpperCase()) >= 0) {
+										resp = el[arrColumnsIn[i]].toUpperCase().indexOf(res.toUpperCase()) >= 0;
+									}
+								}
+							}
+							return resp;
+						});
+						if (search && search.length && res != '') {
+							//that.myTable.reload(search);
+							console.log(that.objFunc)
+							//that.reload(that.myTable, search, that.objFunc);
+							objData = {
+								arrItens: [],
+								arrItensAll: [],
+								markItensAll: 0,
+								pageAtual: -1,
+								indIten: 0
+							};
+							itensCollection = search
+							searchMark = 1
+							that.opsNav(1, search, objData, null, that.myTable, that.objFunc);
+							//that.backward(that.myTable, itensCollection, objData, searchMark, thisObj, that.objFunc);	//param that.myTable & thisObj
+							//that.forward(that.myTable, itensCollection, objData, searchMark, thisObj, that.objFunc);	//param that.myTable & thisObj
+						} else if (res != '') {
+							FLUIGC.toast({
+								title: 'Searching: ',
+								message: 'No results',
+								type: 'success'
+							});
+						}
+					}
+				},
+			}, function (err, data) {
+				if (data) {
+					that.dataInit = data;
+				}
+				else if (err) {
+					FLUIGC.toast({
+						message: err,
+						type: 'danger'
+					});
+				}
+			});
+
+			console.log(that.dataInit)
+			console.log(itensCollection)
+			console.log(objData.arrItensAll)
+
+			that.opsNav(1, objData.arrItensAll, objData, 2, that.myTable, that.objFunc);
+			that.backward(that.myTable, objData.arrItensAll, objData, searchMark, thisObj, that.objFunc);	//param that.myTable & thisObj
+			that.forward(that.myTable, objData.arrItensAll, objData, searchMark, thisObj, that.objFunc);	//param that.myTable & thisObj
+		},
+		setFunc: function (objFnc) {
+			if (objFnc != '' && objFnc != null && objFnc != undefined) {
+				for (t = 0; t < objFnc.fnc.length; t++) {
+					let params = objFnc.fnc[t]
+					let name = objFnc.fnc[t].fncName
+					this.objFunc.fnc[this.objFunc.fnc.length] = params
+					this.objFunc[name] = objFnc[name]
+				}
+				console.log(this.objFunc)
+			}
+		},
+		reload: function (myTable, data, objFunc) {
+			if (myTable != undefined) {
+				var a = myTable.reload(data);
+				console.log(a)
+				var funNow = 0;
+				if (objFunc != '' && objFunc != null && objFunc != undefined) {
+					for (t = 0; t < objFunc.fnc.length; t++) {
+						if (objFunc.fnc[t].metodhParam == 'reload') {
+
+							let name = objFunc.fnc[t].fncName
+							let funNow = objFunc[name]()
+							//console.log(funNow)
+						}
+					}
+				}
+			}
+		},
+		opsNav: function (dirr, itens, obj, press, myTable, objFunc) {
+
+			console.log(itens)
+			console.log(obj)
+
+			btnNav = {
+				btnPrev: 0,
+				btnNext: 0
+			}
+			btnBck = document.getElementsByTagName('button')
+			for (j = 0; j < btnBck.length; j++) {
+				btnNow = btnBck[j];
+				if (btnNow.attributes['data-nav-prev']) {
+					btnNav.btnPrev = btnNow;
+				} else if (btnNow.attributes['data-nav-next']) {
+					btnNav.btnNext = btnNow;
+				}
+			}
+
+			if (press == null || press == undefined) {
+				this.definePage(obj, dirr, itens);
+				this.reload(myTable, obj.arrItens, objFunc);
+			} else if (press == 1) {
+				this.definePage(obj, dirr, itens, press);
+				this.reload(myTable, obj.arrItens, objFunc);
+			}
+			if (obj.pageAtual != 0) {
+				btnNav.btnPrev.disabled = false
+			}
+			if (obj.indIten == itens.length) {
+				btnNav.btnNext.disabled = true
+			}
+		},
+		onselectrow: function (myTable, objFunc) {
+			if (myTable != undefined) {
+				/**
+				 * objFunc = {
+				 * 		fnc: [],
+				 * 		
+				 * 		a: function () {...},
+				 * 		etc..
+				 * }
+				*/
+				myTable.on('fluig.datatable.onselectrow', function (data) {
+					var rowSltd = myTable.getRow(data.selectedIndex, true)[0]
+					var dataReuniao = rowSltd.childNodes[0].innerText
+					document.getElementById('dataSelected').value = dataReuniao
+					var funNow = 0;
+					if (objFunc != '' && objFunc != null && objFunc != undefined) {
+						for (t = 0; t < objFunc.fnc.length; t++) {
+							let name = objFunc.fnc[t]
+							let funNow = objFunc[name]()
+						}
+					}
+				});
+			}
+		},
+		backward: function (myTable, itensCollection, objData, searchMark, Obj, objFunc) {
+			//console.log(myTable)
+			myTable.on('fluig.datatable.backward', function () {
+				let dirr = 0
+				if (searchMark == 1) {
+					console.log(dirr)
+					Obj.opsNav(dirr, itensCollection, objData, searchMark, myTable, objFunc)
+				} else {
+					console.log(dirr)
+					Obj.opsNav(dirr, itensCollection, objData, null, myTable, objFunc)
+				}
+			});
+		},
+		forward: function (myTable, itensCollection, objData, searchMark, Obj, objFunc) {
+			//console.log(myTable)
+			myTable.on('fluig.datatable.forward', function () {
+				let dirr = 1
+				if (searchMark == 1) {
+					Obj.opsNav(dirr, itensCollection, objData, searchMark, myTable, objFunc)
+				} else {
+					Obj.opsNav(dirr, itensCollection, objData, null, myTable, objFunc)
+				}
+			});
+		}
+
+
+	}; //testDatatable.paramsInit(objMain);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function valueToggle(){
     let arrSw = ['switch_DISUP',
     'switch_DIRAF',
@@ -18,7 +553,7 @@ window.addEventListener('laod', valueToggle);
 function setControlNavTabs(){
     let navTabs = document.getElementById('navTabsOps');
     let navOps  = navTabs.children;
-    let dirImed = matDir.split(':')[2];
+    let dirImed = objDefineStatus.matDir.split(':')[2];
     dirImed     = dirImed.split('%')[0];
     for(let i = 0; i < navOps.length; i++){
         navOps[i].addEventListener('click', controlNavTabs);
@@ -44,7 +579,7 @@ function setControlNavTabs(){
         }
     }
 }
-window.addEventListener('load', setControlNavTabs)
+//window.addEventListener('load', setControlNavTabs)
 function setDataset(){
     colleague = DatasetFactory.getDataset("colleague",null,null,null);
     dsc_Unidades = DatasetFactory.getDataset("dsc_Unidades",null,null,null);
@@ -244,11 +779,12 @@ function definePainelEnabled(){
         document.getElementById('PainelControle').innerHTML = '';
     }
 
-    let stts = 14 //window.parent.ECM.workflowView.sequence
+    let stts = objDefineStatus.stts//14 //window.parent.ECM.workflowView.sequence
     if(stts == 10 || stts == 13){
         document.getElementById('PainelControle').style.display = 'none'
     }  
-}window.addEventListener('load', definePainelEnabled)
+}
+//window.addEventListener('load', definePainelEnabled)
 
 var myToast =  function (tp, title) {
     FLUIGC.toast({
@@ -258,325 +794,6 @@ var myToast =  function (tp, title) {
         });
 }
 
-function geradorPDF(){
- 
-
-    var ds_mat_ger_pdf  = colleague
-    var ds_und_ger_pdf  = dsc_Unidades
-    var matDir          = 0
-    var dirImed         = 0;
-    var mat             = window.parent.params.taskUserId;
-    var arrItns_Dir 	= []
-    if(atvd == 8){
-        for(var i = 0;i<ds_mat_ger_pdf.values.length;i++){
-            if(mat == ds_mat_ger_pdf.values[i]['colleaguePK.colleagueId']){
-                var und = ds_mat_ger_pdf.values[i]['groupId'];
-                console.log(und)
-                for(var j=0;j<ds_und_ger_pdf.values.length;j++){
-                    if(und == ds_und_ger_pdf.values[j]['AntigaSigla']){
-                        console.log("%Pool:Role:"+ds_und_ger_pdf.values[j]['Sigla']+"%")
-                        dirImed = ds_und_ger_pdf.values[j]['Sigla'];
-                        if(ds_und_ger_pdf.values[j]['Sigla'] == 'ATIC'){
-                            matDir = "%Pool:Role:DISUP%";
-                        }else{
-                            matDir = "%Pool:Role:"+ds_und_ger_pdf.values[j]['Sigla']+"%";
-                        }
-                    }
-                }
-            }
-        }
-        c1 = DatasetFactory.createConstraint("hdn_dir_vinc", matDir , matDir,  ConstraintType.MUST, true); 
-        cnst = new Array(c1);
-        itns = DatasetFactory.getDataset('Pauta DIREX', null, cnst, null).values;
-        arrItns_Dir.push(itns)
-    }else{
-        c1 = DatasetFactory.createConstraint("hdn_dir_vinc", "%Pool:Role:DISUP%" , "%Pool:Role:DISUP%",  ConstraintType.MUST, true); 
-        c2 = DatasetFactory.createConstraint("hdn_dir_vinc", "%Pool:Role:DITEC%" , "%Pool:Role:DITEC%",  ConstraintType.MUST, true); 
-        c3 = DatasetFactory.createConstraint("hdn_dir_vinc", "%Pool:Role:DIRAF%" , "%Pool:Role:DIRAF%",  ConstraintType.MUST, true); 
-        cnst1 = new Array(c1)
-        cnst2 = new Array(c2)
-        cnst3 = new Array(c3)
-        itnsDISUP = DatasetFactory.getDataset('Pauta DIREX', null, cnst1, null).values;
-        itnsDITEC = DatasetFactory.getDataset('Pauta DIREX', null, cnst2, null).values;
-        itnsDIRAF = DatasetFactory.getDataset('Pauta DIREX', null, cnst3, null).values;
-        if(itnsDISUP.length != 0){ arrItns_Dir.push(itnsDISUP) }
-        if(itnsDITEC.length != 0){ arrItns_Dir.push(itnsDITEC) }
-        if(itnsDIRAF.length != 0){ arrItns_Dir.push(itnsDIRAF) }
-    }
-    console.log(pdfMake)
-    var dt_slc 	= document.getElementById('dt_dataInicio').value
-    let dtPDF   = dt_slc;
-    dtPDF = dtPDF.split('-')
-
-    
-
-    var arrItns_Dir_fil = [];
-    var objInit			= '{';
-    var objFim			= '}';
-    var objVrg			= ',';
-    var objStyles		= '\"styles\": {'+
-                                    '\"header\": {'+
-                                        '\"fontSize\": \"13\",'+
-                                        '\"bold\": \"true\",'+
-                                        '\"margin\": [0, 0, 0, 10]'+
-                                    '},'+
-                                    '\"subheader\": {'+
-                                        '\"fontSize\": \"11\",'+
-                                        '\"bold\": \"true\",'+
-                                        '\"margin\": [20, 10, 20, 5]'+
-                                    '},'+
-                                    '\"tableExample\": {'+
-                                        '\"margin\": [0, 5, 0, 15]'+
-                                    '},'+
-                                    '\"tableHeader\": {'+
-                                        '\"bold\": \"true\",'+
-                                        '\"fontSize\": \"12\",'+
-                                        '\"color\": \"black\"'+
-                                    '},'+
-                                    '\"tableText\": {'+
-                                        '\"bold\": \"true\",'+
-                                        '\"fontSize\": \"11\",'+
-                                        '\"color\": \"black\"'+
-                                    '},'+
-                                    '\"txtH\": {'+
-                                        '\"bold\": \"true\",'+
-                                        '\"fontSize\": \"11\",'+
-                                        '\"alignment\": \"justify\"'+
-                                    '}'+
-                                '}'
-    var objContent	 	= '\"content\": [ ';
-    var objPdf 			= 0; 
-    var ck_itn_now		= 0;
-    for(i = 0; i < arrItns_Dir.length; i++){
-        itns = arrItns_Dir[i];
-        itns_filtr = [];
-        for(j = 0; j < itns.length; j++){ 
-            var dlbr_itn = itns[j]["txt_Deliberacao"]
-            console.log(dlbr_itn)
-            var dt_itn = itns[j].dataSelected
-            /*******		Validação 		********/
-            if(dt_itn != null & dt_itn != '' && dt_itn != undefined){
-                dt_itn = dt_itn.split('/');
-                dt_itn = dt_itn[2] + '-' +dt_itn[1] + '-'+ dt_itn[0]
-                console.log(itns[j]["txt_NumProcess"])
-                if(dlbr_itn == '' || dlbr_itn == null){                     // < ---- Texto Deliberacao preenchido
-                    ck_itn_now = true;
-                }
-                if(dt_slc != dt_itn || itns[j].txt_NumProcess == ''){       // < ---- N° processo existente ou data de reunião selecionada no momento da solicitacao igual a de reunião cadastrada
-                    ck_itn_now = true;
-                }
-                if(itns[j]["hdn_aprvAssr"] == ''){                          // < ---- || itns[i]["hdn_aprvAssr"] != '15' 'hdn_aprvAssr deve existir valor'
-                    ck_itn_now = true;
-                }
-                console.log(itns[j]["hdn_dir_vinc"])
-                if(itns[j]["hdn_dir_vinc"] == '' || itns[j]["hdn_dir_vinc"] == null){                          // < ---- Indicação da Diretoria Imediata 
-                    ck_itn_now = true;
-                }
-            /***************************************/
-                if(ck_itn_now != true){		
-                    console.log('***********************');
-                    itns_filtr.push(itns[j])
-                }else{ 
-                    ck_itn_now = false; 
-                }
-            }
-            console.log(itns_filtr)
-        }
-        if(itns_filtr.length != 0){ arrItns_Dir_fil.push(itns_filtr) } 
-    }
-    console.log(arrItns_Dir_fil)
-    /*******		itnDirNow montado com os itens validados 		********/
-    for(i = 0; i < arrItns_Dir_fil.length; i++){
-        itnDirNow = arrItns_Dir_fil[i];
-        dirImed = 0;
-        dtrArrAll = i + 1;
-        MonthIn     = new Date().getMonth() 
-        MonthStr    = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'] 
-        for(j = 0; j < itnDirNow.length; j++){
-            dtr = j + 1;
-            if(objPdf == 0){ /****** INICIO  ********/
-                console.log(objPdf)
-                objPdf = objInit + objContent + '{ "style": "tableExample", "table": {  "widths": ["*"], "body": [ [{"text": "REUNIÃO ORDINÁRIA DIREX/AM - '+dtPDF[0]+'", "style": "tableText", "alignment": "center"}], '+
-                                                                                                '[{"text": "Manaus, '+dtPDF[2]+' de '+MonthStr[MonthIn]+' de '+dtPDF[0]+'.", "style": "tableText", "alignment": "center"}], '+
-                                                                                                '[{"text": "DELIBERAÇÕES", "style": "tableText", "alignment": "center"}] ] }},' 
-                objPdf = objPdf + '{ "text": "'+ document.getElementById('txt_IniDelibr').value +  '",'+
-                            '"style": "txtH",'+
-                            '"bold": "false"'+
-                        '},'
-                /*    '"text": "Aos cinco dias do mês de dezembro de 2022, às 10h, reuniu-se a Diretoria Executiva do SEBRAE no Amazonas, de forma virtual, com a participação das Diretoras Lamisse '+
-                    'Said da Silva Cavalcanti – Diretora Superintendente, Adrianne Antony Gonçalves – Diretora Técnica e Ananda Carvalho Normando Pessôa – Diretora Administrativa e Financeira para deliberarem os seguintes assuntos: ",'+
-                    '"style": "txtH",'+
-                    '"bold": "false"'+
-                '},'*/
-
-                objPdf = objPdf + '{'+
-                    '"text": "PROPOSIÇÕES:",'+
-                    '"style": "txtH",'+
-                    '"alignment": "center",'+
-                    '"margin": [0, 20, 0, 5]'+
-                '},'
-
-                dirImedVinc = itnDirNow[j]["hdn_dir_vinc"].split(':')[2]
-                if(dirImed != dirImedVinc){
-                    dirImed = dirImedVinc;
-                }
-                objPdf = objPdf + '{'+
-                '"text": "PAUTA '+dirImed+':",'+
-                '"fontSize": 13,'+
-                '"bold": "true",'+
-                '"margin": [0, 40, 0, 0]'+
-                '},'
-
-                //objPdf =  objPdf + '{"text": \"'+dtr+'.   N° Solicitação: '+itnDirNow[j].txt_NumProcess + '\", "style": "subheader"},';
-                dlbr_now = itnDirNow[j]["txt_Deliberacao"]
-
-                //dlbr_now = dlbr_now.replace(/\r/g, '---')
-                //dlbr_now = dlbr_now.replace(/\n/g, '---') 
-                dlbr_now = dlbr_now.replace(/\t/g, ' ')
-                //objPdf =  objPdf + '\"' + dlbr_now + '\"';
-
-                let totalLength = dlbr_now.length 
-                var arrParts 	= []; 
-                for(l = 0; l < totalLength; l++){
-                    f 			= dlbr_now.indexOf('\n')
-                    if(f == 0){
-                        dlbr_now	= dlbr_now.slice(1, totalLength);
-                    }else{
-                        part_dlbr 	= dlbr_now.slice(0, f) 
-                        dlbr_now	= dlbr_now.slice(f, totalLength);
-                        if(part_dlbr != '' && part_dlbr != ' '){
-                            arrParts.push(part_dlbr);
-                        }
-                    }
-                }
-                for(ll = 0; ll < arrParts.length; ll++){
-                    teto = ll + 1
-                    /**
-                     * Uma virgula ',' é adicionada automaticamente quando a mais de uma deliberação 
-                    */
-                    if(teto == arrParts.length && arrItns_Dir_fil.length == 2){
-                        if(ll == 0){
-                            objPdf =  objPdf + '{"text": \"'+dtr+'.   '+ arrParts[ll] + '\","margin": [20, 5], "fontSize": 11 }';
-                        }else{ objPdf =  objPdf + '{ "text": \"' + arrParts[ll] + '\","margin": [20, 5], "fontSize": 11 }';}
-                        	
-                    }else { 
-                        if(ll == 0){
-                            objPdf =  objPdf + '{"text": \"'+dtr+'.   '+ arrParts[ll] + '\","margin": [20, 5], "fontSize": 11 },';
-                        }else{ objPdf =  objPdf + '{ "text": \"' + arrParts[ll] + '\","margin": [20, 5], "fontSize": 11 },';}
-                    }
-                }
-                console.log(objPdf)
-            }else{
-                dirImedVinc = itnDirNow[j]["hdn_dir_vinc"].split(':')[2];
-                console.log(dirImedVinc)
-                if(dirImed != dirImedVinc){
-                    dirImed = dirImedVinc;
-                    objPdf = objPdf + '{'+
-                    '"text": "PAUTA '+dirImed+':",'+
-                    '"fontSize": 13,'+
-                    '"bold": "true",'+
-                    '"margin": [0, 40, 0, 0]'+
-                    '},'
-                }
-                //objPdf =  objPdf + '{"text": \"'+dtr+'.   N° Solicitação: '+itnDirNow[j].txt_NumProcess + '\", "style": "subheader"},';
-                dlbr_now = itnDirNow[j]["txt_Deliberacao"]
-                dlbr_now = dlbr_now.replace(/\r/g, '')
-                //dlbr_now = dlbr_now.replace(/\n/g, '') 
-                dlbr_now = dlbr_now.replace(/\t/g, '')
-                let totalLength = dlbr_now.length 
-                var arrParts 	= []; 
-                for(l = 0; l < totalLength; l++){
-                    f 			= dlbr_now.indexOf('\n')
-                    if(f == 0){
-                        dlbr_now	= dlbr_now.slice(1, totalLength);
-                    }else{
-                        part_dlbr 	= dlbr_now.slice(0, f) 
-                        dlbr_now	= dlbr_now.slice(f, totalLength);
-                        if(part_dlbr != '' && part_dlbr != ' '){
-                            arrParts.push(part_dlbr);
-                        }
-                    }
-                }
-                for(ll = 0; ll < arrParts.length; ll++){
-                    if(ll == 0){
-                        objPdf =  objPdf + '{"text": \"'+dtr+'.   '+ arrParts[ll] + '\","margin": [20, 5], "fontSize": 11 },';
-                    }else{ objPdf =  objPdf + '{ "text": \"' + arrParts[ll] + '\","margin": [20, 5], "fontSize": 11 },';}
-                }
-                //objPdf = objPdf + ' \"'+ dlbr_now+'\"';
-            }
-        }
-            console.log(dtrArrAll + ' -----------------------------------------')
-            console.log(arrItns_Dir_fil.length + ' -----------------------------------------')
-            if(dtrArrAll == arrItns_Dir_fil.length){ /****** FIM  ********/
-            objPdf = objPdf + '{ "text": "'+ document.getElementById('txt_FinDelibr').value +  '",'+
-                    '"style": "txtH",'+
-                    '"bold": "false",'+
-                    '"margin": [0, 15, 0, 0]'+
-                '},'
-                objPdf = objPdf + '{'+
-                    '"text": "Ananda Carvalho Normando Pessôa",'+
-                    '"fontSize": 13,'+
-                    '"bold": "true",'+
-                    '"alignment": "center",'+
-                    '"margin": [0, 50, 0, 0]'+
-                '},{'+
-                    '"text": "Diretora Superintendente",'+
-                    '"fontSize": 11,'+
-                    '"bold": true ,'+
-                    '"alignment": "center"'+
-                '},{'+
-                    '"text": ["Lamisse Said da Silva Cavalcanti                                            Adrianne Antony Gonçalves"],'+
-                    '"fontSize": 13,'+
-                    '"bold": true,'+
-                    '"margin": [0, 50, 0, 0]'+
-                '},{'+
-                    '"text": ["Diretoria Tecnica                                                                                        Diretoria Administrativa Financeira"],'+
-                    '"fontSize": 11,'+
-                    '"bold": true'+
-                "}";
-                objPdf = objPdf + ']' + objVrg;
-            }else{ /****** MEIO  ********/ 
-                objPdf = objPdf + '\n' + objVrg; 
-            }
-    }
-    if(objPdf != 0){
-        objPdf = objPdf + objStyles + objFim
-        objPdfFinal = JSON.parse(objPdf)
-        console.log(objPdfFinal)
-        pdfMake.createPdf(objPdfFinal).open();
-    }else{
-        myToast('warning', 'Não a itens de Pauta para Gerar o Arquivo');
-    }
-}
-/*function getPDF () { document.getElementById('getData').addEventListener('click', function () { geradorPDF() } ) }
-window.addEventListener('load', getPDF)
-*/
-
-function defineState () {
-    let stts = 14 //window.parent.ECM.workflowView.sequence
-    if(stts == 4 || stts == 0){
-        document.getElementById('PainelControle').style.display = 'none'
-    }    
-    var ckInpStateDef = document.getElementById('txt_InfoDIRAF')
-    var ATAsttsVizualizacao = document.getElementById('infoAnaliseDelbr')
-    var ControleVizualizacao = document.getElementById('PainelControle')
-    if(ckInpStateDef.tagName == 'SPAN'){
-        ATAsttsVizualizacao.style.display = 'none'
-        ControleVizualizacao.style.display = 'none'
-       setTimeout(valueReturnRichEdit, 2000)
-       function valueReturnRichEdit(){
-        for(j = 0; j < myEditor.arrEdits.length; j++){
-            console.log('***********************************************  --------------------------------- >')    
-            console.log(myEditor)
-                a = myEditor.arrEdits[j].getData()
-                console.log(a)
-                myEditor.arrEdits[j].setData(a)
-           }
-       } 
-       
-    }
-}
-window.addEventListener('load', defineState)
 /*
 function unidade(){
     var ds_mat_in = colleague
