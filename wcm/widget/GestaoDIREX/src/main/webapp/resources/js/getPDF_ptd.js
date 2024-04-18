@@ -6,7 +6,7 @@ var myToast_ptd =  function (tp, title) {
         });
 }
 function info_setItns(){
-    var WKNumProces = 79940 //window.WKNumProces     // <<<_------------------------------------------------------------------------------------------------------------- num solci
+    var WKNumProces = document.getElementById('slc_reuniao').value //79940 //window.WKNumProces     // <<<_------------------------------------------------------------------------------------------------------------- num solci
     ct1DT           = DatasetFactory.createConstraint("txt_NumProcess", WKNumProces , WKNumProces,  ConstraintType.MUST);
     cnstDt          = new Array(ct1DT)
     dataDtIn        = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, cnstDt, null);
@@ -56,7 +56,7 @@ function updatePDF_ptd(dirIndx){
     console.log(dirIndx)
     if(dirIndx == undefined){ dirIndx = 0 }
 
-    var WKNumProces = 79940 //window.WKNumProces                  // <<<_------------------------------------------------------------------------------------------------------------- num solci
+    var WKNumProces = document.getElementById('slc_reuniao').value //79940 //window.WKNumProces                  // <<<_------------------------------------------------------------------------------------------------------------- num solci
     ct1DT           = DatasetFactory.createConstraint("txt_NumProcess", WKNumProces , WKNumProces,  ConstraintType.MUST);
     cnstDt          = new Array(ct1DT)
     dataDtIn        = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, cnstDt, null);

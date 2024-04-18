@@ -110,7 +110,7 @@ function updatePDF(){
     var finTxt = document.getElementById('txt_FinDelibr').value;
     //var dt_slc 	= document.getElementById('dt_dataInicio').value;
 
-    var WKNumProces = 79980 // window.WKNumProces
+    var WKNumProces = document.getElementById('slc_reuniao').value // window.WKNumProces
     ct1DT           = DatasetFactory.createConstraint("txt_NumProcess", WKNumProces , WKNumProces,  ConstraintType.MUST);
     cnstDt          = new Array(ct1DT)
     dataDtIn        = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, cnstDt, null);
