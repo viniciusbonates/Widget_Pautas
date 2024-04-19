@@ -272,7 +272,6 @@ function saveFormDataButtonSet(){
     })
 }window.addEventListener('load',saveFormDataButtonSet)
 async function saveFormData(){
-    console.log('asdasdasdassadsdsdsa  save')
     objGetReturn    = {};
     objBodyreq      = {};
     objGetReturn['name']    = ['a'];

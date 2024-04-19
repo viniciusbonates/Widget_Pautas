@@ -779,7 +779,7 @@ function definePainelEnabled(){
         document.getElementById('PainelControle').innerHTML = '';
     }
 
-    let stts = objDefineStatus.stts//14 //window.parent.ECM.workflowView.sequence
+    let stts = objDefineStatus.sequnce//14 //window.parent.ECM.workflowView.sequence
     if(stts == 10 || stts == 13){
         document.getElementById('PainelControle').style.display = 'none'
     }  

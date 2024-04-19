@@ -122,7 +122,7 @@ function updatePDF(){
     var ds_und_ger_pdf  = dsc_Unidades
     var matDir          = 0
     var dirImed         = 0;
-    var mat             = window.parent.WCMAPI.userCode;
+    var mat             = objDefineStatus.mat;
     var arrItns_Dir 	= []
     var siglaNova       = ''
     if(state == 8 || state == 10){
