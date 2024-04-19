@@ -269,8 +269,27 @@ function slcReuniao() {
 
 function saveFormDataButtonSet(){
     document.getElementById('save-op').addEventListener('click', async function (){
-        await saveFormData();
+        let ckMod = false;
+        for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
+            formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] = document.getElementById(formData_obj['fieldsNecessary'][j]).value;
+            if(formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] != formData_obj.formData_origin[formData_obj['fieldsNecessary'][j]]){
+                ckMod = true;
+            } 
+        }
+        if(ckMod){
+            rowMSN = document.getElementById('msnConfirm')
+            rowMSN.children[0].innerText = "Desejá realmente salvar as alterações ?";
+            document.getElementById('initSave').style.display = "block"
+        }else{
+            console.log('formulário sem modificações para serem salvas')
+            rowMSN = document.getElementById('msnConfirm')
+            rowMSN.children[0].innerText = "formulário sem modificações para serem salvas";
+            document.getElementById('initSave').style.display = "none"
+        }
     })
+    document.getElementById('initSave').addEventListener('click', async function (){
+        await saveFormData();
+    });
 }window.addEventListener('load',saveFormDataButtonSet)
 async function saveFormData(){
     objGetReturn    = {};
@@ -297,7 +316,14 @@ async function saveFormData(){
     
 
     if(objFieldsData['version'] == objBodyreq['version']){
-
+        myEditor.setDataInputsParams()
+        for(let l = 0; l < formData_obj.fieldsNecessary.length; l++){
+            let objTempReq = {};
+            objTempReq['name']  = formData_obj['fieldsNecessary'][l];
+            objTempReq['value'] = formData_obj.formData_modified[formData_obj['fieldsNecessary'][l]];
+            formDataReq.push(objTempReq) 
+        }
+        objBodyreq['formData'] = JSON.stringify(formDataReq)
         await orderMethodsMi.requestsTasksGETall(numSolN, objGetReturn);
         console.log(objGetReturn['a'])
         let itns = objGetReturn['a'].items
@@ -313,49 +339,23 @@ async function saveFormData(){
                 objBodyreq['sequence']  = itnN['state']['sequence']
             }
         }
+        console.log('*************************************************************************************************')
+        console.log(objBodyreq)
+        console.log(formDataReq)
+        console.log(movementSequence)
+        console.log(ckResp)
+        console.log(numSolN)
         if(!ckResp){
             colleagueIdUserNow = objDefineStatus.mat
             await orderMethodsMi.assumeUserGETall(numSolN, colleagueIdUserNow, movementSequence, objGetReturn);
             console.log(objGetReturn['a'])    
             objBodyreq['code']      = colleagueIdUserNow;
         }
+
+        await orderMethodsMi.saveSubst(numSolN, objBodyreq.code, objBodyreq.movementSequence, objBodyreq);
+        formData_obj.formData_origin = formData_obj.formData_modified
+        objFieldsData['version'] = getLastVersionForm()
         
-        myEditor.setDataInputsParams()
-
-        let ckMod = false;
-        for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
-            formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] = document.getElementById(formData_obj['fieldsNecessary'][j]).value;
-            if(formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] != formData_obj.formData_origin[formData_obj['fieldsNecessary'][j]]){
-                ckMod = true;
-            } 
-        }
-        if(ckMod){
-            for(let l = 0; l < formData_obj.fieldsNecessary.length; l++){
-                let objTempReq = {};
-                objTempReq['name']  = formData_obj['fieldsNecessary'][l];
-                objTempReq['value'] = formData_obj.formData_modified[formData_obj['fieldsNecessary'][l]];
-                formDataReq.push(objTempReq) 
-            }
-            objBodyreq['formData'] = JSON.stringify(formDataReq)
-
-            rowMSN = document.getElementById('msnConfirm')
-            rowMSN.children[0].innerText = "Desejá realmente salvar as alterações ?";
-            document.getElementById('initSave').style.display = "block"
-
-            console.log('*************************************************************************************************')
-            console.log(objBodyreq)
-            console.log(formDataReq)
-            console.log(movementSequence)
-            console.log(ckResp)
-            console.log(numSolN)
-
-            await orderMethodsMi.saveSubst(numSolN, objBodyreq.code, objBodyreq.movementSequence, objBodyreq);
-        }else{
-            console.log('formulário sem modificações para serem salvas')
-            rowMSN = document.getElementById('msnConfirm')
-            rowMSN.children[0].innerText = "formulário sem modificações para serem salvas";
-            document.getElementById('initSave').style.display = "none"
-        }
     }else if(objFieldsData['version'] < objBodyreq['version']){
         slcAcess = document.getElementById('slc_reuniao');
         dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
@@ -371,6 +371,18 @@ async function saveFormData(){
                         ckModBase = true;
                     } 
                 }
+            }
+        }
+    }
+
+    function getLastVersionForm(){
+        slcAcess = document.getElementById('slc_reuniao');
+        dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
+        dsRegs = dsReg.values;
+        for(let i = 0; i < dsRegs.length; i++){
+            regN = dsRegs[i]
+            if(slcAcess.value == regN['txt_NumProcess']){
+                return regN['version']
             }
         }
     }
