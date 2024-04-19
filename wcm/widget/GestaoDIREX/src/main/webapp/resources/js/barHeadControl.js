@@ -164,6 +164,7 @@ function acessRegist(){
                     console.log(regN);
                     console.log(regN['txt_NumProcess']);
                     objFieldsData['numSolN'] = regN['txt_NumProcess']
+                    objFieldsData['version'] = regN['version']
                     objTdesc = {};
                     objTdesc['desc-titulo'] = regN['txt_tituloReuniao']
                     dTdesc = regN['dt_dataInicio'];
@@ -289,86 +290,83 @@ async function saveFormData(){
     console.log(objGetReturn['a'])
     objBodyreq['processVersion'] = objGetReturn['a']['processVersion'];
     let formRecordId = objGetReturn['a'].formRecordId;
-
+    
     await orderMethodsMi.activeDocumentGETall(formRecordId, objGetReturn); 
     console.log(objGetReturn['a'])
     objBodyreq['version'] = objGetReturn['a']['content']['version'];
-
-    await orderMethodsMi.requestsTasksGETall(numSolN, objGetReturn);
-    console.log(objGetReturn['a'])
-    let itns = objGetReturn['a'].items
-    let ckResp = 0;
-    let mvS = 0;
-    for(let i = 0; i < itns.length; i++){
-        let itnN = itns[i];
-        console.log(itns[i])
-        if(itnN['status'] == 'NOT_COMPLETED' && itnN['movementSequence'] > mvS){
-            codeN = itnN['assignee']['code'];
-            (codeN.indexOf('Pool:Role:') != -1) ? ckResp = false : ckResp = true;
-            objBodyreq['code']      = codeN;
-            objBodyreq['sequence']  = itnN['state']['sequence']
-        }
-    }
     
-    myEditor.setDataInputsParams()
 
-    let ckMod = false;
-    for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
-        formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] = document.getElementById(formData_obj['fieldsNecessary'][j]).value;
-        if(formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] != formData_obj.formData_origin[formData_obj['fieldsNecessary'][j]]){
-            ckMod = true;
-        } 
-    }
-    if(ckMod){
-        for(let l = 0; l < formData_obj.fieldsNecessary.length; l++){
-            let objTempReq = {};
-            objTempReq['name']  = formData_obj['fieldsNecessary'][l];
-            objTempReq['value'] = formData_obj.formData_modified[formData_obj['fieldsNecessary'][l]];
-            formDataReq.push(objTempReq) 
-        }
-        objBodyreq['formData'] = JSON.stringify(formDataReq)
+    if(objFieldsData['version'] == objBodyreq['version']){
 
-        rowMSN = document.getElementById('msnConfirm')
-        rowMSN.children[0].innerText = "Desejá realmente salvar as alterações ?";
-        document.getElementById('initSave').style.display = "block"
-
-        slcAcess = document.getElementById('slc_reuniao');
-        dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
-        dsRegs = dsReg.values;
-        ckModBase = false;
-        objModBaseGet = {}
-        for(let i = 0; i < dsRegs.length; i++){
-            regN = dsRegs[i]
-            if(slcAcess.value == regN['txt_NumProcess']){
-                for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
-                    if( formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] != regN[formData_obj['fieldsNecessary'][j]]){
-                        objModBaseGet[formData_obj['fieldsNecessary'][j]] = regN[formData_obj['fieldsNecessary'][j]]
-                        ckModBase = true;
-                    } 
-                }
+        await orderMethodsMi.requestsTasksGETall(numSolN, objGetReturn);
+        console.log(objGetReturn['a'])
+        let itns = objGetReturn['a'].items
+        let ckResp = 0;
+        let mvS = 0;
+        for(let i = 0; i < itns.length; i++){
+            let itnN = itns[i];
+            console.log(itns[i])
+            if(itnN['status'] == 'NOT_COMPLETED' && itnN['movementSequence'] > mvS){
+                codeN = itnN['assignee']['code'];
+                (codeN.indexOf('Pool:Role:') != -1) ? ckResp = false : ckResp = true;
+                objBodyreq['code']      = codeN;
+                objBodyreq['sequence']  = itnN['state']['sequence']
             }
         }
-        dsReg.values[formData_obj['fieldsNecessary'][i]]
+        
+        myEditor.setDataInputsParams()
 
-        console.log(objModBaseGet)
-        console.log('*************************************************************************************************')
-        console.log(objBodyreq)
-        console.log(formDataReq)
-        console.log(movementSequence)
-        console.log(ckResp)
-    }else{
-        console.log('formulário sem modificações para serem salvas')
-        rowMSN = document.getElementById('msnConfirm')
-        rowMSN.children[0].innerText = "formulário sem modificações para serem salvas";
-        document.getElementById('initSave').style.display = "none"
+        let ckMod = false;
+        for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
+            formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] = document.getElementById(formData_obj['fieldsNecessary'][j]).value;
+            if(formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] != formData_obj.formData_origin[formData_obj['fieldsNecessary'][j]]){
+                ckMod = true;
+            } 
+        }
+        if(ckMod){
+            for(let l = 0; l < formData_obj.fieldsNecessary.length; l++){
+                let objTempReq = {};
+                objTempReq['name']  = formData_obj['fieldsNecessary'][l];
+                objTempReq['value'] = formData_obj.formData_modified[formData_obj['fieldsNecessary'][l]];
+                formDataReq.push(objTempReq) 
+            }
+            objBodyreq['formData'] = JSON.stringify(formDataReq)
+
+            rowMSN = document.getElementById('msnConfirm')
+            rowMSN.children[0].innerText = "Desejá realmente salvar as alterações ?";
+            document.getElementById('initSave').style.display = "block"
+
+            console.log(objModBaseGet)
+            console.log('*************************************************************************************************')
+            console.log(objBodyreq)
+            console.log(formDataReq)
+            console.log(movementSequence)
+            console.log(ckResp)
+            console.log(numSolN)
+
+            await orderMethodsMi.saveSubst(numSolN, objBodyreq.code, objBodyreq.movementSequence, objBodyreq);
+        }else{
+            console.log('formulário sem modificações para serem salvas')
+            rowMSN = document.getElementById('msnConfirm')
+            rowMSN.children[0].innerText = "formulário sem modificações para serem salvas";
+            document.getElementById('initSave').style.display = "none"
+        }
+    }else if(objFieldsData['version'] < objBodyreq['version']){
+        slcAcess = document.getElementById('slc_reuniao');
+            dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
+            dsRegs = dsReg.values;
+            ckModBase = false;
+            objModBaseGet = {}
+            for(let i = 0; i < dsRegs.length; i++){
+                regN = dsRegs[i]
+                if(slcAcess.value == regN['txt_NumProcess']){
+                    for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
+                        if( formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] != regN[formData_obj['fieldsNecessary'][j]]){
+                            objModBaseGet[formData_obj['fieldsNecessary'][j]] = regN[formData_obj['fieldsNecessary'][j]]
+                            ckModBase = true;
+                        } 
+                    }
+                }
+            }
     }
-    
-    //await orderMethodsMi.saveSubst("79940", objBodyreq.code, objBodyreq.movementSequence, objBodyreq); 
-    
-    /*if(ckResp){
-
-    }else{
-
-    }*/
-
 }
