@@ -201,28 +201,28 @@ orderMethods.prototype.requestsGET = async function (NumSolicit, host) {
         await response
     })
 }
-orderMethods.prototype.assumeTaskall = async function (targetAssignee, Nsolicitacao, movementSequence, objGetReturn) {
-        await $.ajax({
-            method: "POST",
-            url: this.host+"/api/public/2.0/workflows/assumeProcessTask",
-            contentType: "application/json", 
-            data:  JSON.stringify(
-                { 
-                    "colleagueId" :         targetAssignee,         // Colleague id 
-                    "processInstanceId" :   Nsolicitacao,           // Process instance id 
-                    "movementSequence" :    movementSequence,       // Sequence from the task to take 
-                    "replacementId" :       targetAssignee          // User id from the replacement taking the task for the user 
-                }
-                ),
-            async: false,
-            error: function(x, e) {
-                console.log(x)
+orderMethods.prototype.assumeUserGETall = async function (Nsolicitacao, colleagueId, movementSequence, objGetReturn) {
+    await $.ajax({
+        method: "POST",
+        url: this.host+"/api/public/2.0/workflows/assumeProcessTask",
+        contentType: "application/json", 
+        data:  JSON.stringify(
+            { 
+                "colleagueId" :         colleagueId,         // Colleague id 
+                "processInstanceId" :   Nsolicitacao,           // Process instance id 
+                "movementSequence" :    movementSequence,       // Sequence from the task to take 
+                "replacementId" :       colleagueId          // User id from the replacement taking the task for the user 
             }
-            }).done(async function (response) { 
-                nameAtt = objGetReturn['name'][0];
-                objGetReturn[nameAtt] = response;
-                await response
-            })
+            ),
+        async: false,
+        error: function(e) {
+            console.log(e)
+        }
+        }).done(async function (response) { 
+            nameAtt = objGetReturn['name'][0];
+            objGetReturn[nameAtt] = response;
+            await response
+        })
 }
 orderMethods.prototype.requestsTasksGETall = async function (Nsolicitacao, objGetReturn) {
     await $.ajax({

@@ -313,6 +313,12 @@ async function saveFormData(){
                 objBodyreq['sequence']  = itnN['state']['sequence']
             }
         }
+        if(!ckResp){
+            colleagueIdUserNow = objDefineStatus.mat
+            await orderMethodsMi.assumeUserGETall(numSolN, colleagueIdUserNow, movementSequence, objGetReturn);
+            console.log(objGetReturn['a'])    
+            objBodyreq['code']      = colleagueIdUserNow;
+        }
         
         myEditor.setDataInputsParams()
 
@@ -336,7 +342,6 @@ async function saveFormData(){
             rowMSN.children[0].innerText = "Desejá realmente salvar as alterações ?";
             document.getElementById('initSave').style.display = "block"
 
-            console.log(objModBaseGet)
             console.log('*************************************************************************************************')
             console.log(objBodyreq)
             console.log(formDataReq)
@@ -353,20 +358,20 @@ async function saveFormData(){
         }
     }else if(objFieldsData['version'] < objBodyreq['version']){
         slcAcess = document.getElementById('slc_reuniao');
-            dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
-            dsRegs = dsReg.values;
-            ckModBase = false;
-            objModBaseGet = {}
-            for(let i = 0; i < dsRegs.length; i++){
-                regN = dsRegs[i]
-                if(slcAcess.value == regN['txt_NumProcess']){
-                    for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
-                        if( formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] != regN[formData_obj['fieldsNecessary'][j]]){
-                            objModBaseGet[formData_obj['fieldsNecessary'][j]] = regN[formData_obj['fieldsNecessary'][j]]
-                            ckModBase = true;
-                        } 
-                    }
+        dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
+        dsRegs = dsReg.values;
+        ckModBase = false;
+        objModBaseGet = {}
+        for(let i = 0; i < dsRegs.length; i++){
+            regN = dsRegs[i]
+            if(slcAcess.value == regN['txt_NumProcess']){
+                for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
+                    if( formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] != regN[formData_obj['fieldsNecessary'][j]]){
+                        objModBaseGet[formData_obj['fieldsNecessary'][j]] = regN[formData_obj['fieldsNecessary'][j]]
+                        ckModBase = true;
+                    } 
                 }
             }
+        }
     }
 }
