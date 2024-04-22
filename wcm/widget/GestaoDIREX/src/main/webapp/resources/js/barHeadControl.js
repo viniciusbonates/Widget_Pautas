@@ -357,7 +357,8 @@ async function saveFormData(){
         }
 
         await orderMethodsMi.saveSubst(numSolN, objBodyreq.code, objBodyreq.movementSequence, objBodyreq);
-        formData_obj.formData_origin = formData_obj.formData_modified
+        //formData_obj.formData_origin = 
+        formData_obj.defineFormDataValues('formData_origin', formData_obj.formData_modified);
         objFieldsData['version'] = getLastVersionForm()
         
     }else if(objFieldsData['version'] < objBodyreq['version']){
@@ -382,6 +383,8 @@ async function saveFormData(){
         }
         newGetValues     = formData_obj.formData_diff_newGetValues;
         OriginValues     = formData_obj.formData_diff_OriginValues;
+        console.log(newGetValues)
+        console.log(OriginValues)
         function checkFieldsDiff(objBigger, objSmaller){
             let arrJoin = [] 
             for(let j = 0; j < objSmaller.nameFields.length; j++){
@@ -396,35 +399,58 @@ async function saveFormData(){
             if(arrJoin.length == 0){ return false }
             else{ return arrJoin }
         }
+        let resCk = 0;
         if(newGetValues.length > OriginValues.length){
-            let resCk = checkFieldsDiff(newGetValues, OriginValues);
+            resCk = checkFieldsDiff(newGetValues, OriginValues);
         }else if(newGetValues.length < OriginValues.length){
-            let resCk = checkFieldsDiff(OriginValues, newGetValues);
+            resCk = checkFieldsDiff(OriginValues, newGetValues);
         }else{
-            let resCk = checkFieldsDiff(OriginValues, newGetValues);
+            resCk = checkFieldsDiff(OriginValues, newGetValues);
         }
-        /*if(!resCk){
+        console.log(resCk)
+        if(!resCk){
             for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
-                if( formData_obj.formData_origin[formData_obj['fieldsNecessary'][j]] != regN[formData_obj['fieldsNecessary'][j]]){
-                    formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]] = regN[formData_obj['fieldsNecessary'][j]]
-                    formData_obj.formData_diff_newGetValues.nameFields.push(formData_obj['fieldsNecessary'][j])
-                    ckModBase = true;
-                } 
-
-                formData_Final[formData_obj['fieldsNecessary'][j]] = 
+                formData_Final[formData_obj['fieldsNecessary'][j]] = formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]]
+                if(formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]] != undefined){
+                    formData_Final[formData_obj['fieldsNecessary'][j]] = formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]]
+                }
             }
-        }*/
+        }
+        console.log(formData_Final)
+
+        await orderMethodsMi.requestsTasksGETall(numSolN, objGetReturn);
+        console.log(objGetReturn['a'])
+        let itns = objGetReturn['a'].items
+        let ckResp = 0;
+        let mvS = 0;
+        for(let i = 0; i < itns.length; i++){
+            let itnN = itns[i];
+            console.log(itns[i])
+            if(itnN['status'] == 'NOT_COMPLETED' && itnN['movementSequence'] > mvS){
+                codeN = itnN['assignee']['code'];
+                (codeN.indexOf('Pool:Role:') != -1) ? ckResp = false : ckResp = true;
+                objBodyreq['code']      = codeN;
+                objBodyreq['sequence']  = itnN['state']['sequence']
+            }
+        }
+
         for(let l = 0; l < formData_obj.fieldsNecessary.length; l++){
             let objTempReq = {};
             objTempReq['name']  = formData_obj['fieldsNecessary'][l];
-            objTempReq['value'] = formData_obj.formData_modified[formData_obj['fieldsNecessary'][l]];
+            objTempReq['value'] = formData_Final[formData_obj['fieldsNecessary'][l]];
             formDataReq.push(objTempReq) 
         }
         objBodyreq['formData'] = JSON.stringify(formDataReq)
-       /* await orderMethodsMi.saveSubst(numSolN, objBodyreq.code, objBodyreq.movementSequence, objBodyreq);
-        formData_obj.formData_origin = formData_obj.formData_modified
+
+        await orderMethodsMi.saveSubst(numSolN, objBodyreq.code, objBodyreq.movementSequence, objBodyreq);
+        console.log(objGetReturn['a'])
+        objBodyreq['processVersion'] = objGetReturn['a']['processVersion'];
+        let formRecordId = objGetReturn['a'].formRecordId;
+        formData_obj.defineFormDataValues('formData_origin', formData_Final);
         objFieldsData['version'] = getLastVersionForm()
-        */
+        
+        formData_obj.formData_diff_newGetValues  = { nameFields: [] };
+        formData_obj.formData_diff_OriginValues = { nameFields: [] };
     }
 
     function getLastVersionForm(){
