@@ -95,12 +95,14 @@
 			<div class="row" id="msnConfirm">
 				<h3>Desejá realmente salvar as alterações ?</h3>
 		  	</div>
+			<!--
 			<div class="row">
 				<div class="col-md-4" style="color: green;"><b>Transferidas com sucesso</b></div><div class="col-md-2" id="trsSucess"><b></b></div>
 			</div>
 			<div class="row">
 				<div class="col-md-4" style="color: red;"><b>Falhas</b></div><div class="col-md-2" id="trsFail"><b></b></div>
 		  	</div>
+			-->
 		</div>
 		<div class="modal-footer">
 			<button class="btn btn-secondary" data-bs-dismiss="modal" id="cancelSave">Fechar</button>

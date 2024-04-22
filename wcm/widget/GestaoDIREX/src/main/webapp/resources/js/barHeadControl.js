@@ -304,6 +304,7 @@ async function saveFormData(){
     let numSolN             = objFieldsData['numSolN'];
     formDataReq             = [];
 
+    myLoading.show();
     objBodyreq['processInstanceId'] = numSolN;
     await orderMethodsMi.requestsActivitiesGETall(numSolN, objGetReturn);
     console.log(objGetReturn['a'])
@@ -363,12 +364,16 @@ async function saveFormData(){
            //formData_obj.formData_origin = 
             formData_obj.defineFormDataValues('formData_origin', formData_obj.formData_modified);
             objFieldsData['version'] = getLastVersionForm() 
+            formData_obj.formData_diff_newGetValues  = { nameFields: [] };
+            formData_obj.formData_diff_OriginValues = { nameFields: [] };
             rowMSN = document.getElementById('msnConfirm')
             rowMSN.children[0].innerText = "Modificações salvas com sucesso";
+            rowMSN.children[0].style.color = 'green'
             document.getElementById('initSave').style.display = "none"
         }else{
             rowMSN = document.getElementById('msnConfirm')
             rowMSN.children[0].innerText = "Um erro ocorreu no processo de salvamento !";
+            rowMSN.children[0].style.color = 'red'
             document.getElementById('initSave').style.display = "none"
         }
     }else if(objFieldsData['version'] < objBodyreq['version']){ // < ---------------------------------------------------------------------------------------------
@@ -457,20 +462,23 @@ async function saveFormData(){
         let respSaveSubst = objGetReturn['a'];
         if(respSaveSubst['ok']){
             objFieldsData.stAcess_reg(formData_Final);
+            myEditor.setValueInputsInEditors()
             formData_obj.defineFormDataValues('formData_origin', formData_Final);
             objFieldsData['version'] = getLastVersionForm()    
             formData_obj.formData_diff_newGetValues  = { nameFields: [] };
             formData_obj.formData_diff_OriginValues = { nameFields: [] };
             rowMSN = document.getElementById('msnConfirm')
             rowMSN.children[0].innerText = "Modificações salvas com sucesso";
+            rowMSN.children[0].style.color = 'green'
             document.getElementById('initSave').style.display = "none"
         }else{
             rowMSN = document.getElementById('msnConfirm')
             rowMSN.children[0].innerText = "Um erro ocorreu no processo de salvamento !";
+            rowMSN.children[0].style.color = 'red'
             document.getElementById('initSave').style.display = "none"
         }
     }
-
+    myLoading.hide();
     function getLastVersionForm(){
         slcAcess = document.getElementById('slc_reuniao');
         dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);

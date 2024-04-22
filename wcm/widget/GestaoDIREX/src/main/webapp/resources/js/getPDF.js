@@ -54,6 +54,13 @@ determineEditor.prototype.setDataInputsParams = function () {
     }  
     //this.inpIn.value = this.edit.getData();
 }
+determineEditor.prototype.setValueInputsInEditors = function () {
+    for(i = 0; i < this.arrEdits.length; i++){
+        inpNow = document.getElementById(this.inpIn[i]);
+        this.arrEdits[i].setData(inpNow.value);
+    }  
+    //this.inpIn.value = this.edit.getData();
+}
 determineEditor.prototype.setFuncbutton = function () {
     if(typeof this.buttonReference != 'string'){
         for (let x in this.buttonReference) {
