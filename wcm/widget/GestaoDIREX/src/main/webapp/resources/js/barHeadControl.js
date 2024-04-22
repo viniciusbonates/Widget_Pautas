@@ -356,12 +356,22 @@ async function saveFormData(){
             objBodyreq['code']      = colleagueIdUserNow;
         }
 
-        await orderMethodsMi.saveSubst(numSolN, objBodyreq.code, objBodyreq.movementSequence, objBodyreq);
-        //formData_obj.formData_origin = 
-        formData_obj.defineFormDataValues('formData_origin', formData_obj.formData_modified);
-        objFieldsData['version'] = getLastVersionForm()
-        
-    }else if(objFieldsData['version'] < objBodyreq['version']){
+        await orderMethodsMi.saveSubst(numSolN, objBodyreq.code, objBodyreq.movementSequence, objBodyreq, objGetReturn);
+        console.log(objGetReturn['a'])
+        let respSaveSubst = objGetReturn['a'];
+        if(respSaveSubst['ok']){
+           //formData_obj.formData_origin = 
+            formData_obj.defineFormDataValues('formData_origin', formData_obj.formData_modified);
+            objFieldsData['version'] = getLastVersionForm() 
+            rowMSN = document.getElementById('msnConfirm')
+            rowMSN.children[0].innerText = "Modificações salvas com sucesso";
+            document.getElementById('initSave').style.display = "none"
+        }else{
+            rowMSN = document.getElementById('msnConfirm')
+            rowMSN.children[0].innerText = "Um erro ocorreu no processo de salvamento !";
+            document.getElementById('initSave').style.display = "none"
+        }
+    }else if(objFieldsData['version'] < objBodyreq['version']){ // < ---------------------------------------------------------------------------------------------
         formData_Final = {}
         slcAcess = document.getElementById('slc_reuniao');
         dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
@@ -442,15 +452,23 @@ async function saveFormData(){
         }
         objBodyreq['formData'] = JSON.stringify(formDataReq)
 
-        await orderMethodsMi.saveSubst(numSolN, objBodyreq.code, objBodyreq.movementSequence, objBodyreq);
+        await orderMethodsMi.saveSubst(numSolN, objBodyreq.code, objBodyreq.movementSequence, objBodyreq, objGetReturn);
         console.log(objGetReturn['a'])
-        objBodyreq['processVersion'] = objGetReturn['a']['processVersion'];
-        let formRecordId = objGetReturn['a'].formRecordId;
-        formData_obj.defineFormDataValues('formData_origin', formData_Final);
-        objFieldsData['version'] = getLastVersionForm()
-        
-        formData_obj.formData_diff_newGetValues  = { nameFields: [] };
-        formData_obj.formData_diff_OriginValues = { nameFields: [] };
+        let respSaveSubst = objGetReturn['a'];
+        if(respSaveSubst['ok']){
+            objFieldsData.stAcess_reg(formData_Final);
+            formData_obj.defineFormDataValues('formData_origin', formData_Final);
+            objFieldsData['version'] = getLastVersionForm()    
+            formData_obj.formData_diff_newGetValues  = { nameFields: [] };
+            formData_obj.formData_diff_OriginValues = { nameFields: [] };
+            rowMSN = document.getElementById('msnConfirm')
+            rowMSN.children[0].innerText = "Modificações salvas com sucesso";
+            document.getElementById('initSave').style.display = "none"
+        }else{
+            rowMSN = document.getElementById('msnConfirm')
+            rowMSN.children[0].innerText = "Um erro ocorreu no processo de salvamento !";
+            document.getElementById('initSave').style.display = "none"
+        }
     }
 
     function getLastVersionForm(){

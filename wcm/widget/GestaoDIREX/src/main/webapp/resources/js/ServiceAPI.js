@@ -358,7 +358,7 @@ orderMethods.prototype.moveSubst = async function (NumSolicit, objGetReturn) {
     });
 }
 orderMethods.prototype.saveSubst = async function (NumSolicit, taskUserId, currentMovt, objBodyreq, objGetReturn) {
-    await fetch("https://myweb.am.sebrae.com.br/ecm/api/rest/ecm/workflowView/send", {
+    let resp = await fetch("https://myweb.am.sebrae.com.br/ecm/api/rest/ecm/workflowView/send", {
         "headers": {
           "accept": "application/json, text/javascript, */*; q=0.01",
           "accept-language": "pt-PT,pt;q=0.9",
@@ -403,6 +403,8 @@ orderMethods.prototype.saveSubst = async function (NumSolicit, taskUserId, curre
         "mode": "cors",
         "credentials": "include"
       });
+    nameAtt = objGetReturn['name'][0];
+    objGetReturn[nameAtt] = resp;
 }
 
 function orderMethodsInit() { orderMethodsMi = new orderMethods(); }
