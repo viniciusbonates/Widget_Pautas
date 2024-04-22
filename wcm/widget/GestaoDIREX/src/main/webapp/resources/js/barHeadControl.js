@@ -33,6 +33,8 @@ function initRegistData(){
         formData_origin: {},
         formData_modified: {},
         formData_getToCheck: {},
+        formData_diff_OriginValues: { nameFields: [] },
+        formData_diff_newGetValues: { nameFields: [] },
         defineAttFormData: function (obj){
             for(let i = 0; i < this.fieldsNecessary.length; i++){
                 obj[this.fieldsNecessary[i]] = '';
@@ -270,10 +272,13 @@ function slcReuniao() {
 function saveFormDataButtonSet(){
     document.getElementById('save-op').addEventListener('click', async function (){
         let ckMod = false;
+        myEditor.setDataInputsParams()
         for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
             formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] = document.getElementById(formData_obj['fieldsNecessary'][j]).value;
             if(formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] != formData_obj.formData_origin[formData_obj['fieldsNecessary'][j]]){
                 ckMod = true;
+                formData_obj.formData_diff_OriginValues[formData_obj['fieldsNecessary'][j]] = formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]]
+                formData_obj.formData_diff_OriginValues.nameFields.push(formData_obj['fieldsNecessary'][j])
             } 
         }
         if(ckMod){
@@ -316,7 +321,6 @@ async function saveFormData(){
     
 
     if(objFieldsData['version'] == objBodyreq['version']){
-        myEditor.setDataInputsParams()
         for(let l = 0; l < formData_obj.fieldsNecessary.length; l++){
             let objTempReq = {};
             objTempReq['name']  = formData_obj['fieldsNecessary'][l];
@@ -357,22 +361,70 @@ async function saveFormData(){
         objFieldsData['version'] = getLastVersionForm()
         
     }else if(objFieldsData['version'] < objBodyreq['version']){
+        formData_Final = {}
         slcAcess = document.getElementById('slc_reuniao');
         dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
         dsRegs = dsReg.values;
         ckModBase = false;
-        objModBaseGet = {}
+        regN = 0;
         for(let i = 0; i < dsRegs.length; i++){
             regN = dsRegs[i]
             if(slcAcess.value == regN['txt_NumProcess']){
                 for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
-                    if( formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] != regN[formData_obj['fieldsNecessary'][j]]){
-                        objModBaseGet[formData_obj['fieldsNecessary'][j]] = regN[formData_obj['fieldsNecessary'][j]]
+                    if( formData_obj.formData_origin[formData_obj['fieldsNecessary'][j]] != regN[formData_obj['fieldsNecessary'][j]]){
+                        formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]] = regN[formData_obj['fieldsNecessary'][j]]
+                        formData_obj.formData_diff_newGetValues.nameFields.push(formData_obj['fieldsNecessary'][j])
                         ckModBase = true;
                     } 
                 }
+                break
             }
         }
+        newGetValues     = formData_obj.formData_diff_newGetValues;
+        OriginValues     = formData_obj.formData_diff_OriginValues;
+        function checkFieldsDiff(objBigger, objSmaller){
+            let arrJoin = [] 
+            for(let j = 0; j < objSmaller.nameFields.length; j++){
+                let fdNow = objSmaller.nameFields[j]
+                for(let i = 0; i < objBigger.nameFields.length; i++){
+                    if(fdNow == objBigger.nameFields[i]){
+                        arrJoin.push(objBigger.nameFields[i])
+                        console.log('PROBLEMA !!!!!!!!!!!!!!!!!!!!! ')
+                    }
+                }
+            }
+            if(arrJoin.length == 0){ return false }
+            else{ return arrJoin }
+        }
+        if(newGetValues.length > OriginValues.length){
+            let resCk = checkFieldsDiff(newGetValues, OriginValues);
+        }else if(newGetValues.length < OriginValues.length){
+            let resCk = checkFieldsDiff(OriginValues, newGetValues);
+        }else{
+            let resCk = checkFieldsDiff(OriginValues, newGetValues);
+        }
+        /*if(!resCk){
+            for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
+                if( formData_obj.formData_origin[formData_obj['fieldsNecessary'][j]] != regN[formData_obj['fieldsNecessary'][j]]){
+                    formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]] = regN[formData_obj['fieldsNecessary'][j]]
+                    formData_obj.formData_diff_newGetValues.nameFields.push(formData_obj['fieldsNecessary'][j])
+                    ckModBase = true;
+                } 
+
+                formData_Final[formData_obj['fieldsNecessary'][j]] = 
+            }
+        }*/
+        for(let l = 0; l < formData_obj.fieldsNecessary.length; l++){
+            let objTempReq = {};
+            objTempReq['name']  = formData_obj['fieldsNecessary'][l];
+            objTempReq['value'] = formData_obj.formData_modified[formData_obj['fieldsNecessary'][l]];
+            formDataReq.push(objTempReq) 
+        }
+        objBodyreq['formData'] = JSON.stringify(formDataReq)
+       /* await orderMethodsMi.saveSubst(numSolN, objBodyreq.code, objBodyreq.movementSequence, objBodyreq);
+        formData_obj.formData_origin = formData_obj.formData_modified
+        objFieldsData['version'] = getLastVersionForm()
+        */
     }
 
     function getLastVersionForm(){
