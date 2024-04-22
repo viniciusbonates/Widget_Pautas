@@ -284,11 +284,13 @@ function saveFormDataButtonSet(){
         if(ckMod){
             rowMSN = document.getElementById('msnConfirm')
             rowMSN.children[0].innerText = "Desejá realmente salvar as alterações ?";
+            rowMSN.children[0].style.color = 'black'
             document.getElementById('initSave').style.display = "block"
         }else{
             console.log('formulário sem modificações para serem salvas')
             rowMSN = document.getElementById('msnConfirm')
             rowMSN.children[0].innerText = "formulário sem modificações para serem salvas";
+            rowMSN.children[0].style.color = 'black'
             document.getElementById('initSave').style.display = "none"
         }
     })
@@ -430,50 +432,62 @@ async function saveFormData(){
                     formData_Final[formData_obj['fieldsNecessary'][j]] = formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]]
                 }
             }
-        }
-        console.log(formData_Final)
+        
+            console.log(formData_Final)
 
-        await orderMethodsMi.requestsTasksGETall(numSolN, objGetReturn);
-        console.log(objGetReturn['a'])
-        let itns = objGetReturn['a'].items
-        let ckResp = 0;
-        let mvS = 0;
-        for(let i = 0; i < itns.length; i++){
-            let itnN = itns[i];
-            console.log(itns[i])
-            if(itnN['status'] == 'NOT_COMPLETED' && itnN['movementSequence'] > mvS){
-                codeN = itnN['assignee']['code'];
-                (codeN.indexOf('Pool:Role:') != -1) ? ckResp = false : ckResp = true;
-                objBodyreq['code']      = codeN;
-                objBodyreq['sequence']  = itnN['state']['sequence']
+            await orderMethodsMi.requestsTasksGETall(numSolN, objGetReturn);
+            console.log(objGetReturn['a'])
+            let itns = objGetReturn['a'].items
+            let ckResp = 0;
+            let mvS = 0;
+            for(let i = 0; i < itns.length; i++){
+                let itnN = itns[i];
+                console.log(itns[i])
+                if(itnN['status'] == 'NOT_COMPLETED' && itnN['movementSequence'] > mvS){
+                    codeN = itnN['assignee']['code'];
+                    (codeN.indexOf('Pool:Role:') != -1) ? ckResp = false : ckResp = true;
+                    objBodyreq['code']      = codeN;
+                    objBodyreq['sequence']  = itnN['state']['sequence']
+                }
             }
-        }
 
-        for(let l = 0; l < formData_obj.fieldsNecessary.length; l++){
-            let objTempReq = {};
-            objTempReq['name']  = formData_obj['fieldsNecessary'][l];
-            objTempReq['value'] = formData_Final[formData_obj['fieldsNecessary'][l]];
-            formDataReq.push(objTempReq) 
-        }
-        objBodyreq['formData'] = JSON.stringify(formDataReq)
+            for(let l = 0; l < formData_obj.fieldsNecessary.length; l++){
+                let objTempReq = {};
+                objTempReq['name']  = formData_obj['fieldsNecessary'][l];
+                objTempReq['value'] = formData_Final[formData_obj['fieldsNecessary'][l]];
+                formDataReq.push(objTempReq) 
+            }
+            objBodyreq['formData'] = JSON.stringify(formDataReq)
 
-        await orderMethodsMi.saveSubst(numSolN, objBodyreq.code, objBodyreq.movementSequence, objBodyreq, objGetReturn);
-        console.log(objGetReturn['a'])
-        let respSaveSubst = objGetReturn['a'];
-        if(respSaveSubst['ok']){
-            objFieldsData.stAcess_reg(formData_Final);
-            myEditor.setValueInputsInEditors()
-            formData_obj.defineFormDataValues('formData_origin', formData_Final);
-            objFieldsData['version'] = getLastVersionForm()    
-            formData_obj.formData_diff_newGetValues  = { nameFields: [] };
-            formData_obj.formData_diff_OriginValues = { nameFields: [] };
-            rowMSN = document.getElementById('msnConfirm')
-            rowMSN.children[0].innerText = "Modificações salvas com sucesso";
-            rowMSN.children[0].style.color = 'green'
-            document.getElementById('initSave').style.display = "none"
+            await orderMethodsMi.saveSubst(numSolN, objBodyreq.code, objBodyreq.movementSequence, objBodyreq, objGetReturn);
+            console.log(objGetReturn['a'])
+            let respSaveSubst = objGetReturn['a'];
+            if(respSaveSubst['ok']){
+                objFieldsData.stAcess_reg(formData_Final);
+                myEditor.setValueInputsInEditors()
+                formData_obj.defineFormDataValues('formData_origin', formData_Final);
+                objFieldsData['version'] = getLastVersionForm()    
+                formData_obj.formData_diff_newGetValues  = { nameFields: [] };
+                formData_obj.formData_diff_OriginValues = { nameFields: [] };
+                rowMSN = document.getElementById('msnConfirm')
+                rowMSN.children[0].innerText = "Modificações salvas com sucesso";
+                rowMSN.children[0].style.color = 'green'
+                document.getElementById('initSave').style.display = "none"
+            }else{
+                rowMSN = document.getElementById('msnConfirm')
+                rowMSN.children[0].innerText = "Um erro ocorreu no processo de salvamento !";
+                rowMSN.children[0].style.color = 'red'
+                document.getElementById('initSave').style.display = "none"
+            }
         }else{
             rowMSN = document.getElementById('msnConfirm')
-            rowMSN.children[0].innerText = "Um erro ocorreu no processo de salvamento !";
+            let strN = '';
+            for(let i = 0; i < resCk.length; i++){
+                strN += ' '+resCk[i]+'<br>';
+            }
+            formData_obj.formData_diff_newGetValues  = { nameFields: [] };
+            formData_obj.formData_diff_OriginValues = { nameFields: [] };
+            rowMSN.children[0].innerHTML = "Atenção! As informações apresentadas aqui foram atualizadas por outro usuário <br>" + strN;
             rowMSN.children[0].style.color = 'red'
             document.getElementById('initSave').style.display = "none"
         }
