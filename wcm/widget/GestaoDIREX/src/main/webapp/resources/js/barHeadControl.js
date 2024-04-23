@@ -334,6 +334,77 @@ function saveFormDataButtonSet(){
             rowMSN.children[0].innerText = "Desejá realmente salvar as alterações ?";
             rowMSN.children[0].style.color = 'black'
             document.getElementById('initSave').style.display = "block"
+        }else if(objFieldsData['version'] < objBodyreq['version']){
+            slcAcess = document.getElementById('slc_reuniao');
+            dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
+            dsRegs = dsReg.values;
+            ckModBase = false;
+            regN = 0;
+            for(let i = 0; i < dsRegs.length; i++){
+                regN = dsRegs[i]
+                if(slcAcess.value == regN['txt_NumProcess']){
+                    for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
+                        if( formData_obj.formData_origin[formData_obj['fieldsNecessary'][j]] != regN[formData_obj['fieldsNecessary'][j]]){
+                            formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]] = regN[formData_obj['fieldsNecessary'][j]]
+                            formData_obj.formData_diff_newGetValues.nameFields.push(formData_obj['fieldsNecessary'][j])
+                            ckModBase = true;
+                        } 
+                    }
+                    break
+                }
+            }
+            newGetValues     = formData_obj.formData_diff_newGetValues;
+            OriginValues     = formData_obj.formData_diff_OriginValues;
+            console.log(newGetValues)
+            console.log(OriginValues)
+            function checkFieldsDiff(objBigger, objSmaller){
+                let arrJoin = [] 
+                for(let j = 0; j < objSmaller.nameFields.length; j++){
+                    let fdNow = objSmaller.nameFields[j]
+                    for(let i = 0; i < objBigger.nameFields.length; i++){
+                        if(fdNow == objBigger.nameFields[i]){
+                            arrJoin.push(objBigger.nameFields[i])
+                            console.log('PROBLEMA !!!!!!!!!!!!!!!!!!!!! ')
+                        }
+                    }
+                }
+                if(arrJoin.length == 0){ return false }
+                else{ return arrJoin }
+            }
+            let resCk = 0;
+            if(newGetValues.length > OriginValues.length){
+                resCk = checkFieldsDiff(newGetValues, OriginValues);
+            }else if(newGetValues.length < OriginValues.length){
+                resCk = checkFieldsDiff(OriginValues, newGetValues);
+            }else{
+                resCk = checkFieldsDiff(OriginValues, newGetValues);
+            }
+            console.log(resCk)
+            if(!resCk){
+                rowMSN = document.getElementById('msnConfirm')
+                rowMSN.children[0].innerText = "Desejá realmente salvar as alterações ?";
+                rowMSN.children[0].style.color = 'black'
+                document.getElementById('initSave').style.display = "block"
+            }else{
+                rowMSN = document.getElementById('msnConfirm')
+                let strN = '';
+                for(let i = 0; i < resCk.length; i++){
+                    let arrNamesFields      = formData_obj.fieldsNames;
+                    let arrFieldsNecessary  = formData_obj.fieldsNecessary
+                    let arrFieldCk          = resCk[i]
+                    for(let j = 0; j < arrNamesFields.length; j++){
+                        if(arrFieldCk == arrFieldsNecessary[j]){
+                            strN += '<h3 style="color: black"> - '+arrNamesFields[j]+'</h3><br>';
+                        }
+                    }
+                }
+                formData_obj.formData_diff_newGetValues  = { nameFields: [] };
+                formData_obj.formData_diff_OriginValues = { nameFields: [] };
+                rowMSN.children[0].innerHTML = "Atenção!<br>Outro usuário salvou informações em um ou mais campos que você quer modificar, os seguintes campos foram modificados por outro usuário: <br>" + strN +
+                "Desejá continuar e sobrepor a atualização salva por outro usuário ? "
+                rowMSN.children[0].style.color = 'red'
+                document.getElementById('initSave').style.display = "none"
+            }
         }else{
             console.log('formulário sem modificações para serem salvas')
             rowMSN = document.getElementById('msnConfirm')
@@ -412,53 +483,8 @@ async function saveFormData(){
             document.getElementById('initSave').style.display = "none"
         }
     }else if(objFieldsData['version'] < objBodyreq['version']){ // < ---------------------------------------------------------------------------------------------
-        formData_Final = {}
-        slcAcess = document.getElementById('slc_reuniao');
-        dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
-        dsRegs = dsReg.values;
-        ckModBase = false;
-        regN = 0;
-        for(let i = 0; i < dsRegs.length; i++){
-            regN = dsRegs[i]
-            if(slcAcess.value == regN['txt_NumProcess']){
-                for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
-                    if( formData_obj.formData_origin[formData_obj['fieldsNecessary'][j]] != regN[formData_obj['fieldsNecessary'][j]]){
-                        formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]] = regN[formData_obj['fieldsNecessary'][j]]
-                        formData_obj.formData_diff_newGetValues.nameFields.push(formData_obj['fieldsNecessary'][j])
-                        ckModBase = true;
-                    } 
-                }
-                break
-            }
-        }
-        newGetValues     = formData_obj.formData_diff_newGetValues;
-        OriginValues     = formData_obj.formData_diff_OriginValues;
-        console.log(newGetValues)
-        console.log(OriginValues)
-        function checkFieldsDiff(objBigger, objSmaller){
-            let arrJoin = [] 
-            for(let j = 0; j < objSmaller.nameFields.length; j++){
-                let fdNow = objSmaller.nameFields[j]
-                for(let i = 0; i < objBigger.nameFields.length; i++){
-                    if(fdNow == objBigger.nameFields[i]){
-                        arrJoin.push(objBigger.nameFields[i])
-                        console.log('PROBLEMA !!!!!!!!!!!!!!!!!!!!! ')
-                    }
-                }
-            }
-            if(arrJoin.length == 0){ return false }
-            else{ return arrJoin }
-        }
-        let resCk = 0;
-        if(newGetValues.length > OriginValues.length){
-            resCk = checkFieldsDiff(newGetValues, OriginValues);
-        }else if(newGetValues.length < OriginValues.length){
-            resCk = checkFieldsDiff(OriginValues, newGetValues);
-        }else{
-            resCk = checkFieldsDiff(OriginValues, newGetValues);
-        }
-        console.log(resCk)
-        if(!resCk){
+        formData_Final = {}   
+        //if(!resCk){
             for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
                 formData_Final[formData_obj['fieldsNecessary'][j]] = formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]]
                 if(formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]] != undefined){
@@ -467,7 +493,7 @@ async function saveFormData(){
             }
         
             console.log(formData_Final)
-
+            /*
             await orderMethodsMi.requestsTasksGETall(numSolN, objGetReturn);
             console.log(objGetReturn['a'])
             let itns = objGetReturn['a'].items
@@ -483,7 +509,7 @@ async function saveFormData(){
                     objBodyreq['sequence']  = itnN['state']['sequence']
                 }
             }
-
+            */
             for(let l = 0; l < formData_obj.fieldsNecessary.length; l++){
                 let objTempReq = {};
                 objTempReq['name']  = formData_obj['fieldsNecessary'][l];
@@ -512,26 +538,9 @@ async function saveFormData(){
                 rowMSN.children[0].style.color = 'red'
                 document.getElementById('initSave').style.display = "none"
             }
-        }else{
-            rowMSN = document.getElementById('msnConfirm')
-            let strN = '';
-            for(let i = 0; i < resCk.length; i++){
-                let arrNamesFields      = formData_obj.fieldsNames;
-                let arrFieldsNecessary  = formData_obj.fieldsNecessary
-                let arrFieldCk          = resCk[i]
-                for(let j = 0; j < arrNamesFields.length; j++){
-                    if(arrFieldCk == arrFieldsNecessary[j]){
-                        strN += '<h3 style="color: black"> - '+arrNamesFields[j]+'</h3><br>';
-                    }
-                }
-            }
-            formData_obj.formData_diff_newGetValues  = { nameFields: [] };
-            formData_obj.formData_diff_OriginValues = { nameFields: [] };
-            rowMSN.children[0].innerHTML = "Atenção!<br>Outro usuário salvou informações em um ou mais campos que você quer modificar, os seguintes campos foram modificados por outro usuário: <br>" + strN +
-            "Desejá continuar e sobrepor a atualização salva por outro usuário ? "
-            rowMSN.children[0].style.color = 'red'
-            document.getElementById('initSave').style.display = "none"
-        }
+        //}else{
+            
+        //}
     }
     myLoading.hide();
     function getLastVersionForm(){
