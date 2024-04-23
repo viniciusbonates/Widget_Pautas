@@ -392,6 +392,7 @@ async function saveFormData(){
         if(respSaveSubst['ok']){
            //formData_obj.formData_origin = 
             formData_obj.defineFormDataValues('formData_origin', formData_obj.formData_modified);
+            myEditor.setValueInputsInEditors()
             objFieldsData['version'] = getLastVersionForm() 
             formData_obj.formData_diff_newGetValues  = { nameFields: [] };
             formData_obj.formData_diff_OriginValues = { nameFields: [] };
@@ -515,14 +516,14 @@ async function saveFormData(){
                 let arrFieldCk          = resCk[i]
                 for(let j = 0; j < arrNamesFields.length; j++){
                     if(arrFieldCk == arrFieldsNecessary[j]){
-                        strN += ' - '+arrNamesFields[j]+'<br>';
+                        strN += '<h3 style="color: black"> - '+arrNamesFields[j]+'</h3><br>';
                     }
                 }
             }
             formData_obj.formData_diff_newGetValues  = { nameFields: [] };
             formData_obj.formData_diff_OriginValues = { nameFields: [] };
-            rowMSN.children[0].innerHTML = "Atenção!<br>Outro usuário salvou informações no campo no qual você quer modificar, os seguintes campos foram modificados por outro usuário: <br>" + strN +
-            "<br>Desejá continuar e sobrepor a atualização salva por outro usuário ? "
+            rowMSN.children[0].innerHTML = "Atenção!<br>Outro usuário salvou informações em um ou mais campos que você quer modificar, os seguintes campos foram modificados por outro usuário: <br>" + strN +
+            "Desejá continuar e sobrepor a atualização salva por outro usuário ? "
             rowMSN.children[0].style.color = 'red'
             document.getElementById('initSave').style.display = "none"
         }
