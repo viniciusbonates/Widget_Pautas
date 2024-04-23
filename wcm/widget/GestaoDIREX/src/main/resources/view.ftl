@@ -106,6 +106,9 @@
 		</div>
 		<div class="modal-footer">
 			<button class="btn btn-secondary" data-bs-dismiss="modal" id="cancelSave">Fechar</button>
+			<button class="btn btn-primary" id="getNewData" style="display: none;">
+				Puxar novas informações para o formulário local 
+			</button>
 			<button class="btn btn-primary" id="initSave">
 				Sim 
 			</button>
