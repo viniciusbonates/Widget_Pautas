@@ -507,15 +507,15 @@ async function saveFormData(){
             document.getElementById('getNewData').style.display = "none"
         }
     }
-    function getLastVersionForm(){
-        slcAcess = document.getElementById('slc_reuniao');
-        dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
-        dsRegs = dsReg.values;
-        for(let i = 0; i < dsRegs.length; i++){
-            regN = dsRegs[i]
-            if(slcAcess.value == regN['txt_NumProcess']){
-                return regN['version']
-            }
+}
+function getLastVersionForm(){
+    slcAcess = document.getElementById('slc_reuniao');
+    dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
+    dsRegs = dsReg.values;
+    for(let i = 0; i < dsRegs.length; i++){
+        regN = dsRegs[i]
+        if(slcAcess.value == regN['txt_NumProcess']){
+            return regN['version']
         }
     }
 }
@@ -532,3 +532,29 @@ function closePainel(){
     }
 }
 window.addEventListener('load', closePainel)
+function getNewData(){
+    document.getElementById('getNewData').addEventListener('click', function (){
+        setNewDataObjValues();
+    });
+    function setNewDataObjValues(){
+        formData_Final = {} 
+        for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
+            formData_Final[formData_obj['fieldsNecessary'][j]] = formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]]
+            if(formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]] != undefined){       // <----------------------------------------------------- verifica se existe novo valor em newGet e preenche no form
+                formData_Final[formData_obj['fieldsNecessary'][j]] = formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]]
+            }
+        }
+        objFieldsData.stAcess_reg(formData_Final);
+        myEditor.setValueInputsInEditors()
+        formData_obj.defineFormDataValues('formData_origin', formData_Final);
+        objFieldsData['version'] = getLastVersionForm()    
+        formData_obj.formData_diff_newGetValues     = { nameFields: [] };
+        formData_obj.formData_diff_OriginValues     = { nameFields: [] };
+        rowMSN = document.getElementById('msnConfirm')
+        rowMSN.children[0].innerText = "Formulário local atualizado com sucesso";
+        rowMSN.children[0].style.color = 'green'
+        document.getElementById('initSave').style.display = "none"
+        document.getElementById('getNewData').style.display = "none"
+    }
+}
+window.addEventListener('load', getNewData)
