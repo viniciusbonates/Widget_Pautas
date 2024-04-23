@@ -88,7 +88,7 @@
 	<div class="modal-dialog modal-dialog-centered">
 	  <div class="modal-content">
 		<div class="modal-header">
-		  <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Painel de Transferência</h1>
+		  <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Painel de Definição</h1>
 		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closePainel"></button>
 		</div>
 		<div class="modal-body">

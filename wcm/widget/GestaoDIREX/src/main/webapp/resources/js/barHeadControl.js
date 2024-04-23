@@ -29,6 +29,33 @@ function initRegistData(){
                             'switch_DIRAF',
                             'switch_DITEC'
                         ],
+        fieldsNames:    [  'Assessor(a)',
+                            'hd_numSuperior',
+                            'hd_numState',
+                            'Data e horário',
+                            'Diretor(a)',
+                            'Diretoria',
+                            'N° Processo / Reunião',
+                            'Data da Reunião',
+                            'Limite para Inserção',
+                            'Titulo da Reunião',
+                            'Informes DISUP',
+                            'Informes DIRAF',
+                            'Informes DITEC',
+                            'Início da Ata',
+                            'Fim da Ata',
+                            'DISUP',
+                            'DIRAF',
+                            'DITEC',
+                            'Item / Objeto',
+                            'Justificativa do Demandante',
+                            'Observação Deliberação DISUP',
+                            'Observação Deliberação DIRAF',
+                            'Observação Deliberação DITEC',
+                            'Liberar acesso de Pauta DISUP para outros gabinetes',
+                            'Liberar acesso de Pauta DIRAF para outros gabinetes',
+                            'Liberar acesso de Pauta DITEC para outros gabinetes'
+                        ],
         arrForms: ['formData_origin', 'formData_modified', 'formData_getToCheck'],
         formData_origin: {},
         formData_modified: {},
@@ -483,11 +510,19 @@ async function saveFormData(){
             rowMSN = document.getElementById('msnConfirm')
             let strN = '';
             for(let i = 0; i < resCk.length; i++){
-                strN += ' '+resCk[i]+'<br>';
+                let arrNamesFields      = formData_obj.fieldsNames;
+                let arrFieldsNecessary  = formData_obj.fieldsNecessary
+                let arrFieldCk          = resCk[i]
+                for(let j = 0; j < arrNamesFields.length; j++){
+                    if(arrFieldCk == arrFieldsNecessary[j]){
+                        strN += ' - '+arrNamesFields[j]+'<br>';
+                    }
+                }
             }
             formData_obj.formData_diff_newGetValues  = { nameFields: [] };
             formData_obj.formData_diff_OriginValues = { nameFields: [] };
-            rowMSN.children[0].innerHTML = "Atenção! As informações apresentadas aqui foram atualizadas por outro usuário <br>" + strN;
+            rowMSN.children[0].innerHTML = "Atenção!<br>Outro usuário salvou informações no campo no qual você quer modificar, os seguintes campos foram modificados por outro usuário: <br>" + strN +
+            "<br>Desejá continuar e sobrepor a atualização salva por outro usuário ? "
             rowMSN.children[0].style.color = 'red'
             document.getElementById('initSave').style.display = "none"
         }
