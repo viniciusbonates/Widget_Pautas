@@ -447,34 +447,7 @@ async function saveFormData(){
     }
 
     if(objFieldsData['version'] == objBodyreq['version']){
-        for(let l = 0; l < formData_obj.fieldsNecessary.length; l++){
-            let objTempReq = {};
-            objTempReq['name']  = formData_obj['fieldsNecessary'][l];
-            objTempReq['value'] = formData_obj.formData_modified[formData_obj['fieldsNecessary'][l]];
-            formDataReq.push(objTempReq) 
-        }
-        objBodyreq['formData'] = JSON.stringify(formDataReq)
-        
-        await orderMethodsMi.saveSubst(numSolN, objBodyreq.code, objBodyreq.movementSequence, objBodyreq, objGetReturn);
-        console.log(objGetReturn['a'])
-        let respSaveSubst = objGetReturn['a'];
-        if(respSaveSubst['ok']){
-           //formData_obj.formData_origin = 
-            formData_obj.defineFormDataValues('formData_origin', formData_obj.formData_modified);
-            myEditor.setValueInputsInEditors()
-            objFieldsData['version'] = getLastVersionForm() 
-            formData_obj.formData_diff_newGetValues  = { nameFields: [] };
-            formData_obj.formData_diff_OriginValues = { nameFields: [] };
-            rowMSN = document.getElementById('msnConfirm')
-            rowMSN.children[0].innerText = "Modificações salvas com sucesso";
-            rowMSN.children[0].style.color = 'green'
-            document.getElementById('initSave').style.display = "none"
-        }else{
-            rowMSN = document.getElementById('msnConfirm')
-            rowMSN.children[0].innerText = "Um erro ocorreu no processo de salvamento !";
-            rowMSN.children[0].style.color = 'red'
-            document.getElementById('initSave').style.display = "none"
-        }
+        await operationSave(formData_obj.formData_modified)
     }else if(objFieldsData['version'] < objBodyreq['version']){ // < ---------------------------------------------------------------------------------------------
         formData_Final = {}   
         for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
@@ -484,10 +457,14 @@ async function saveFormData(){
             }
         }
         console.log(formData_Final)
+        await operationSave(formData_Final)
+    }
+    myLoading.hide();
+    async function operationSave(formDataN){
         for(let l = 0; l < formData_obj.fieldsNecessary.length; l++){
             let objTempReq = {};
             objTempReq['name']  = formData_obj['fieldsNecessary'][l];
-            objTempReq['value'] = formData_Final[formData_obj['fieldsNecessary'][l]];
+            objTempReq['value'] = formDataN[formData_obj['fieldsNecessary'][l]];
             formDataReq.push(objTempReq) 
         }
         objBodyreq['formData'] = JSON.stringify(formDataReq)
@@ -496,9 +473,9 @@ async function saveFormData(){
         console.log(objGetReturn['a'])
         let respSaveSubst = objGetReturn['a'];
         if(respSaveSubst['ok']){
-            objFieldsData.stAcess_reg(formData_Final);
+            objFieldsData.stAcess_reg(formDataN);
             myEditor.setValueInputsInEditors()
-            formData_obj.defineFormDataValues('formData_origin', formData_Final);
+            formData_obj.defineFormDataValues('formData_origin', formDataN);
             objFieldsData['version'] = getLastVersionForm()    
             formData_obj.formData_diff_newGetValues  = { nameFields: [] };
             formData_obj.formData_diff_OriginValues = { nameFields: [] };
@@ -513,7 +490,6 @@ async function saveFormData(){
             document.getElementById('initSave').style.display = "none"
         }
     }
-    myLoading.hide();
     function getLastVersionForm(){
         slcAcess = document.getElementById('slc_reuniao');
         dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
