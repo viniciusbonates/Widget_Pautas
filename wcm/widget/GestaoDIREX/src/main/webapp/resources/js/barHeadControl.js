@@ -371,16 +371,16 @@ function saveFormDataButtonSet(){
                 if(arrJoin.length == 0){ return false }
                 else{ return arrJoin }
             }
-            let resCk = 0;
+            objBodyreq['resCk'] = 0;
             if(newGetValues.length > OriginValues.length){
-                resCk = checkFieldsDiff(newGetValues, OriginValues);
+                objBodyreq['resCk'] = checkFieldsDiff(newGetValues, OriginValues);
             }else if(newGetValues.length < OriginValues.length){
-                resCk = checkFieldsDiff(OriginValues, newGetValues);
+                objBodyreq['resCk'] = checkFieldsDiff(OriginValues, newGetValues);
             }else{
-                resCk = checkFieldsDiff(OriginValues, newGetValues);
+                objBodyreq['resCk'] = checkFieldsDiff(OriginValues, newGetValues);
             }
-            console.log(resCk)
-            if(!resCk){
+            console.log(objBodyreq['resCk'])
+            if(!objBodyreq['resCk']){
                 rowMSN = document.getElementById('msnConfirm')
                 rowMSN.children[0].innerText = "Desejá realmente salvar as alterações ?";
                 rowMSN.children[0].style.color = 'black'
@@ -389,10 +389,10 @@ function saveFormDataButtonSet(){
             }else{
                 rowMSN = document.getElementById('msnConfirm')
                 let strN = '';
-                for(let i = 0; i < resCk.length; i++){
+                for(let i = 0; i < objBodyreq['resCk'].length; i++){
                     let arrNamesFields      = formData_obj.fieldsNames;
                     let arrFieldsNecessary  = formData_obj.fieldsNecessary
-                    let arrFieldCk          = resCk[i]
+                    let arrFieldCk          = objBodyreq['resCk'][i]
                     for(let j = 0; j < arrNamesFields.length; j++){
                         if(arrFieldCk == arrFieldsNecessary[j]){
                             strN += '<h3 style="color: black"> - '+arrNamesFields[j]+'</h3><br>';
@@ -449,15 +449,30 @@ async function saveFormData(){
     if(objFieldsData['version'] == objBodyreq['version']){
         await operationSave(formData_obj.formData_modified)
     }else if(objFieldsData['version'] < objBodyreq['version']){ // < ---------------------------------------------------------------------------------------------
-        formData_Final = {}   
-        for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
-            formData_Final[formData_obj['fieldsNecessary'][j]] = formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]]
-            if(formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]] != undefined){
-                formData_Final[formData_obj['fieldsNecessary'][j]] = formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]]
+        formData_Final = {} 
+        console.log(objBodyreq['resCk'])
+        if(!objBodyreq['resCk']){
+            for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
+                formData_Final[formData_obj['fieldsNecessary'][j]] = formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]]
+                if(formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]] != undefined){
+                    formData_Final[formData_obj['fieldsNecessary'][j]] = formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]]
+                }
             }
-        }
-        console.log(formData_Final)
-        await operationSave(formData_Final)
+            console.log(formData_Final)
+            await operationSave(formData_Final)
+        }else{
+            for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
+                formData_Final[formData_obj['fieldsNecessary'][j]] = formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]]
+                if(formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]] != undefined){       // <----------------------------------------------------- verifica se existe novo valor em newGet e preenche no form
+                    formData_Final[formData_obj['fieldsNecessary'][j]] = formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]]
+                }
+                if(formData_obj.formData_diff_OriginValues[formData_obj['fieldsNecessary'][j]] != undefined){       // <----------------------------------------------------- verifica se existe novo valor em origin e preenche no form sobrepondo o newGet se necessário
+                    formData_Final[formData_obj['fieldsNecessary'][j]] = formData_obj.formData_diff_OriginValues[formData_obj['fieldsNecessary'][j]]
+                }
+            }
+            console.log(formData_Final)
+            await operationSave(formData_Final)
+        }  
     }
     myLoading.hide();
     async function operationSave(formDataN){
@@ -483,11 +498,13 @@ async function saveFormData(){
             rowMSN.children[0].innerText = "Modificações salvas com sucesso";
             rowMSN.children[0].style.color = 'green'
             document.getElementById('initSave').style.display = "none"
+            document.getElementById('getNewData').style.display = "none"
         }else{
             rowMSN = document.getElementById('msnConfirm')
             rowMSN.children[0].innerText = "Um erro ocorreu no processo de salvamento !";
             rowMSN.children[0].style.color = 'red'
             document.getElementById('initSave').style.display = "none"
+            document.getElementById('getNewData').style.display = "none"
         }
     }
     function getLastVersionForm(){
