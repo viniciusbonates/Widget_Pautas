@@ -300,6 +300,11 @@ function saveFormDataButtonSet(){
     document.getElementById('save-op').addEventListener('click', async function (){
         let ckMod = false;
         myEditor.setDataInputsParams()
+        objGetReturn    = {};
+        objBodyreq      = {};
+        objGetReturn['name']    = ['a'];
+        objGetReturn['a']       = '';
+        let numSolN             = objFieldsData['numSolN'];
         for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
             formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] = document.getElementById(formData_obj['fieldsNecessary'][j]).value;
             if(formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] != formData_obj.formData_origin[formData_obj['fieldsNecessary'][j]]){
@@ -308,7 +313,23 @@ function saveFormDataButtonSet(){
                 formData_obj.formData_diff_OriginValues.nameFields.push(formData_obj['fieldsNecessary'][j])
             } 
         }
-        if(ckMod){
+        objBodyreq['processInstanceId'] = numSolN;
+        await orderMethodsMi.requestsActivitiesGETall(numSolN, objGetReturn);
+        console.log(objGetReturn['a'])
+        let movementSequence    = objGetReturn['a'].items[objGetReturn['a'].items.length - 1].movementSequence;
+        objBodyreq['movementSequence'] = movementSequence;
+    
+        await orderMethodsMi.requestsGETall(numSolN, objGetReturn);
+        console.log(objGetReturn['a'])
+        objBodyreq['processVersion'] = objGetReturn['a']['processVersion'];
+        let formRecordId = objGetReturn['a'].formRecordId;
+        
+        await orderMethodsMi.activeDocumentGETall(formRecordId, objGetReturn); 
+        console.log(objGetReturn['a'])
+        objBodyreq['version'] = objGetReturn['a']['content']['version'];
+        
+    
+        if(ckMod == true && objFieldsData['version'] == objBodyreq['version']){
             rowMSN = document.getElementById('msnConfirm')
             rowMSN.children[0].innerText = "Desejá realmente salvar as alterações ?";
             rowMSN.children[0].style.color = 'black'
@@ -326,29 +347,32 @@ function saveFormDataButtonSet(){
     });
 }window.addEventListener('load',saveFormDataButtonSet)
 async function saveFormData(){
-    objGetReturn    = {};
-    objBodyreq      = {};
-    objGetReturn['name']    = ['a'];
-    objGetReturn['a']       = '';
     let numSolN             = objFieldsData['numSolN'];
     formDataReq             = [];
 
     myLoading.show();
-    objBodyreq['processInstanceId'] = numSolN;
-    await orderMethodsMi.requestsActivitiesGETall(numSolN, objGetReturn);
-    console.log(objGetReturn['a'])
-    let movementSequence    = objGetReturn['a'].items[objGetReturn['a'].items.length - 1].movementSequence;
-    objBodyreq['movementSequence'] = movementSequence;
 
-    await orderMethodsMi.requestsGETall(numSolN, objGetReturn);
+    await orderMethodsMi.requestsTasksGETall(numSolN, objGetReturn);
     console.log(objGetReturn['a'])
-    objBodyreq['processVersion'] = objGetReturn['a']['processVersion'];
-    let formRecordId = objGetReturn['a'].formRecordId;
-    
-    await orderMethodsMi.activeDocumentGETall(formRecordId, objGetReturn); 
-    console.log(objGetReturn['a'])
-    objBodyreq['version'] = objGetReturn['a']['content']['version'];
-    
+    let itns = objGetReturn['a'].items
+    let ckResp = 0;
+    let mvS = 0;
+    for(let i = 0; i < itns.length; i++){
+        let itnN = itns[i];
+        console.log(itns[i])
+        if(itnN['status'] == 'NOT_COMPLETED' && itnN['movementSequence'] > mvS){
+            codeN = itnN['assignee']['code'];
+            (codeN.indexOf('Pool:Role:') != -1) ? ckResp = false : ckResp = true;
+            objBodyreq['code']      = codeN;
+            objBodyreq['sequence']  = itnN['state']['sequence']
+        }
+    }
+    if(!ckResp){
+        colleagueIdUserNow = objDefineStatus.mat
+        await orderMethodsMi.assumeUserGETall(numSolN, colleagueIdUserNow,  objBodyreq['movementSequence'], objGetReturn);
+        console.log(objGetReturn['a'])    
+        objBodyreq['code']      = colleagueIdUserNow;
+    }
 
     if(objFieldsData['version'] == objBodyreq['version']){
         for(let l = 0; l < formData_obj.fieldsNecessary.length; l++){
@@ -358,33 +382,14 @@ async function saveFormData(){
             formDataReq.push(objTempReq) 
         }
         objBodyreq['formData'] = JSON.stringify(formDataReq)
-        await orderMethodsMi.requestsTasksGETall(numSolN, objGetReturn);
-        console.log(objGetReturn['a'])
-        let itns = objGetReturn['a'].items
-        let ckResp = 0;
-        let mvS = 0;
-        for(let i = 0; i < itns.length; i++){
-            let itnN = itns[i];
-            console.log(itns[i])
-            if(itnN['status'] == 'NOT_COMPLETED' && itnN['movementSequence'] > mvS){
-                codeN = itnN['assignee']['code'];
-                (codeN.indexOf('Pool:Role:') != -1) ? ckResp = false : ckResp = true;
-                objBodyreq['code']      = codeN;
-                objBodyreq['sequence']  = itnN['state']['sequence']
-            }
-        }
-        console.log('*************************************************************************************************')
+        
+        /*console.log('*************************************************************************************************')
         console.log(objBodyreq)
         console.log(formDataReq)
         console.log(movementSequence)
         console.log(ckResp)
         console.log(numSolN)
-        if(!ckResp){
-            colleagueIdUserNow = objDefineStatus.mat
-            await orderMethodsMi.assumeUserGETall(numSolN, colleagueIdUserNow, movementSequence, objGetReturn);
-            console.log(objGetReturn['a'])    
-            objBodyreq['code']      = colleagueIdUserNow;
-        }
+        */
 
         await orderMethodsMi.saveSubst(numSolN, objBodyreq.code, objBodyreq.movementSequence, objBodyreq, objGetReturn);
         console.log(objGetReturn['a'])
