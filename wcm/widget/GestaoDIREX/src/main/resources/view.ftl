@@ -142,7 +142,7 @@
 					</div><div id="desc" style="float: left; padding-right: 50px; border-right: solid; display: none;">
 						<h2 id="desc-titulo">20ª REUNIÃO ORDINÁRIA DIREX/AM</h2>
 						<h4 id="desc-subTitulo">Data da Reunião: 01/01/2024</h4>
-						<h6 id="desc-link"><a href="a">Acessar outra reunião / Cadastrar Nova Reunião</a></h6>
+						<h6 id="desc-link"><a href="#">Acessar outra reunião / Cadastrar Nova Reunião</a></h6>
 					</div>
 
 					<div style="float: left; padding-left: 100px; padding-right: 100px; padding-top: 5px; display: none;" id="min-fluxo">
@@ -547,7 +547,7 @@
 			</tbody>
 		</table>			
 		</div>-->
-				<div class="col-md-12">
+				<div class="col-md-12" id="divTableIn">
 					<div id="target"></div>
 					<input type="text" class="form-control" name="dataSelected" id="dataSelected"
 						style="display: block;" readonly>

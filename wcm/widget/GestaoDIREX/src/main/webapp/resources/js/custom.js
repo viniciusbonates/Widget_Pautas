@@ -1,3 +1,12 @@
+    function initPageConfig(){
+        let linkIdx = document.getElementById('desc-link')
+        linkIdx.addEventListener('click', function () {
+            let elemGet = document.getElementById('dataSelected')
+            document.getElementById('divTableIn').appendChild(elemGet)
+            objDefinitionBar.stIni()
+        })
+    }
+    window.addEventListener('load', initPageConfig)
     function getDirVinc(){
         objDefineStatus = {}
         objDefineStatus.stts = 14
@@ -717,7 +726,7 @@ function DemandResp() {
 //window.addEventListener('load', DemandResp)
 
 function setValueInpDelibr() {
-    let stateNow = 4 //window.parentOBJ.ECM.workflowView.sequence;
+    let stateNow = objDefineStatus.sequnce //window.parentOBJ.ECM.workflowView.sequence;
     matDirIn = 0;
     if(stateNow == 4 || stateNow == 0){
         document.getElementById('txt_IniDelibr').value = 'Aos cinco dias do mês de dezembro de 2022, às 10h, reuniu-se a Diretoria Executiva do SEBRAE no Amazonas, de forma virtual, com a participação das Diretoras Lamisse Said da Silva Cavalcanti – Diretora Superintendente, Adrianne Antony Gonçalves – Diretora Técnica e Ananda Carvalho Normando Pessôa – Diretora Administrativa e Financeira para deliberarem os seguintes assuntos:'
