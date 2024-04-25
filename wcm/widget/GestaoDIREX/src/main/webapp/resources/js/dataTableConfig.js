@@ -804,10 +804,11 @@ dataTableConfig.prototype.changeEventTable = function () {
                 pInp.innerText          = configFormat.setHelpBlock.innerText
             }
         },
-        openItem: function () {
-            var secIntervalOpenItem = setInterval(pushOpenItem, 20)
-            console.log(secIntervalOpenItem)
-            function pushOpenItem(){    
+        openItem: async function () {
+            //var secIntervalOpenItem = setInterval(pushOpenItem, 20)
+            //console.log(secIntervalOpenItem)
+            await pushOpenItem()
+            async function pushOpenItem(){    
                 var url = "https://myweb.am.sebrae.com.br/portal/p/1/pageworkflowview?app_ecm_workflowview_detailsProcessInstanceID="
                 var arrColumnsRender = ['N° Solicitação', 'Data Solicitação', 'Nome Solicitante', 'Unidade', 'Assunto', 'Justificativa']
                 var indexLink = []
@@ -832,7 +833,7 @@ dataTableConfig.prototype.changeEventTable = function () {
                         console.log(inHTML)
                     }
                 }
-                clearInterval(secIntervalOpenItem)
+                //clearInterval(secIntervalOpenItem)
             }
         },
         statusAsr: async function () {
@@ -1822,9 +1823,9 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
             console.log(btn)
             btn.getElementsByTagName('button')[0].addEventListener('click', function() { 
                 console.log(dataTablemi)
-                tbIn        = dataTablemi.tableReference.myTable;
-                dtIn        = dataTablemi.tableReference.dataInit;
-                objFuncIn   = dataTablemi.tableReference.objFunc;
+                let tbIn        = dataTablemi.tableReference.myTable;
+                let dtIn        = dataTablemi.tableReference.dataInit;
+                let objFuncIn   = dataTablemi.tableReference.objFunc;
                 dataTablemi.tableReference.reload(tbIn, dtIn, objFuncIn); 
                 //myAlertAll.fixedMoviment(myAlertAll.validate())  
             }); 
