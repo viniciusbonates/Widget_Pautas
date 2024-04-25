@@ -337,10 +337,7 @@ function saveFormDataButtonSet(){
         
     
         if(ckMod == true && objFieldsData['version'] == objBodyreq['version']){
-            rowMSN = document.getElementById('msnConfirm')                                                  // <-------------------------------------------------------------------------------
-            rowMSN.children[0].innerText = "Desejá realmente salvar as alterações ?";
-            rowMSN.children[0].style.color = 'black'
-            document.getElementById('initSave').style.display = "block"
+            modalConfigs.saveSimple()
         }else if(ckMod == true && objFieldsData['version'] < objBodyreq['version']){
             slcAcess = document.getElementById('slc_reuniao');
             dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
@@ -371,7 +368,7 @@ function saveFormDataButtonSet(){
                     for(let i = 0; i < objBigger.nameFields.length; i++){
                         if(fdNow == objBigger.nameFields[i]){
                             arrJoin.push(objBigger.nameFields[i])
-                            console.log('PROBLEMA !!!!!!!!!!!!!!!!!!!!! ')
+                            //console.log('PROBLEMA !!!!!!!!!!!!!!!!!!!!! ')
                         }
                     }
                 }
@@ -388,13 +385,9 @@ function saveFormDataButtonSet(){
             }
             console.log(objBodyreq['resCk'])
             if(!objBodyreq['resCk']){                                                                                                                       // <-------------------------------------------------------------------------------
-                rowMSN = document.getElementById('msnConfirm')
-                rowMSN.children[0].innerText = "Desejá realmente salvar as alterações ?";
-                rowMSN.children[0].style.color = 'black'
-                document.getElementById('initSave').style.display = "block"
-                document.getElementById('getNewData').style.display = "none"
+                modalConfigs.saveVersionDiff()
             }else{
-                rowMSN = document.getElementById('msnConfirm')
+                //rowMSN = document.getElementById('msnConfirm')
                 let strN = '';
                 for(let i = 0; i < objBodyreq['resCk'].length; i++){
                     let arrNamesFields      = formData_obj.fieldsNames;
@@ -406,19 +399,10 @@ function saveFormDataButtonSet(){
                         }
                     }                                                                                                                                     // <-------------------------------------------------------------------------------
                 }
-                rowMSN.children[0].innerHTML = "Atenção!<br>Outro usuário salvou informações em um ou mais campos que você quer modificar, os seguintes campos foram modificados por outro usuário: <br>" + strN +
-                "Desejá continuar e sobrepor a atualização salva por outro usuário ? "
-                rowMSN.children[0].style.color = 'red'
-                document.getElementById('initSave').style.display = "block"
-                document.getElementById('getNewData').style.display = "block"
+                modalConfigs.saveVersionFieldDiff(strN)
             }
         }else{// <-------------------------------------------------------------------------------
-            console.log('formulário sem modificações para serem salvas')
-            rowMSN = document.getElementById('msnConfirm')
-            rowMSN.children[0].innerText = "formulário sem modificações para serem salvas";
-            rowMSN.children[0].style.color = 'black'
-            document.getElementById('initSave').style.display = "none"
-            document.getElementById('getNewData').style.display = "none"
+            modalConfigs.saveNot()
         }
     })
     document.getElementById('initSave').addEventListener('click', async function (){
@@ -588,7 +572,7 @@ function objConfigModal(){
             rowMSN.children[0].innerText = "Desejá realmente salvar as alterações ?";
             rowMSN.children[0].style.color = 'black'
             document.getElementById('initSave').style.display = "block"
-            document.getElementById('slcMove').style.display = 'block';
+            document.getElementById('slcMove').style.display = 'none';
         },
         saveVersionDiff: function () {
             rowMSN = document.getElementById('msnConfirm')
@@ -596,15 +580,16 @@ function objConfigModal(){
             rowMSN.children[0].style.color = 'black'
             document.getElementById('initSave').style.display = "block"
             document.getElementById('getNewData').style.display = "none"
-            document.getElementById('slcMove').style.display = 'block';
+            document.getElementById('slcMove').style.display = 'none';
         },
         saveVersionFieldDiff: function (strNparam) {
+            rowMSN = document.getElementById('msnConfirm')
             rowMSN.children[0].innerHTML = "Atenção!<br>Outro usuário salvou informações em um ou mais campos que você quer modificar, os seguintes campos foram modificados por outro usuário: <br>" + strNparam +
             "Desejá continuar e sobrepor a atualização salva por outro usuário ? "
             rowMSN.children[0].style.color = 'red'
             document.getElementById('initSave').style.display = "block"
             document.getElementById('getNewData').style.display = "block"
-            document.getElementById('slcMove').style.display = 'block';
+            document.getElementById('slcMove').style.display = 'none';
         },
         saveNot: function (){
             console.log('formulário sem modificações para serem salvas')
@@ -613,7 +598,7 @@ function objConfigModal(){
             rowMSN.children[0].style.color = 'black'
             document.getElementById('initSave').style.display = "none"
             document.getElementById('getNewData').style.display = "none"
-            document.getElementById('slcMove').style.display = 'block';
+            document.getElementById('slcMove').style.display = 'none';
         }
     }
 }
