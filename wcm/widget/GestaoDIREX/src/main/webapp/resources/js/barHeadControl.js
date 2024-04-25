@@ -337,7 +337,7 @@ function saveFormDataButtonSet(){
         
     
         if(ckMod == true && objFieldsData['version'] == objBodyreq['version']){
-            rowMSN = document.getElementById('msnConfirm')
+            rowMSN = document.getElementById('msnConfirm')                                                  // <-------------------------------------------------------------------------------
             rowMSN.children[0].innerText = "Desejá realmente salvar as alterações ?";
             rowMSN.children[0].style.color = 'black'
             document.getElementById('initSave').style.display = "block"
@@ -387,7 +387,7 @@ function saveFormDataButtonSet(){
                 objBodyreq['resCk'] = checkFieldsDiff(OriginValues, newGetValues);
             }
             console.log(objBodyreq['resCk'])
-            if(!objBodyreq['resCk']){
+            if(!objBodyreq['resCk']){                                                                                                                       // <-------------------------------------------------------------------------------
                 rowMSN = document.getElementById('msnConfirm')
                 rowMSN.children[0].innerText = "Desejá realmente salvar as alterações ?";
                 rowMSN.children[0].style.color = 'black'
@@ -404,7 +404,7 @@ function saveFormDataButtonSet(){
                         if(arrFieldCk == arrFieldsNecessary[j]){
                             strN += '<h3 style="color: black"> - '+arrNamesFields[j]+'</h3><br>';
                         }
-                    }
+                    }                                                                                                                                     // <-------------------------------------------------------------------------------
                 }
                 rowMSN.children[0].innerHTML = "Atenção!<br>Outro usuário salvou informações em um ou mais campos que você quer modificar, os seguintes campos foram modificados por outro usuário: <br>" + strN +
                 "Desejá continuar e sobrepor a atualização salva por outro usuário ? "
@@ -412,7 +412,7 @@ function saveFormDataButtonSet(){
                 document.getElementById('initSave').style.display = "block"
                 document.getElementById('getNewData').style.display = "block"
             }
-        }else{
+        }else{// <-------------------------------------------------------------------------------
             console.log('formulário sem modificações para serem salvas')
             rowMSN = document.getElementById('msnConfirm')
             rowMSN.children[0].innerText = "formulário sem modificações para serem salvas";
@@ -565,3 +565,56 @@ function getNewData(){
     }
 }
 window.addEventListener('load', getNewData)
+
+function saveFormDataFluxoSet(){
+    document.getElementById('min-fluxo').addEventListener('click', async function (){
+        console.log('click   * * * ** *** * * * ** ** ')
+        modalConfigs.fluxo();
+    })
+}
+window.addEventListener('load', saveFormDataFluxoSet)
+
+function objConfigModal(){
+    modalConfigs = {
+        fluxo: function () {
+            document.getElementById('slcMove').style.display = 'block';
+            document.getElementById('getNewData').style.display = 'none';
+            rowMSN = document.getElementById('msnConfirm')
+            rowMSN.children[0].innerText = "Selecione uma atividade para movimentar:";
+            rowMSN.children[0].style.color = 'black' 
+        },
+        saveSimple: function (){
+            rowMSN = document.getElementById('msnConfirm')
+            rowMSN.children[0].innerText = "Desejá realmente salvar as alterações ?";
+            rowMSN.children[0].style.color = 'black'
+            document.getElementById('initSave').style.display = "block"
+            document.getElementById('slcMove').style.display = 'block';
+        },
+        saveVersionDiff: function () {
+            rowMSN = document.getElementById('msnConfirm')
+            rowMSN.children[0].innerText = "Desejá realmente salvar as alterações ?";
+            rowMSN.children[0].style.color = 'black'
+            document.getElementById('initSave').style.display = "block"
+            document.getElementById('getNewData').style.display = "none"
+            document.getElementById('slcMove').style.display = 'block';
+        },
+        saveVersionFieldDiff: function (strNparam) {
+            rowMSN.children[0].innerHTML = "Atenção!<br>Outro usuário salvou informações em um ou mais campos que você quer modificar, os seguintes campos foram modificados por outro usuário: <br>" + strNparam +
+            "Desejá continuar e sobrepor a atualização salva por outro usuário ? "
+            rowMSN.children[0].style.color = 'red'
+            document.getElementById('initSave').style.display = "block"
+            document.getElementById('getNewData').style.display = "block"
+            document.getElementById('slcMove').style.display = 'block';
+        },
+        saveNot: function (){
+            console.log('formulário sem modificações para serem salvas')
+            rowMSN = document.getElementById('msnConfirm')
+            rowMSN.children[0].innerText = "formulário sem modificações para serem salvas";
+            rowMSN.children[0].style.color = 'black'
+            document.getElementById('initSave').style.display = "none"
+            document.getElementById('getNewData').style.display = "none"
+            document.getElementById('slcMove').style.display = 'block';
+        }
+    }
+}
+window.addEventListener('load', objConfigModal)

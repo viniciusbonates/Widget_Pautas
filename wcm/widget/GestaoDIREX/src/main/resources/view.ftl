@@ -95,6 +95,9 @@
 			<div class="row" id="msnConfirm">
 				<h3>Desejá realmente salvar as alterações ?</h3>
 		  	</div>
+			<div class="col-md-4" id="slcMove" style="display: none">
+				<select class="form-control" name="slc_moveProcess" id="slc_moveProcess"></select>
+		  	</div>
 			<!--
 			<div class="row">
 				<div class="col-md-4" style="color: green;"><b>Transferidas com sucesso</b></div><div class="col-md-2" id="trsSucess"><b></b></div>
@@ -145,7 +148,7 @@
 						<h6 id="desc-link"><a href="#">Acessar outra reunião / Cadastrar Nova Reunião</a></h6>
 					</div>
 
-					<div style="float: left; padding-left: 100px; padding-right: 100px; padding-top: 5px; display: none;" id="min-fluxo">
+					<div style="float: left; padding-left: 100px; padding-right: 100px; padding-top: 5px; display: none; cursor: pointer" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" id="min-fluxo">
 						<div class="rainbow" style="border: solid;border-width: 4px;border-color: #777;padding-left: 20px;padding-right: 20px;padding-bottom: 35px;padding-top: 35px; float: left; margin: 0px; border-radius: 5px;" id="13n">Definição de Reunião</div>
 						<svg height="100" width="50" xmlns="http://www.w3.org/2000/svg" style="float: left;">
 							<line x1="-20" y1="60" x2="50" y2="60" style="stroke:red;stroke-width:2"></line>
