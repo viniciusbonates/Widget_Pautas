@@ -835,17 +835,18 @@ dataTableConfig.prototype.changeEventTable = function () {
                 clearInterval(secIntervalOpenItem)
             }
         },
-        statusAsr: function () {
-            var secIntervalStatusAsr = setInterval(pushStatusAsr, 20);
-            console.log(secIntervalStatusAsr)
-            function pushStatusAsr(){
+        statusAsr: async function () {
+            //var secIntervalStatusAsr = setInterval(pushStatusAsr, 20);
+            //console.log(secIntervalStatusAsr)
+            await pushStatusAsr()
+            async function pushStatusAsr(){
                 let col         = TableFluig.getCol('Aprov.Assessoria');
                 let colNumSol   = TableFluig.getCol('Solicitação');
                 console.log(colNumSol[0])
                 for(let i = 0; i < col.length; i++){
                     if(colNumSol[i].children[0] != undefined){
                         var numSlct     = colNumSol[i].children[0].innerText;
-                    }else{ clearInterval(secIntervalStatusAsr) }
+                    }//else{ //clearInterval(secIntervalStatusAsr) }
                     let cntrts          = DatasetFactory.createConstraint("txt_NumProcess", numSlct, numSlct, ConstraintType.MUST); 
                     let itenPauta       = DatasetFactory.getDataset('Pauta DIREX', null, new Array(cntrts), null).values[0];
                     if(itenPauta['hdn_aprvAssr'] != null || itenPauta['hdn_aprvAssr'] != undefined){
@@ -912,7 +913,7 @@ dataTableConfig.prototype.changeEventTable = function () {
                         icn = icn +' <b>Análise</b>';
                     }
                 } 
-                clearInterval(secIntervalStatusAsr)  
+                //clearInterval(secIntervalStatusAsr)  
             }
         },
         enabledButton: function (){

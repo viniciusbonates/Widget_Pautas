@@ -104,6 +104,7 @@ function formFieldsDefine(){
 window.addEventListener('load', formFieldsDefine)
 function defineElementsbar(){  
     objDefinitionBar = {
+        initTrue: false,
         divSpn: document.getElementById('CadastroReuniaoDIREX'),
         arrElements: ['icon-R', 'desc', 'min-fluxo', 'icon-T', 'icon-S','opsCadastro', 'opsAcess', 'DadosCadastro', 'PainelControle'],
         st: 'initArr',
@@ -208,7 +209,13 @@ function acessRegist(){
 
                     testDatatable.paramsInit(objMain);
                     dataTablemi = new dataTableConfig();
-                    myEditor = new determineEditor();
+                    if(objDefinitionBar.initTrue == false){
+                        myEditor = new determineEditor();
+                        objDefinitionBar.initTrue = true
+                    }else{
+                        myEditor.setValueInputsInEditors()
+                    }
+                    
                     definePainelEnabled()
                     setControlNavTabs()
                     getPDF_ptd();

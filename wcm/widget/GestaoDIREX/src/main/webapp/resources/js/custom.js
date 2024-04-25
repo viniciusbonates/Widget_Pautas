@@ -2,8 +2,11 @@
         let linkIdx = document.getElementById('desc-link')
         linkIdx.addEventListener('click', function () {
             let elemGet = document.getElementById('dataSelected')
+            document.getElementById('slc_temp').outerHTML = ''
+            window["zm_emailsCopia"].clear()
             document.getElementById('divTableIn').appendChild(elemGet)
-            objDefinitionBar.stIni()
+            objDefinitionBar.stIni();
+            testDatatable.myTable.destroy()
         })
     }
     window.addEventListener('load', initPageConfig)
@@ -422,17 +425,18 @@
 				console.log(this.objFunc)
 			}
 		},
-		reload: function (myTable, data, objFunc) {
+		reload: async function (myTable, data, objFunc) {
 			if (myTable != undefined) {
-				var a = myTable.reload(data);
-				console.log(a)
-				var funNow = 0;
+                await myTable.reload(data);
+				//var a = myTable.reload(data);
+				//console.log(a)
+				//var funNow = 0;
 				if (objFunc != '' && objFunc != null && objFunc != undefined) {
 					for (t = 0; t < objFunc.fnc.length; t++) {
 						if (objFunc.fnc[t].metodhParam == 'reload') {
 
 							let name = objFunc.fnc[t].fncName
-							let funNow = objFunc[name]()
+							await objFunc[name]()
 							//console.log(funNow)
 						}
 					}
