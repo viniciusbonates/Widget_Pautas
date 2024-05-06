@@ -351,7 +351,64 @@ orderMethods.prototype.moveSubst = async function (NumSolicit, objGetReturn) {
      },
     "referrer": "https://myweb.am.sebrae.com.br/portal/p/1/pageworkflowview?app_ecm_workflowview_processInstanceId=79940&app_ecm_workflowview_currentMovto=3&app_ecm_workflowview_taskUserId=00000563&app_ecm_workflowview_managerMode=false",
     "referrerPolicy": "strict-origin-when-cross-origin",
-    "body": "{\"processInstanceId\":79940,\"processId\":\"CadastrodeReuniãoDIREX\",\"version\":10,\"taskUserId\":\"00000563\",\"completeTask\":true,\"currentMovto\":3,\"managerMode\":false,\"selectedDestinyAfterAutomatic\":-1,\"conditionAfterAutomatic\":-1,\"selectedColleague\":[\"Pool:Role:Assessores\"],\"comments\":\"\",\"newObservations\":[],\"appointments\":[],\"attachments\":[],\"digitalSignature\":false,\"formData\":[{\"name\":\"cmb_NomeSolicita\",\"value\":\"00000563\"},{\"name\":\"hd_numSuperior\",\"value\":\"00000656\"},{\"name\":\"hd_numState\",\"value\":\"8\"},{\"name\":\"dt_DataSolicita\",\"value\":\"13/03/2024 09:09:12\"},{\"name\":\"cmb_GerenteSolicitante\",\"value\":\"Adrianne Antony\"},{\"name\":\"zm_UnidadeSolicitante\",\"value\":\"Diretoria Administrativa Financeira\"},{\"name\":\"txt_NumProcess\",\"value\":\"79940\"},{\"name\":\"dt_dataInicio\",\"value\":\"2024-03-18\"},{\"name\":\"dt_datalimit\",\"value\":\"2024-03-14\"},{\"name\":\"txt_tituloReuniao\",\"value\":\"40ª REUNIÃO ORDINÁRIA DIREX/AM \"},{\"name\":\"txt_InfoDISUP\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body></body>\\r\\n</html>\\r\\n\"},{\"name\":\"txt_InfoDIRAF\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body>\\r\\n<p>TESTE 6</p>\\r\\n</body>\\r\\n</html>\\r\\n\"},{\"name\":\"txt_InfoDITEC\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body></body>\\r\\n</html>\\r\\n\"},{\"name\":\"txt_IniDelibr\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body>\\r\\n<p>Aos cinco dias do m&ecirc;s de dezembro de 2022, &agrave;s 10h, reuniu-se a Diretoria Executiva do SEBRAE no Amazonas, de forma virtual, com a participa&ccedil;&atilde;o das Diretoras Lamisse Said da Silva Cavalcanti – Diretora Superintendente, Adrianne Antony Gon&ccedil;alves – Diretora T&eacute;cnica e Ananda Carvalho Normando Pess&ocirc;a – Diretora Administrativa e Financeira para deliberarem os seguintes assuntos:</p>\\r\\n</body>\\r\\n</html>\\r\\n\"},{\"name\":\"txt_FinDelibr\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body>\\r\\n<p>A reuni&atilde;o foi encerrada &agrave;s 11h30, ficando acordado entre as Diretoras a realiza&ccedil;&atilde;o da 46ª Reuni&atilde;o Ordin&aacute;ria DIREX 2022 no dia 05/12/2022, conforme previsto em calend&aacute;rio.</p>\\r\\n</body>\\r\\n</html>\\r\\n\"},{\"name\":\"dataSelected\",\"value\":\"\"},{\"name\":\"slc_demandante\",\"value\":\"0\"},{\"name\":\"slc_temp\",\"value\":\"\"},{\"name\":\"slc_DISUP_vt\",\"value\":\"0\"},{\"name\":\"slc_UCOF_vt\",\"value\":\"0\"},{\"name\":\"slc_DITEC_vt\",\"value\":\"0\"},{\"name\":\"txt_Deliberacao\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body></body>\\r\\n</html>\\r\\n\"},{\"name\":\"txt_Justificativa\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body></body>\\r\\n</html>\\r\\n\"},{\"name\":\"txt_obsDlbrDISUP\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body></body>\\r\\n</html>\\r\\n\"},{\"name\":\"txt_obsDlbrDIRAF\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body></body>\\r\\n</html>\\r\\n\"},{\"name\":\"txt_obsDlbrDITEC\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body></body>\\r\\n</html>\\r\\n\"},{\"name\":\"checkbox1\",\"value\":\"\"},{\"name\":\"switch_DISUP\",\"value\":\"\"},{\"name\":\"switch_DIRAF\",\"value\":\"\"},{\"name\":\"switch_DITEC\",\"value\":\"\"},{\"name\":\"zm_emailsCopia\",\"value\":\"\"}],\"isDigitalSigned\":false,\"isLinkReturn\":false,\"versionDoc\":31000,\"selectedState\":\"13\",\"internalFields\":[],\"subProcessId\":\"CadastrodeReuniãoDIREX\",\"subProcessSequence\":\"13\",\"transferTaskAfterSelection\":false,\"currentState\":8}",
+    "body": "{\"processInstanceId\":79940,"+
+            "\"processId\":\"CadastrodeReuniãoDIREX\","+
+            "\"version\":10,"+
+            "\"taskUserId\":\"00000563\","+
+            "\"completeTask\":true,"+
+            "\"currentMovto\":3,"+
+            "\"managerMode\":false,"+
+            "\"selectedDestinyAfterAutomatic\":-1,"+
+            "\"conditionAfterAutomatic\":-1,"+
+            "\"selectedColleague\":[\"Pool:Role:Assessores\"],"+
+            "\"comments\":\"\","+
+            "\"newObservations\":[],"+
+            "\"appointments\":[],"+
+            "\"attachments\":[],"+
+            "\"digitalSignature\":false,"+
+            "\"formData\":["+ 
+                            "{\"name\":\"cmb_NomeSolicita\","+
+                            "\"value\":\"00000563\"},"+
+                            "{\"name\":\"hd_numSuperior\",\"value\":\"00000656\"},"+
+                            "{\"name\":\"hd_numState\",\"value\":\"8\"},"+
+                            "{\"name\":\"dt_DataSolicita\",\"value\":\"13/03/2024 09:09:12\"},"+
+                            "{\"name\":\"cmb_GerenteSolicitante\",\"value\":\"Adrianne Antony\"},"+
+                            "{\"name\":\"zm_UnidadeSolicitante\",\"value\":\"Diretoria Administrativa Financeira\"},"+
+                            "{\"name\":\"txt_NumProcess\",\"value\":\"79940\"},"+
+                            "{\"name\":\"dt_dataInicio\",\"value\":\"2024-03-18\"},"+
+                            "{\"name\":\"dt_datalimit\",\"value\":\"2024-03-14\"},"+
+                            "{\"name\":\"txt_tituloReuniao\",\"value\":\"40ª REUNIÃO ORDINÁRIA DIREX/AM \"},"+
+                            "{\"name\":\"txt_InfoDISUP\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body></body>\\r\\n</html>\\r\\n\"},"+
+                            "{\"name\":\"txt_InfoDIRAF\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body>\\r\\n<p>TESTE 6</p>\\r\\n</body>\\r\\n</html>\\r\\n\"},"+
+                            "{\"name\":\"txt_InfoDITEC\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body></body>\\r\\n</html>\\r\\n\"},"+
+                            "{\"name\":\"txt_IniDelibr\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body>\\r\\n<p>Aos cinco dias do m&ecirc;s de dezembro de 2022, &agrave;s 10h, reuniu-se a Diretoria Executiva do SEBRAE no Amazonas, de forma virtual, com a participa&ccedil;&atilde;o das Diretoras Lamisse Said da Silva Cavalcanti – Diretora Superintendente, Adrianne Antony Gon&ccedil;alves – Diretora T&eacute;cnica e Ananda Carvalho Normando Pess&ocirc;a – Diretora Administrativa e Financeira para deliberarem os seguintes assuntos:</p>\\r\\n</body>\\r\\n</html>\\r\\n\"},"+
+                            "{\"name\":\"txt_FinDelibr\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body>\\r\\n<p>A reuni&atilde;o foi encerrada &agrave;s 11h30, ficando acordado entre as Diretoras a realiza&ccedil;&atilde;o da 46ª Reuni&atilde;o Ordin&aacute;ria DIREX 2022 no dia 05/12/2022, conforme previsto em calend&aacute;rio.</p>\\r\\n</body>\\r\\n</html>\\r\\n\"},"+
+                            "{\"name\":\"dataSelected\",\"value\":\"\"},"+
+                            "{\"name\":\"slc_demandante\",\"value\":\"0\"},"+
+                            "{\"name\":\"slc_temp\",\"value\":\"\"},"+
+                            "{\"name\":\"slc_DISUP_vt\",\"value\":\"0\"},"+
+                            "{\"name\":\"slc_UCOF_vt\",\"value\":\"0\"},"+
+                            "{\"name\":\"slc_DITEC_vt\",\"value\":\"0\"},"+
+                            "{\"name\":\"txt_Deliberacao\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body></body>\\r\\n</html>\\r\\n\"},"+
+                            "{\"name\":\"txt_Justificativa\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body></body>\\r\\n</html>\\r\\n\"},"+
+                            "{\"name\":\"txt_obsDlbrDISUP\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body></body>\\r\\n</html>\\r\\n\"},"+
+                            "{\"name\":\"txt_obsDlbrDIRAF\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body></body>\\r\\n</html>\\r\\n\"},"+
+                            "{\"name\":\"txt_obsDlbrDITEC\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body></body>\\r\\n</html>\\r\\n\"},"+
+                            "{\"name\":\"checkbox1\",\"value\":\"\"},"+
+                            "{\"name\":\"switch_DISUP\",\"value\":\"\"},"+
+                            "{\"name\":\"switch_DIRAF\",\"value\":\"\"},"+
+                            "{\"name\":\"switch_DITEC\",\"value\":\"\"},"+
+                            "{\"name\":\"zm_emailsCopia\",\"value\":\"\"}],"+
+            "\"isDigitalSigned\":false,"+
+            "\"isLinkReturn\":false,"+
+            "\"versionDoc\":31000,"+
+            "\"selectedState\":\"13\","+
+            "\"internalFields\":[],"+
+            "\"subProcessId\":\"CadastrodeReuniãoDIREX\","+
+            "\"subProcessSequence\":\"13\","+
+            "\"transferTaskAfterSelection\":false,"+
+            "\"currentState\":8"+
+        "}",
     "method": "POST",
     "mode": "cors",
     "credentials": "include"
