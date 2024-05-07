@@ -372,7 +372,7 @@ orderMethods.prototype.moveSubst = async function (NumSolicit, objGetReturn) {
                             "{\"name\":\"hd_numSuperior\",\"value\":\"00000656\"},"+
                             "{\"name\":\"hd_numState\",\"value\":\"8\"},"+
                             "{\"name\":\"dt_DataSolicita\",\"value\":\"13/03/2024 09:09:12\"},"+
-                            "{\"name\":\"cmb_GerenteSolicitante\",\"value\":\"Adrianne Antony\"},"+
+                            "{\"name\":\"cmb_GerenteSolicitante\",\"value\":\"Adrianne Antony\"},"+ 
                             "{\"name\":\"zm_UnidadeSolicitante\",\"value\":\"Diretoria Administrativa Financeira\"},"+
                             "{\"name\":\"txt_NumProcess\",\"value\":\"79940\"},"+
                             "{\"name\":\"dt_dataInicio\",\"value\":\"2024-03-18\"},"+
