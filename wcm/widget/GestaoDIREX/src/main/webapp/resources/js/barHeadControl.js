@@ -550,13 +550,15 @@ function getNewData(){
 }
 window.addEventListener('load', getNewData)
 
-function saveFormDataFluxoSet(){
+function moveProcessSet(){
     document.getElementById('min-fluxo').addEventListener('click', async function (){
         console.log('click   * * * ** *** * * * ** ** ')
         modalConfigs.fluxo();
+        let numSolc = objFieldsData.numSolN
+        objDefinitionBar.miniMapDefine(numSolc)
     })
 }
-window.addEventListener('load', saveFormDataFluxoSet)
+window.addEventListener('load', moveProcessSet)
 
 function objConfigModal(){
     modalConfigs = {
