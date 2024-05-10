@@ -121,7 +121,8 @@ function defineElementsbar(){
             console.log(orderMethodsMi)
             obTemp = {
                 name: ['a'],
-                a: ''
+                a: '',
+                states: [13,8,10]
             }
             await orderMethodsMi.requestsActivitiesGETall(num, obTemp);
             let rs = obTemp['a'].items;
@@ -134,6 +135,7 @@ function defineElementsbar(){
             for(let i = 0; i < rs.length; i++){
                 let regItmN = rs[i]
                 if(regItmN.active == true){
+                    obTemp['stateActive'] = regItmN
                     objDefineStatus.sequnce = regItmN.state.sequence;                   // <--- obtem estado atual para utilizar em getPDF e getPDF_ptd
                     let numProc = regItmN.state.sequence + 'n';
                     divAtN = mnWk.children[numProc];
@@ -555,7 +557,17 @@ function moveProcessSet(){
         console.log('click   * * * ** *** * * * ** ** ')
         modalConfigs.fluxo();
         let numSolc = objFieldsData.numSolN
-        objDefinitionBar.miniMapDefine(numSolc)
+        await objDefinitionBar.miniMapDefine(numSolc)
+        let opsMove     = []
+        let statesAll   = obTemp['states'];
+        let stateNow    = obTemp['stateActive'].state.sequence
+        for(let i = 0; i < statesAll.length; i++){
+            let state   = statesAll[i]
+            if(state != stateNow){
+                opsMove.push(state)
+            }
+        }
+        console.log(opsMove)
     })
 }
 window.addEventListener('load', moveProcessSet)
