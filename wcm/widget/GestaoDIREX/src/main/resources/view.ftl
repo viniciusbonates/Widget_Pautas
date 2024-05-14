@@ -96,7 +96,9 @@
 				<h3>Desejá realmente salvar as alterações ?</h3>
 		  	</div>
 			<div class="col-md-4" id="slcMove" style="display: none">
-				<select class="form-control" name="slc_moveProcess" id="slc_moveProcess"></select>
+				<select class="form-control" name="slc_moveProcess" id="slc_moveProcess">
+					<option></option>
+				</select>
 		  	</div>
 			<!--
 			<div class="row">

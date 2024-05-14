@@ -122,7 +122,8 @@ function defineElementsbar(){
             obTemp = {
                 name: ['a'],
                 a: '',
-                states: [13,8,10]
+                states: [13,8,10],
+                sttsNames: ['Definição de Reunião', 'Analise / Deliberação', 'Arquivo']
             }
             await orderMethodsMi.requestsActivitiesGETall(num, obTemp);
             let rs = obTemp['a'].items;
@@ -561,10 +562,19 @@ function moveProcessSet(){
         let opsMove     = []
         let statesAll   = obTemp['states'];
         let stateNow    = obTemp['stateActive'].state.sequence
+        document.getElementById('slc_moveProcess').innerHTML = ''
+        let slcMoveOpt = document.createElement('option');
+            slcMoveOpt.setAttribute('value', '0');
+            slcMoveOpt.innerText = '';
+            document.getElementById('slc_moveProcess').appendChild(slcMoveOpt);
         for(let i = 0; i < statesAll.length; i++){
             let state   = statesAll[i]
             if(state != stateNow){
                 opsMove.push(state)
+                let slcMoveOpt = document.createElement('option');
+                slcMoveOpt.setAttribute('value', state);
+                slcMoveOpt.innerText = obTemp['sttsNames'][i];
+                document.getElementById('slc_moveProcess').appendChild(slcMoveOpt);
             }
         }
         console.log(opsMove)
