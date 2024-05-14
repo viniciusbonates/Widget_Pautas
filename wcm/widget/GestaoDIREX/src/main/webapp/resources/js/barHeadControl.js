@@ -307,111 +307,112 @@ function slcReuniao() {
 }
 
 function saveFormDataButtonSet(){
-    document.getElementById('save-op').addEventListener('click', async function (){
-        let ckMod = false;
-        myEditor.setDataInputsParams()
-        objGetReturn    = {};
-        objBodyreq      = {};
-        objGetReturn['name']    = ['a'];
-        objGetReturn['a']       = '';
-        let numSolN             = objFieldsData['numSolN'];
-        for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
-            formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] = document.getElementById(formData_obj['fieldsNecessary'][j]).value;
-            if(formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] != formData_obj.formData_origin[formData_obj['fieldsNecessary'][j]]){
-                ckMod = true;
-                formData_obj.formData_diff_OriginValues[formData_obj['fieldsNecessary'][j]] = formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]]
-                formData_obj.formData_diff_OriginValues.nameFields.push(formData_obj['fieldsNecessary'][j])
-            } 
-        }
-        objBodyreq['processInstanceId'] = numSolN;
-        await orderMethodsMi.requestsActivitiesGETall(numSolN, objGetReturn);
-        console.log(objGetReturn['a'])
-        let movementSequence    = objGetReturn['a'].items[objGetReturn['a'].items.length - 1].movementSequence;
-        objBodyreq['movementSequence'] = movementSequence;
-    
-        await orderMethodsMi.requestsGETall(numSolN, objGetReturn);
-        console.log(objGetReturn['a'])
-        objBodyreq['processVersion'] = objGetReturn['a']['processVersion'];
-        let formRecordId = objGetReturn['a'].formRecordId;
-        
-        await orderMethodsMi.activeDocumentGETall(formRecordId, objGetReturn); 
-        console.log(objGetReturn['a'])
-        objBodyreq['version'] = objGetReturn['a']['content']['version'];
-        
-    
-        if(ckMod == true && objFieldsData['version'] == objBodyreq['version']){
-            modalConfigs.saveSimple()
-        }else if(ckMod == true && objFieldsData['version'] < objBodyreq['version']){
-            slcAcess = document.getElementById('slc_reuniao');
-            dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
-            dsRegs = dsReg.values;
-            ckModBase = false;
-            regN = 0;
-            for(let i = 0; i < dsRegs.length; i++){
-                regN = dsRegs[i]
-                if(slcAcess.value == regN['txt_NumProcess']){
-                    for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
-                        if( formData_obj.formData_origin[formData_obj['fieldsNecessary'][j]] != regN[formData_obj['fieldsNecessary'][j]]){
-                            formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]] = regN[formData_obj['fieldsNecessary'][j]]
-                            formData_obj.formData_diff_newGetValues.nameFields.push(formData_obj['fieldsNecessary'][j])
-                            ckModBase = true;
-                        } 
-                    }
-                    break
-                }
-            }
-            newGetValues     = formData_obj.formData_diff_newGetValues;
-            OriginValues     = formData_obj.formData_diff_OriginValues;
-            console.log(newGetValues)
-            console.log(OriginValues)
-            function checkFieldsDiff(objBigger, objSmaller){
-                let arrJoin = [] 
-                for(let j = 0; j < objSmaller.nameFields.length; j++){
-                    let fdNow = objSmaller.nameFields[j]
-                    for(let i = 0; i < objBigger.nameFields.length; i++){
-                        if(fdNow == objBigger.nameFields[i]){
-                            arrJoin.push(objBigger.nameFields[i])
-                            //console.log('PROBLEMA !!!!!!!!!!!!!!!!!!!!! ')
-                        }
-                    }
-                }
-                if(arrJoin.length == 0){ return false }
-                else{ return arrJoin }
-            }
-            objBodyreq['resCk'] = 0;
-            if(newGetValues.length > OriginValues.length){
-                objBodyreq['resCk'] = checkFieldsDiff(newGetValues, OriginValues);
-            }else if(newGetValues.length < OriginValues.length){
-                objBodyreq['resCk'] = checkFieldsDiff(OriginValues, newGetValues);
-            }else{
-                objBodyreq['resCk'] = checkFieldsDiff(OriginValues, newGetValues);
-            }
-            console.log(objBodyreq['resCk'])
-            if(!objBodyreq['resCk']){                                                                                                                       // <-------------------------------------------------------------------------------
-                modalConfigs.saveVersionDiff()
-            }else{
-                //rowMSN = document.getElementById('msnConfirm')
-                let strN = '';
-                for(let i = 0; i < objBodyreq['resCk'].length; i++){
-                    let arrNamesFields      = formData_obj.fieldsNames;
-                    let arrFieldsNecessary  = formData_obj.fieldsNecessary
-                    let arrFieldCk          = objBodyreq['resCk'][i]
-                    for(let j = 0; j < arrNamesFields.length; j++){
-                        if(arrFieldCk == arrFieldsNecessary[j]){
-                            strN += '<h3 style="color: black"> - '+arrNamesFields[j]+'</h3><br>';
-                        }
-                    }                                                                                                                                     // <-------------------------------------------------------------------------------
-                }
-                modalConfigs.saveVersionFieldDiff(strN)
-            }
-        }else{// <-------------------------------------------------------------------------------
-            modalConfigs.saveNot()
-        }
-    })
+    document.getElementById('save-op').addEventListener('click', conditionTypeSave);
     document.getElementById('initSave').addEventListener('click', async function (){
         await saveFormData();
     });
 }window.addEventListener('load',saveFormDataButtonSet)
+async function conditionTypeSave(){
+    let ckMod = false;
+    myEditor.setDataInputsParams()
+    objGetReturn    = {};
+    objBodyreq      = {};
+    objGetReturn['name']    = ['a'];
+    objGetReturn['a']       = '';
+    let numSolN             = objFieldsData['numSolN'];
+    for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
+        formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] = document.getElementById(formData_obj['fieldsNecessary'][j]).value;
+        if(formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]] != formData_obj.formData_origin[formData_obj['fieldsNecessary'][j]]){
+            ckMod = true;
+            formData_obj.formData_diff_OriginValues[formData_obj['fieldsNecessary'][j]] = formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]]
+            formData_obj.formData_diff_OriginValues.nameFields.push(formData_obj['fieldsNecessary'][j])
+        } 
+    }
+    objBodyreq['processInstanceId'] = numSolN;
+    await orderMethodsMi.requestsActivitiesGETall(numSolN, objGetReturn);
+    console.log(objGetReturn['a'])
+    let movementSequence    = objGetReturn['a'].items[objGetReturn['a'].items.length - 1].movementSequence;
+    objBodyreq['movementSequence'] = movementSequence;
+
+    await orderMethodsMi.requestsGETall(numSolN, objGetReturn);
+    console.log(objGetReturn['a'])
+    objBodyreq['processVersion'] = objGetReturn['a']['processVersion'];
+    let formRecordId = objGetReturn['a'].formRecordId;
+    
+    await orderMethodsMi.activeDocumentGETall(formRecordId, objGetReturn); 
+    console.log(objGetReturn['a'])
+    objBodyreq['version'] = objGetReturn['a']['content']['version'];
+    
+
+    if(ckMod == true && objFieldsData['version'] == objBodyreq['version']){
+        modalConfigs.saveSimple()
+    }else if(ckMod == true && objFieldsData['version'] < objBodyreq['version']){
+        slcAcess = document.getElementById('slc_reuniao');
+        dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
+        dsRegs = dsReg.values;
+        ckModBase = false;
+        regN = 0;
+        for(let i = 0; i < dsRegs.length; i++){
+            regN = dsRegs[i]
+            if(slcAcess.value == regN['txt_NumProcess']){
+                for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
+                    if( formData_obj.formData_origin[formData_obj['fieldsNecessary'][j]] != regN[formData_obj['fieldsNecessary'][j]]){
+                        formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]] = regN[formData_obj['fieldsNecessary'][j]]
+                        formData_obj.formData_diff_newGetValues.nameFields.push(formData_obj['fieldsNecessary'][j])
+                        ckModBase = true;
+                    } 
+                }
+                break
+            }
+        }
+        newGetValues     = formData_obj.formData_diff_newGetValues;
+        OriginValues     = formData_obj.formData_diff_OriginValues;
+        console.log(newGetValues)
+        console.log(OriginValues)
+        function checkFieldsDiff(objBigger, objSmaller){
+            let arrJoin = [] 
+            for(let j = 0; j < objSmaller.nameFields.length; j++){
+                let fdNow = objSmaller.nameFields[j]
+                for(let i = 0; i < objBigger.nameFields.length; i++){
+                    if(fdNow == objBigger.nameFields[i]){
+                        arrJoin.push(objBigger.nameFields[i])
+                        //console.log('PROBLEMA !!!!!!!!!!!!!!!!!!!!! ')
+                    }
+                }
+            }
+            if(arrJoin.length == 0){ return false }
+            else{ return arrJoin }
+        }
+        objBodyreq['resCk'] = 0;
+        if(newGetValues.length > OriginValues.length){
+            objBodyreq['resCk'] = checkFieldsDiff(newGetValues, OriginValues);
+        }else if(newGetValues.length < OriginValues.length){
+            objBodyreq['resCk'] = checkFieldsDiff(OriginValues, newGetValues);
+        }else{
+            objBodyreq['resCk'] = checkFieldsDiff(OriginValues, newGetValues);
+        }
+        console.log(objBodyreq['resCk'])
+        if(!objBodyreq['resCk']){                                                                                                                       // <-------------------------------------------------------------------------------
+            modalConfigs.saveVersionDiff()
+        }else{
+            //rowMSN = document.getElementById('msnConfirm')
+            let strN = '';
+            for(let i = 0; i < objBodyreq['resCk'].length; i++){
+                let arrNamesFields      = formData_obj.fieldsNames;
+                let arrFieldsNecessary  = formData_obj.fieldsNecessary
+                let arrFieldCk          = objBodyreq['resCk'][i]
+                for(let j = 0; j < arrNamesFields.length; j++){
+                    if(arrFieldCk == arrFieldsNecessary[j]){
+                        strN += '<h3 style="color: black"> - '+arrNamesFields[j]+'</h3><br>';
+                    }
+                }                                                                                                                                     // <-------------------------------------------------------------------------------
+            }
+            modalConfigs.saveVersionFieldDiff(strN)
+        }
+    }else{// <-------------------------------------------------------------------------------
+        modalConfigs.saveNot()
+    }
+}
 async function saveFormData(){
     let numSolN             = objFieldsData['numSolN'];
     formDataReq             = [];
