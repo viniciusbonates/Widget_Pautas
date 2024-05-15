@@ -307,7 +307,7 @@ function slcReuniao() {
 }
 
 function saveFormDataButtonSet(){
-    document.getElementById('save-op').addEventListener('click', conditionTypeSave);
+    document.getElementById('save-op').addEventListener('click',  async function (){ await conditionTypeSave() });
     document.getElementById('initSave').addEventListener('click', async function (){
         await saveFormData();
     });
@@ -553,32 +553,40 @@ function getNewData(){
     }
 }
 window.addEventListener('load', getNewData)
-
 function moveProcessSet(){
     document.getElementById('min-fluxo').addEventListener('click', async function (){
-        console.log('click   * * * ** *** * * * ** ** ')
+        console.log('moveProcessSet < ------------------------------------------------------ > moveProcessSet')
         modalConfigs.fluxo();
         let numSolc = objFieldsData.numSolN
+        let lastState =  obTemp['stateActive'].state.sequence
         await objDefinitionBar.miniMapDefine(numSolc)
         let opsMove     = []
         let statesAll   = obTemp['states'];
         let stateNow    = obTemp['stateActive'].state.sequence
-        document.getElementById('slc_moveProcess').innerHTML = ''
-        let slcMoveOpt = document.createElement('option');
-            slcMoveOpt.setAttribute('value', '0');
-            slcMoveOpt.innerText = '';
-            document.getElementById('slc_moveProcess').appendChild(slcMoveOpt);
-        for(let i = 0; i < statesAll.length; i++){
-            let state   = statesAll[i]
-            if(state != stateNow){
-                opsMove.push(state)
-                let slcMoveOpt = document.createElement('option');
-                slcMoveOpt.setAttribute('value', state);
-                slcMoveOpt.innerText = obTemp['sttsNames'][i];
+        console.log(lastState)
+        console.log(stateNow)
+        await conditionTypeSave();
+        if(lastState == stateNow){
+            document.getElementById('slc_moveProcess').innerHTML = ''
+            let slcMoveOpt = document.createElement('option');
+                slcMoveOpt.setAttribute('value', '0');
+                slcMoveOpt.innerText = '';
                 document.getElementById('slc_moveProcess').appendChild(slcMoveOpt);
+            for(let i = 0; i < statesAll.length; i++){
+                let state   = statesAll[i]
+                if(state != stateNow){
+                    opsMove.push(state)
+                    let slcMoveOpt = document.createElement('option');
+                    slcMoveOpt.setAttribute('value', state);
+                    slcMoveOpt.innerText = obTemp['sttsNames'][i];
+                    document.getElementById('slc_moveProcess').appendChild(slcMoveOpt);
+                }
             }
+            console.log(opsMove)
+        }else{
+            modalConfigs.fluxoModific('Definição de Reunião')
+            console.log('MUDOU ***********************')
         }
-        console.log(opsMove)
     })
 }
 window.addEventListener('load', moveProcessSet)
@@ -590,6 +598,14 @@ function objConfigModal(){
             document.getElementById('getNewData').style.display = 'none';
             rowMSN = document.getElementById('msnConfirm')
             rowMSN.children[0].innerText = "Selecione uma atividade para movimentar:";
+            rowMSN.children[0].style.color = 'black' 
+        },
+        fluxoModific: function (state){
+            document.getElementById('slcMove').style.display = 'block';
+            document.getElementById('getNewData').style.display = 'none';
+            rowMSN = document.getElementById('msnConfirm');
+            let msg = "<div style=\"color: red\">Antes que você pudesse movimentar, o processo foi movimentado por outro(a) usuário para a atividade: <BR> - " + state + "</div><BR>"
+            rowMSN.children[0].innerHTML = msg + "Se ainda deseja movimentar, selecione uma atividade: ";
             rowMSN.children[0].style.color = 'black' 
         },
         saveSimple: function (){
