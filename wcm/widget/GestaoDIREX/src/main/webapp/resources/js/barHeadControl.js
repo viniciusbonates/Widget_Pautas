@@ -314,7 +314,9 @@ function saveFormDataButtonSet(){
         await saveFormData();
     });
 }window.addEventListener('load',saveFormDataButtonSet)
-async function conditionTypeSave(){
+async function conditionTypeSave(move){
+    let checkForMove = 0
+    if(move != undefined && move != null){ checkForMove = 1 }
     let ckMod = false;
     myEditor.setDataInputsParams()
     objGetReturn    = {};
@@ -347,7 +349,10 @@ async function conditionTypeSave(){
     
 
     if(ckMod == true && objFieldsData['version'] == objBodyreq['version']){
-        modalConfigs.saveSimple()
+        if(checkForMove == 1){ return 1 }
+        else{
+            modalConfigs.saveSimple()    
+        }
     }else if(ckMod == true && objFieldsData['version'] < objBodyreq['version']){
         slcAcess = document.getElementById('slc_reuniao');
         dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
@@ -412,7 +417,10 @@ async function conditionTypeSave(){
             modalConfigs.saveVersionFieldDiff(strN)
         }
     }else{// <-------------------------------------------------------------------------------
-        modalConfigs.saveNot()
+        if(checkForMove == 1){ return 0 }
+        else{
+            modalConfigs.saveNot()    
+        }
     }
 }
 async function saveFormData(){
@@ -558,7 +566,6 @@ window.addEventListener('load', getNewData)
 function moveProcessSet(){
     document.getElementById('min-fluxo').addEventListener('click', async function (){
         console.log('moveProcessSet < ------------------------------------------------------ > moveProcessSet')
-        modalConfigs.fluxo();
         let numSolc = objFieldsData.numSolN
         let lastState =  obTemp['stateActive'].state.sequence
         await objDefinitionBar.miniMapDefine(numSolc)
@@ -567,8 +574,9 @@ function moveProcessSet(){
         let stateNow    = obTemp['stateActive'].state.sequence
         console.log(lastState)
         console.log(stateNow)
-        await conditionTypeSave();
-        if(lastState == stateNow){
+        let resCkforMove = await conditionTypeSave(1);
+        console.log(resCkforMove)
+        if(lastState == stateNow && resCkforMove == 0 || lastState == stateNow && resCkforMove == 1){
             document.getElementById('slc_moveProcess').innerHTML = ''
             let slcMoveOpt = document.createElement('option');
                 slcMoveOpt.setAttribute('value', '0');
@@ -584,6 +592,7 @@ function moveProcessSet(){
                     document.getElementById('slc_moveProcess').appendChild(slcMoveOpt);
                 }
             }
+            modalConfigs.fluxo()
             console.log(opsMove)
         }else{
             modalConfigs.fluxoModific('Definição de Reunião')
