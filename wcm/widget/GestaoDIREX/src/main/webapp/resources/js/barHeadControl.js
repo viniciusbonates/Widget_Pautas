@@ -83,7 +83,9 @@ function initRegistData(){
             }else if(formP != 'all'){
                 let formNow = this[formP]
                 for(let j = 0; j < this.fieldsNecessary.length; j++){
-                    formNow[this.fieldsNecessary[j]] = ds[this.fieldsNecessary[j]];
+                    let valueIt = ds[this.fieldsNecessary[j]]
+                    valueIt = valueIt.replace(/\r/g, '')
+                    formNow[this.fieldsNecessary[j]] = valueIt;
                 }
             }
         }
@@ -597,7 +599,8 @@ function objConfigModal(){
             document.getElementById('slcMove').style.display = 'block';
             document.getElementById('getNewData').style.display = 'none';
             rowMSN = document.getElementById('msnConfirm')
-            rowMSN.children[0].innerText = "Selecione uma atividade para movimentar:";
+            let msg = "<div style=\"color: red\">Ao movimentar o processo para outra atividade, as alterações feitas no formulário serão salvas.</div><BR>"
+            rowMSN.children[0].innerHTML = msg + "Selecione uma atividade para movimentar:";
             rowMSN.children[0].style.color = 'black' 
         },
         fluxoModific: function (state){
