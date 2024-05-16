@@ -353,13 +353,18 @@ async function conditionTypeSave(move){
         else{
             modalConfigs.saveSimple()    
         }
-    }else if(ckMod == true && objFieldsData['version'] < objBodyreq['version']){
+    }else if(ckMod == true && objFieldsData['version'] < objBodyreq['version'] || checkForMove == 1 && objFieldsData['version'] < objBodyreq['version']){
+        /*
+            1° - Obtem os campos do form no servidor na nova versão  
+            2° - Verifica se os mesmos campos modificados no servidor foram modificados localmente
+            3° - Apresenta no modal os campos que podem ser sobrepostos caso o usuário escolha continuar com o processo de salvamento das alterações
+        */
         slcAcess = document.getElementById('slc_reuniao');
         dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
         dsRegs = dsReg.values;
         ckModBase = false;
         regN = 0;
-        for(let i = 0; i < dsRegs.length; i++){
+        for(let i = 0; i < dsRegs.length; i++){                                                                                                             // <------------------------------------------------------------------------------- 1°
             regN = dsRegs[i]
             if(slcAcess.value == regN['txt_NumProcess']){
                 for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
@@ -372,7 +377,7 @@ async function conditionTypeSave(move){
                 break
             }
         }
-        newGetValues     = formData_obj.formData_diff_newGetValues;
+        newGetValues     = formData_obj.formData_diff_newGetValues;                                                                                         // <------------------------------------------------------------------------------- 2°
         OriginValues     = formData_obj.formData_diff_OriginValues;
         console.log(newGetValues)
         console.log(OriginValues)
@@ -383,7 +388,6 @@ async function conditionTypeSave(move){
                 for(let i = 0; i < objBigger.nameFields.length; i++){
                     if(fdNow == objBigger.nameFields[i]){
                         arrJoin.push(objBigger.nameFields[i])
-                        //console.log('PROBLEMA !!!!!!!!!!!!!!!!!!!!! ')
                     }
                 }
             }
@@ -399,10 +403,11 @@ async function conditionTypeSave(move){
             objBodyreq['resCk'] = checkFieldsDiff(OriginValues, newGetValues);
         }
         console.log(objBodyreq['resCk'])
-        if(!objBodyreq['resCk']){                                                                                                                       // <-------------------------------------------------------------------------------
+        if(!objBodyreq['resCk'] && checkForMove != 1){                                                                                                                      
             modalConfigs.saveVersionDiff()
-        }else{
-            //rowMSN = document.getElementById('msnConfirm')
+        }else if(checkForMove == 1){ 
+            return 2 
+        }else{                                                                                                                                              // <------------------------------------------------------------------------------- 3°
             let strN = '';
             for(let i = 0; i < objBodyreq['resCk'].length; i++){
                 let arrNamesFields      = formData_obj.fieldsNames;
@@ -412,7 +417,7 @@ async function conditionTypeSave(move){
                     if(arrFieldCk == arrFieldsNecessary[j]){
                         strN += '<h3 style="color: black"> - '+arrNamesFields[j]+'</h3><br>';
                     }
-                }                                                                                                                                     // <-------------------------------------------------------------------------------
+                }                                                                                                                                    
             }
             modalConfigs.saveVersionFieldDiff(strN)
         }
@@ -560,6 +565,7 @@ function getNewData(){
         rowMSN.children[0].style.color = 'green'
         document.getElementById('initSave').style.display = "none"
         document.getElementById('getNewData').style.display = "none"
+        document.getElementById('slc_moveProcess').style.display = "none"
     }
 }
 window.addEventListener('load', getNewData)
@@ -594,7 +600,9 @@ function moveProcessSet(){
             }
             modalConfigs.fluxo()
             console.log(opsMove)
-        }else{
+        }else if(resCkforMove == 2){
+            modalConfigs.fluxoVersionDiffModific()    
+        }else if(resCkforMove != undefined){
             modalConfigs.fluxoModific('Definição de Reunião')
             console.log('MUDOU ***********************')
         }
@@ -618,6 +626,14 @@ function objConfigModal(){
             rowMSN = document.getElementById('msnConfirm');
             let msg = "<div style=\"color: red\">Antes que você pudesse movimentar, o processo foi movimentado por outro(a) usuário para a atividade: <BR> - " + state + "</div><BR>"
             rowMSN.children[0].innerHTML = msg + "Se ainda deseja movimentar, selecione uma atividade: ";
+            rowMSN.children[0].style.color = 'black' 
+        },
+        fluxoVersionDiffModific: function (){
+            document.getElementById('slcMove').style.display = 'block';
+            document.getElementById('getNewData').style.display = 'block';
+            rowMSN = document.getElementById('msnConfirm');
+            let msg = "<div style=\"color: red\">Atenção!<br>Outro usuário salvou novas informações no formulário, movimentar para outra atividade irá sobrepor essas informações</div><BR>"
+            rowMSN.children[0].innerHTML = msg + "Você pode puxar as novas informações para trabalhar ou se ainda deseja movimentar, selecione uma atividade: ";
             rowMSN.children[0].style.color = 'black' 
         },
         saveSimple: function (){
