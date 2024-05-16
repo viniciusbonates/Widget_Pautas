@@ -424,7 +424,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-12">
+					<div class="col-md-12" id="itnsList_DISUP">
 						<div class="form-group">
 							<div class="card" style="color: black">
 								<div class="card-body">
@@ -462,7 +462,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-12">
+					<div class="col-md-12" id="itnsList_DIRAF">
 						<div class="form-group">
 							<div class="card" style="color: black">
 								<div class="card-body">
@@ -500,7 +500,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-12">
+					<div class="col-md-12" id="itnsList_DITEC">
 						<div class="form-group">
 							<div class="card" style="color: black">
 								<div class="card-body">

@@ -807,3 +807,27 @@ function objConfigModal(){
     }
 }
 window.addEventListener('load', objConfigModal)
+function itnsGabinetes(){
+    let linkIdx = document.getElementById('deliber-op')
+    linkIdx.addEventListener('click', function () {
+        document.getElementById('itnsList_ptd_DITEC').children[0].innerHTML = ''
+        document.getElementById('itnsList_ptd_DIRAF').children[0].innerHTML = ''
+        document.getElementById('itnsList_ptd_DISUP').children[0].innerHTML = ''
+
+        info_setItns()
+
+        document.getElementById('infoAnaliseDelbr').style.display = 'block'
+        document.getElementById('DadosCadastro').style.display = 'none'
+        document.getElementById('PainelControle').style.display = 'none'
+        document.getElementById('Delibr').style.display = 'none'
+
+        let b = document.getElementById('infoAnaliseDelbr').children[1].children[0];
+        let arrdir = ['DISUP', 'DIRAF', 'DITEC']
+        for(let i = 0; i < arrdir.length; i++){
+            let a = document.getElementById('itnsList_'+arrdir[i])
+            b.appendChild(a);
+        }
+
+    })
+}
+window.addEventListener('load', itnsGabinetes)
