@@ -509,12 +509,16 @@ async function saveFormData(){
             rowMSN.children[0].style.color = 'green'
             document.getElementById('initSave').style.display = "none"
             document.getElementById('getNewData').style.display = "none"
+            document.getElementById('slc_moveProcess').style.display = "none" 
+            document.getElementById('initMove').style.display = "none" 
         }else{
             rowMSN = document.getElementById('msnConfirm')
             rowMSN.children[0].innerText = "Um erro ocorreu no processo de salvamento !";
             rowMSN.children[0].style.color = 'red'
             document.getElementById('initSave').style.display = "none"
             document.getElementById('getNewData').style.display = "none"
+            document.getElementById('slc_moveProcess').style.display = "none" 
+            document.getElementById('initMove').style.display = "none" 
         }
     }
 }
@@ -581,9 +585,7 @@ function moveProcessSet(){
         let stateNow    = obTemp['stateActive'].state.sequence
         console.log(lastState)
         console.log(stateNow)
-        let resCkforMove = await conditionTypeSave(1);
-        console.log(resCkforMove)
-        if(lastState == stateNow && resCkforMove == 0 || lastState == stateNow && resCkforMove == 1){
+        function setOpsSlcMove(){   
             document.getElementById('slc_moveProcess').innerHTML = ''
             let slcMoveOpt = document.createElement('option');
                 slcMoveOpt.setAttribute('value', '0');
@@ -599,18 +601,142 @@ function moveProcessSet(){
                     document.getElementById('slc_moveProcess').appendChild(slcMoveOpt);
                 }
             }
-            modalConfigs.fluxo()
             console.log(opsMove)
+        }
+        let resCkforMove = await conditionTypeSave(1);
+        console.log(resCkforMove)
+        if(lastState == stateNow && resCkforMove == 0 || lastState == stateNow && resCkforMove == 1){
+            setOpsSlcMove()
+            modalConfigs.fluxo()
         }else if(resCkforMove == 2){
+            setOpsSlcMove()
             modalConfigs.fluxoVersionDiffModific()    
         }else if(resCkforMove != undefined){
+            setOpsSlcMove()
             modalConfigs.fluxoModific('Definição de Reunião')
             console.log('MUDOU ***********************')
         }
     })
+    document.getElementById('initMove').addEventListener('click', async function (){
+        await moveProcessData()
+    })
 }
 window.addEventListener('load', moveProcessSet)
+async function moveProcessData(){
+    objGetReturn    = {};
+    objBodyreq      = {};
+    objGetReturn['name']    = ['a'];
+    objGetReturn['a']       = '';
+    let numSolN             = objFieldsData['numSolN'];
 
+    myLoading.show();
+
+    objBodyreq['sequence'] = document.getElementById('slc_moveProcess').value
+
+    objBodyreq['processInstanceId'] = numSolN;
+    await orderMethodsMi.requestsActivitiesGETall(numSolN, objGetReturn);
+    console.log(objGetReturn['a'])
+    let movementSequence    = objGetReturn['a'].items[objGetReturn['a'].items.length - 1].movementSequence;
+    objBodyreq['movementSequence'] = movementSequence;
+
+    await orderMethodsMi.requestsGETall(numSolN, objGetReturn);
+    console.log(objGetReturn['a'])
+    objBodyreq['processVersion'] = objGetReturn['a']['processVersion'];
+    let formRecordId = objGetReturn['a'].formRecordId;
+    
+    await orderMethodsMi.activeDocumentGETall(formRecordId, objGetReturn); 
+    console.log(objGetReturn['a'])
+    objBodyreq['version'] = objGetReturn['a']['content']['version'];
+
+    await orderMethodsMi.requestsTasksGETall(numSolN, objGetReturn);
+    console.log(objGetReturn['a'])
+    let itns = objGetReturn['a'].items
+    let ckResp = 0;
+    let mvS = 0;
+    for(let i = 0; i < itns.length; i++){
+        let itnN = itns[i];
+        console.log(itns[i])
+        if(itnN['status'] == 'NOT_COMPLETED' && itnN['movementSequence'] > mvS){
+            codeN = itnN['assignee']['code'];
+            (codeN.indexOf('Pool:Role:') != -1) ? ckResp = false : ckResp = true;
+            objBodyreq['code']      = codeN;
+            //objBodyreq['sequence']  = itnN['state']['sequence']
+        }
+    }
+    if(!ckResp){
+        colleagueIdUserNow = objDefineStatus.mat
+        await orderMethodsMi.assumeUserGETall(numSolN, colleagueIdUserNow,  objBodyreq['movementSequence'], objGetReturn);
+        console.log(objGetReturn['a'])    
+        objBodyreq['code']      = colleagueIdUserNow;
+    }
+
+    if(objFieldsData['version'] == objBodyreq['version']){
+        await operationMove(formData_obj.formData_modified)
+    }else if(objFieldsData['version'] < objBodyreq['version']){ // < ---------------------------------------------------------------------------------------------
+        formData_Final = {} 
+        console.log(objBodyreq['resCk'])
+        if(!objBodyreq['resCk']){
+            for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
+                formData_Final[formData_obj['fieldsNecessary'][j]] = formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]]
+                if(formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]] != undefined){
+                    formData_Final[formData_obj['fieldsNecessary'][j]] = formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]]
+                }
+            }
+            console.log(formData_Final)
+            await operationMove(formData_Final)
+        }else{
+            for(let j = 0; j < formData_obj.fieldsNecessary.length; j++){
+                formData_Final[formData_obj['fieldsNecessary'][j]] = formData_obj.formData_modified[formData_obj['fieldsNecessary'][j]]
+                if(formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]] != undefined){       // <----------------------------------------------------- verifica se existe novo valor em newGet e preenche no form
+                    formData_Final[formData_obj['fieldsNecessary'][j]] = formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]]
+                }
+                if(formData_obj.formData_diff_OriginValues[formData_obj['fieldsNecessary'][j]] != undefined){       // <----------------------------------------------------- verifica se existe novo valor em origin e preenche no form sobrepondo o newGet se necessário
+                    formData_Final[formData_obj['fieldsNecessary'][j]] = formData_obj.formData_diff_OriginValues[formData_obj['fieldsNecessary'][j]]
+                }
+            }
+            console.log(formData_Final)
+            await operationMove(formData_Final)
+        }  
+    }
+    myLoading.hide();
+    async function operationMove(formDataN){
+        formDataReq = []
+        for(let l = 0; l < formData_obj.fieldsNecessary.length; l++){
+            let objTempReq = {};
+            objTempReq['name']  = formData_obj['fieldsNecessary'][l];
+            objTempReq['value'] = formDataN[formData_obj['fieldsNecessary'][l]];
+            formDataReq.push(objTempReq) 
+        }
+        objBodyreq['formData'] = JSON.stringify(formDataReq)
+
+        await orderMethodsMi.moveSubst(objBodyreq, objGetReturn);
+        console.log(objGetReturn['a'])
+        let respSaveSubst = objGetReturn['a'];
+        if(respSaveSubst['ok']){
+            objFieldsData.stAcess_reg(formDataN);
+            myEditor.setValueInputsInEditors()
+            formData_obj.defineFormDataValues('formData_origin', formDataN);
+            objFieldsData['version'] = getLastVersionForm()    
+            formData_obj.formData_diff_newGetValues  = { nameFields: [] };
+            formData_obj.formData_diff_OriginValues = { nameFields: [] };
+            rowMSN = document.getElementById('msnConfirm')
+            rowMSN.children[0].innerText = "Processo Movimentado com sucesso";
+            rowMSN.children[0].style.color = 'green'
+            document.getElementById('initSave').style.display = "none"
+            document.getElementById('getNewData').style.display = "none"
+            document.getElementById('slc_moveProcess').style.display = "none" 
+            document.getElementById('initMove').style.display = "none" 
+        }else{
+            rowMSN = document.getElementById('msnConfirm')
+            rowMSN.children[0].innerText = "Um erro ocorreu ao tentar movimentar o processo !";
+            rowMSN.children[0].style.color = 'red'
+            document.getElementById('initSave').style.display = "none"
+            document.getElementById('getNewData').style.display = "none"
+            document.getElementById('slc_moveProcess').style.display = "none" 
+            document.getElementById('initMove').style.display = "none" 
+        }
+    }
+}
 function objConfigModal(){
     modalConfigs = {
         fluxo: function () {
