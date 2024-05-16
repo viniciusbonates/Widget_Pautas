@@ -509,7 +509,7 @@ async function saveFormData(){
             rowMSN.children[0].style.color = 'green'
             document.getElementById('initSave').style.display = "none"
             document.getElementById('getNewData').style.display = "none"
-            document.getElementById('slc_moveProcess').style.display = "none" 
+            document.getElementById('slcMove').style.display = "none" 
             document.getElementById('initMove').style.display = "none" 
         }else{
             rowMSN = document.getElementById('msnConfirm')
@@ -517,7 +517,7 @@ async function saveFormData(){
             rowMSN.children[0].style.color = 'red'
             document.getElementById('initSave').style.display = "none"
             document.getElementById('getNewData').style.display = "none"
-            document.getElementById('slc_moveProcess').style.display = "none" 
+            document.getElementById('slcMove').style.display = "none" 
             document.getElementById('initMove').style.display = "none" 
         }
     }
@@ -569,7 +569,7 @@ function getNewData(){
         rowMSN.children[0].style.color = 'green'
         document.getElementById('initSave').style.display = "none"
         document.getElementById('getNewData').style.display = "none"
-        document.getElementById('slc_moveProcess').style.display = "none" 
+        document.getElementById('slcMove').style.display = "none" 
         document.getElementById('initMove').style.display = "none" 
     }
 }
@@ -603,16 +603,14 @@ function moveProcessSet(){
             }
             console.log(opsMove)
         }
+        setOpsSlcMove()
         let resCkforMove = await conditionTypeSave(1);
         console.log(resCkforMove)
         if(lastState == stateNow && resCkforMove == 0 || lastState == stateNow && resCkforMove == 1){
-            setOpsSlcMove()
             modalConfigs.fluxo()
         }else if(resCkforMove == 2){
-            setOpsSlcMove()
             modalConfigs.fluxoVersionDiffModific()    
         }else if(resCkforMove != undefined){
-            setOpsSlcMove()
             modalConfigs.fluxoModific('Definição de Reunião')
             console.log('MUDOU ***********************')
         }
@@ -724,7 +722,7 @@ async function moveProcessData(){
             rowMSN.children[0].style.color = 'green'
             document.getElementById('initSave').style.display = "none"
             document.getElementById('getNewData').style.display = "none"
-            document.getElementById('slc_moveProcess').style.display = "none" 
+            document.getElementById('slcMove').style.display = "none" 
             document.getElementById('initMove').style.display = "none" 
         }else{
             rowMSN = document.getElementById('msnConfirm')
@@ -732,7 +730,7 @@ async function moveProcessData(){
             rowMSN.children[0].style.color = 'red'
             document.getElementById('initSave').style.display = "none"
             document.getElementById('getNewData').style.display = "none"
-            document.getElementById('slc_moveProcess').style.display = "none" 
+            document.getElementById('slcMove').style.display = "none" 
             document.getElementById('initMove').style.display = "none" 
         }
     }

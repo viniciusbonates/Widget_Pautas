@@ -61,14 +61,16 @@ function dataTableConfig(){
         id: 'btn1',
         innerText: 'Enviar Deliberação',
         setIcon: 'fluigicon fluigicon-checked icon-sm', 
-        col: 'col-md-1'
+        col: 'col-md-1',
+        wid: 'width: 13%'
     }
     var configButton1 = {
         type: 'button',
         id: 'btn2',
         innerText: '',
         setIcon: 'flaticon flaticon-refresh icon-sm', 
-        col: 'col-md-1'
+        col: 'col-md-1',
+        wid: 'width: 13%'
     }
 
      /**
@@ -81,7 +83,8 @@ function dataTableConfig(){
         type: 'dropdown',
         id: 'btnDrpDwn1',
         innerText: 'Ações Assessoria ',
-        col: 'col-md-1',
+        col: 'col-md-2',
+        wid: 'width: 13%',
         ul: [
             {
                 id: 'AprovarAssr',
@@ -202,6 +205,7 @@ dataTableConfig.prototype.constructButton = function (configButton){
     var divV = document.createElement('div');
         divV.setAttribute('id', configButton.id);
         divV.setAttribute('class', configButton.col);
+        divV.setAttribute('style', configButton.wid);
 
         buttonV.appendChild(iV);
         divV.appendChild(buttonV)
@@ -212,6 +216,7 @@ dataTableConfig.prototype.constructButton = function (configButton){
 dataTableConfig.prototype.constructButtonDropDown = function (configButtonDrpDwn){
     var divColV = document.createElement('div');
         divColV.setAttribute('class', configButtonDrpDwn.col);
+        divColV.setAttribute('style', configButtonDrpDwn.wid);
     var divV = document.createElement('div');
         divV.setAttribute('id', configButtonDrpDwn.id);
         divV.setAttribute('class', 'dropdown');

@@ -573,8 +573,6 @@
 					<sup data-toggle="tooltip" data-placement="right"
 						data-original-title="Modifique caso o item deva ser recebido em nome de outra pessoa ou para indicar o responsável pela demanda."><i
 							class="fluigicon fluigicon-info-sign icon-sm" aria-hidden="true"></i></sup>
-					<div class="row">
-					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="zm_emailsCopia">Emails para usuários chave</label>
@@ -595,8 +593,6 @@
 				]
 				}" />
 						</div>
-					</div>
-					<div class="row">
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
