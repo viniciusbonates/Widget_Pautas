@@ -335,7 +335,7 @@ orderMethods.prototype.indexFunctionsX = function () {
         window.res['stItems']       = 0;
     } 
 }
-orderMethods.prototype.moveSubst = async function (NumSolicit, taskUserId, currentMovt, objBodyreq, objGetReturn) {
+orderMethods.prototype.moveSubst = async function (objBodyreq, objGetReturn) {
     await fetch("https://myweb.am.sebrae.com.br/ecm/api/rest/ecm/workflowView/send", {
     "headers": {
         "accept": "application/json, text/javascript, */*; q=0.01",
@@ -349,7 +349,7 @@ orderMethods.prototype.moveSubst = async function (NumSolicit, taskUserId, curre
         "sec-fetch-site": "same-origin",
         "x-requested-with": "XMLHttpRequest"
      },
-    "referrer": "https://myweb.am.sebrae.com.br/portal/p/1/pageworkflowview?app_ecm_workflowview_processInstanceId="+NumSolicit+"app_ecm_workflowview_currentMovto="+currentMovt+"&app_ecm_workflowview_taskUserId="+taskUserId+"&app_ecm_workflowview_managerMode=false",
+    "referrer": "https://myweb.am.sebrae.com.br/portal/p/1/pageworkflowview?app_ecm_workflowview_processInstanceId="+objBodyreq['processInstanceId']+"app_ecm_workflowview_currentMovto="+objBodyreq['movementSequence']+"&app_ecm_workflowview_taskUserId="+objBodyreq['code']+"&app_ecm_workflowview_managerMode=false",
     "referrerPolicy": "strict-origin-when-cross-origin",
     "body": "{\"processInstanceId\":"+objBodyreq['processInstanceId']+","+
             "\"processId\":\"CadastrodeReuniãoDIREX\","+
