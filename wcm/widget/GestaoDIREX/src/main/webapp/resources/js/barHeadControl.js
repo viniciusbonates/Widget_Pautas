@@ -565,7 +565,8 @@ function getNewData(){
         rowMSN.children[0].style.color = 'green'
         document.getElementById('initSave').style.display = "none"
         document.getElementById('getNewData').style.display = "none"
-        document.getElementById('slc_moveProcess').style.display = "none"
+        document.getElementById('slc_moveProcess').style.display = "none" 
+        document.getElementById('initMove').style.display = "none" 
     }
 }
 window.addEventListener('load', getNewData)
@@ -615,6 +616,8 @@ function objConfigModal(){
         fluxo: function () {
             document.getElementById('slcMove').style.display = 'block';
             document.getElementById('getNewData').style.display = 'none';
+            document.getElementById('initMove').style.display = 'block';
+            document.getElementById('initSave').style.display = 'none';
             rowMSN = document.getElementById('msnConfirm')
             let msg = "<div style=\"color: red\">Ao movimentar o processo para outra atividade, as alterações feitas no formulário serão salvas.</div><BR>"
             rowMSN.children[0].innerHTML = msg + "Selecione uma atividade para movimentar:";
@@ -623,6 +626,8 @@ function objConfigModal(){
         fluxoModific: function (state){
             document.getElementById('slcMove').style.display = 'block';
             document.getElementById('getNewData').style.display = 'none';
+            document.getElementById('initMove').style.display = 'block';
+            document.getElementById('initSave').style.display = 'none';
             rowMSN = document.getElementById('msnConfirm');
             let msg = "<div style=\"color: red\">Antes que você pudesse movimentar, o processo foi movimentado por outro(a) usuário para a atividade: <BR> - " + state + "</div><BR>"
             rowMSN.children[0].innerHTML = msg + "Se ainda deseja movimentar, selecione uma atividade: ";
@@ -631,6 +636,8 @@ function objConfigModal(){
         fluxoVersionDiffModific: function (){
             document.getElementById('slcMove').style.display = 'block';
             document.getElementById('getNewData').style.display = 'block';
+            document.getElementById('initMove').style.display = 'block';
+            document.getElementById('initSave').style.display = 'none';
             rowMSN = document.getElementById('msnConfirm');
             let msg = "<div style=\"color: red\">Atenção!<br>Outro usuário salvou novas informações no formulário, movimentar para outra atividade irá sobrepor essas informações</div><BR>"
             rowMSN.children[0].innerHTML = msg + "Você pode puxar as novas informações para trabalhar ou se ainda deseja movimentar, selecione uma atividade: ";
@@ -641,6 +648,7 @@ function objConfigModal(){
             rowMSN.children[0].innerText = "Desejá realmente salvar as alterações ?";
             rowMSN.children[0].style.color = 'black'
             document.getElementById('initSave').style.display = "block"
+            document.getElementById('initMove').style.display = 'none';
             document.getElementById('slcMove').style.display = 'none';
         },
         saveVersionDiff: function () {
@@ -648,6 +656,7 @@ function objConfigModal(){
             rowMSN.children[0].innerText = "Desejá realmente salvar as alterações ?";
             rowMSN.children[0].style.color = 'black'
             document.getElementById('initSave').style.display = "block"
+            document.getElementById('initMove').style.display = 'none';
             document.getElementById('getNewData').style.display = "none"
             document.getElementById('slcMove').style.display = 'none';
         },
@@ -657,6 +666,7 @@ function objConfigModal(){
             "Desejá continuar e sobrepor a atualização salva por outro usuário ? "
             rowMSN.children[0].style.color = 'red'
             document.getElementById('initSave').style.display = "block"
+            document.getElementById('initMove').style.display = 'none';
             document.getElementById('getNewData').style.display = "block"
             document.getElementById('slcMove').style.display = 'none';
         },
@@ -666,6 +676,7 @@ function objConfigModal(){
             rowMSN.children[0].innerText = "formulário sem modificações para serem salvas";
             rowMSN.children[0].style.color = 'black'
             document.getElementById('initSave').style.display = "none"
+            document.getElementById('initMove').style.display = 'none';
             document.getElementById('getNewData').style.display = "none"
             document.getElementById('slcMove').style.display = 'none';
         }
