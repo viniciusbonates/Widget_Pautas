@@ -114,6 +114,9 @@
 			<button class="btn btn-primary" id="getNewData" style="display: none;">
 				Puxar novas informações para o formulário local 
 			</button>
+			<button class="btn btn-primary" id="initMove">
+				Movimentar 
+			</button>
 			<button class="btn btn-primary" id="initSave">
 				Sim 
 			</button>
