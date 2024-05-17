@@ -764,7 +764,8 @@ async function moveProcessData(){
             document.getElementById('slcMove').style.display = "none" 
             document.getElementById('initMove').style.display = "none" 
         }
-        await objDefinitionBar.miniMapDefine(numSolN)
+        await objDefinitionBar.miniMapDefine(numSolN);
+        definePainelEnabled();
     }
 }
 function objConfigModal(){

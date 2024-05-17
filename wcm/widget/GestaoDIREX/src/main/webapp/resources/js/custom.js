@@ -806,6 +806,8 @@ function definePainelEnabled(){
     let stts = objDefineStatus.sequnce//14 //window.parent.ECM.workflowView.sequence
     if(stts == 10 || stts == 13){
         document.getElementById('PainelControle').style.display = 'none'
+    }else{ 
+        document.getElementById('PainelControle').style.display = 'block'
     }  
 }
 //window.addEventListener('load', definePainelEnabled)
