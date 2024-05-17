@@ -260,30 +260,28 @@ function definePositionBarHeader(){
     b.insertBefore(a, b.children[0]);
 }
 window.addEventListener('load', definePositionBarHeader)
-
+function setOptionsSelectObj(datasetObjUser, objForSet, elemSelc){
+    for(z = 0; z <  datasetObjUser.values.length; z++){
+        nameCll     = datasetObjUser.values[z]['txt_tituloReuniao']
+        idCll       = datasetObjUser.values[z]['txt_NumProcess']
+        if(nameCll != '' && nameCll != null && idCll != '' && idCll != null){
+            objForSet.values.push(datasetObjUser.values[z])
+    
+            var nodeOP = document.createElement("option");
+            var attOP = document.createAttribute("value");
+            attOP.value = idCll
+            nodeOP.setAttributeNode(attOP)
+            nodeOP.innerText = nameCll
+            elemSelc.appendChild(nodeOP);
+        }
+    }
+}
 function slcReuniao() {
     elemSelc    = document.getElementById('slc_reuniao')
     elemSelc.style.display = 'none'
     objOptions  = { values: [] };
     
-    function setOptionsSelectObj(datasetObjUser, objForSet){
-        for(z = 0; z <  datasetObjUser.values.length; z++){
-            nameCll     = datasetObjUser.values[z]['txt_tituloReuniao']
-            idCll       = datasetObjUser.values[z]['txt_NumProcess']
-            if(nameCll != '' && nameCll != null && idCll != '' && idCll != null){
-                objForSet.values.push(datasetObjUser.values[z])
-        
-                var nodeOP = document.createElement("option");
-                var attOP = document.createAttribute("value");
-                attOP.value = idCll
-                nodeOP.setAttributeNode(attOP)
-                nodeOP.innerText = nameCll
-                elemSelc.appendChild(nodeOP);
-            }
-        }
-    }
-    
-    setOptionsSelectObj(dsReg, objOptions)
+    setOptionsSelectObj(dsReg, objOptions, elemSelc)
 
     function searchInpTemp(){
         var inpTemp = document.createElement('input');
@@ -299,7 +297,7 @@ function slcReuniao() {
         var vdatalist = document.createElement('datalist');
         vdatalist.setAttribute('id','browsersR');
 
-        var arrayOption = objOptions.values  
+        arrayOption = objOptions.values  
         for(i = 0; i < arrayOption.length; i++){
             var voption = document.createElement('option')
             att = document.createAttribute('value')
@@ -321,7 +319,26 @@ function slcReuniao() {
     }
     searchInpTemp()
 }
+function slcReuniao_reload(){
+    let brs = document.getElementById('browsersR');
+    let elemSelc    = document.getElementById('slc_reuniao')
+    objOptions  = { values: [] };
+    elemSelc.innerHTML = ''
+    brs.innerHTML = ''
 
+    dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
+    setOptionsSelectObj(dsReg, objOptions, elemSelc)
+
+    arrayOption = objOptions.values  
+    for(i = 0; i < arrayOption.length; i++){
+        var voption = document.createElement('option')
+        att = document.createAttribute('value')
+        att.value = arrayOption[i]['txt_tituloReuniao']
+        voption.setAttributeNode(att)
+        voption.innerText = arrayOption[i]['txt_NumProcess']
+        brs.appendChild(voption)
+    }
+}
 function saveFormDataButtonSet(){
     document.getElementById('save-op').addEventListener('click',  async function (){ await conditionTypeSave() });
     document.getElementById('initSave').addEventListener('click', async function (){
@@ -747,6 +764,7 @@ async function moveProcessData(){
             document.getElementById('slcMove').style.display = "none" 
             document.getElementById('initMove').style.display = "none" 
         }
+        await objDefinitionBar.miniMapDefine(numSolN)
     }
 }
 function objConfigModal(){
