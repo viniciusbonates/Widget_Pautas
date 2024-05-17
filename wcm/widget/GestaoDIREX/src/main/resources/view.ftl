@@ -153,7 +153,7 @@
 						<h6 id="desc-link"><a href="#">Acessar outra reunião / Cadastrar Nova Reunião</a></h6>
 					</div>
 
-					<div style="float: left; padding-left: 100px; padding-right: 60px; padding-top: 5px; display: none; cursor: pointer" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" id="min-fluxo">
+					<div style="float: left; padding-left: 100px; padding-right: 60px; padding-top: 5px; display: none; cursor: pointer" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-toggle="tooltip" data-placement="bottom" data-original-title="Movimentar" id="min-fluxo">
 						<div class="rainbow" style="border: solid;border-width: 4px;border-color: #777;padding-left: 20px;padding-right: 20px;padding-bottom: 35px;padding-top: 35px; float: left; margin: 0px; border-radius: 5px;" id="13n">Definição de Reunião</div>
 						<svg height="100" width="50" xmlns="http://www.w3.org/2000/svg" style="float: left;">
 							<line x1="-20" y1="60" x2="50" y2="60" style="stroke:red;stroke-width:2"></line>
@@ -164,18 +164,18 @@
 						</svg>
 						<div style="border: solid;border-width: 4px;border-color: #777;padding-left: 60px;padding-right: 60px;padding-bottom: 35px;padding-top: 35px; float: left; margin: 0px; border-radius: 5px;" id="10n">Arquivo</div>
 					</div>
-					<div id="icon-P" style="float: left; padding-top: 30px; padding-left: 10px; padding-right: 10px; display: none;">
+					<div id="icon-P" style="float: left; padding-top: 30px; padding-left: 10px; padding-right: 10px; display: none;"  data-toggle="tooltip" data-placement="bottom" data-original-title="Página Principal">
 						<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" fill="currentColor" class="bi bi-files" viewBox="0 0 16 16" style="cursor: pointer" id="init-op">
 							<path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2m0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1M3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"></path>
 						</svg>
 					</div>
-					<div id="icon-T" style="float: left; padding-top: 30px; padding-left: 10px; padding-right: 10px; display: none;">
+					<div id="icon-T" style="float: left; padding-top: 30px; padding-left: 10px; padding-right: 10px; display: none;" data-toggle="tooltip" data-placement="bottom" data-original-title="Pautas de Gabinetes">
 						<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" fill="currentColor" class="bi bi-toggles" viewBox="0 0 16 16" style="cursor: pointer" id="deliber-op">
 							<path d="M4.5 9a3.5 3.5 0 1 0 0 7h7a3.5 3.5 0 1 0 0-7zm7 6a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5m-7-14a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5m2.45 0A3.5 3.5 0 0 1 8 3.5 3.5 3.5 0 0 1 6.95 6h4.55a2.5 2.5 0 0 0 0-5zM4.5 0h7a3.5 3.5 0 1 1 0 7h-7a3.5 3.5 0 1 1 0-7"></path>
 						</svg>
 					</div>
 
-					<div id="icon-S" style="float: left; padding-top: 30px; padding-left: 10px; padding-right: 10px; display: none;">
+					<div id="icon-S" style="float: left; padding-top: 30px; padding-left: 10px; padding-right: 10px; display: none;" data-toggle="tooltip" data-placement="bottom" data-original-title="Salvar">
 						<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16" style="cursor: pointer" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" id="save-op">
 							<path d="M11 2H9v3h2z"/>
 							<path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z"/>
@@ -613,8 +613,9 @@
 						</div>
 					</div>
 					<sup data-toggle="tooltip" data-placement="right"
-						data-original-title="Modifique caso o item deva ser recebido em nome de outra pessoa ou para indicar o responsável pela demanda."><i
-							class="fluigicon fluigicon-info-sign icon-sm" aria-hidden="true"></i></sup>
+						data-original-title="Modifique caso o item deva ser recebido em nome de outra pessoa ou para indicar o responsável pela demanda.">
+						<i class="fluigicon fluigicon-info-sign icon-sm" aria-hidden="true"></i>
+					</sup>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="zm_emailsCopia">Emails para usuários chave</label>

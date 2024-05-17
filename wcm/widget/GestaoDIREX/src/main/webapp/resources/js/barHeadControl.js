@@ -84,8 +84,10 @@ function initRegistData(){
                 let formNow = this[formP]
                 for(let j = 0; j < this.fieldsNecessary.length; j++){
                     let valueIt = ds[this.fieldsNecessary[j]]
-                    valueIt = valueIt.replace(/\r/g, '')
-                    formNow[this.fieldsNecessary[j]] = valueIt;
+                    if(valueIt != null && valueIt != undefined){
+                        valueIt = valueIt.replace(/\r/g, '')
+                        formNow[this.fieldsNecessary[j]] = valueIt;
+                    }
                 }
             }
         }
@@ -181,59 +183,71 @@ window.addEventListener('load', defineElementsbar)
 function acessRegist(){
     let btnAcess = document.getElementById('btnAcessar');
     console.log(btnAcess)
-    btnAcess.addEventListener('click', setDataReg)
-    function validateAcessReg(elem){
-        if(elem.value != '' && elem.value != undefined && elem.value != null){
-            return true
-        }else{ return false}
-    }
-    async function setDataReg(){
-        slcAcess = document.getElementById('slc_reuniao');
-        let vldt = validateAcessReg(slcAcess)
+    btnAcess.addEventListener('click',  async function (){ setDataReg(1) })
+}
+function validateAcessReg(elem){
+    if(elem.value != '' && elem.value != undefined && elem.value != null){
+        return true
+    }else{ return false}
+}
+async function setDataReg(op, newProcess){
+    let vldt = 0
+    let slcAcess = 0
+    if(op == 2){ 
+        console.log(newProcess)
+        slcAcess = newProcess;
+        vldt = true
+    }else if(op == 1){
+        slcAcessInp = document.getElementById('slc_reuniao');
+        vldt = validateAcessReg(slcAcessInp)
         if(vldt == true){
-            myLoading.show();
-            dsRegs = dsReg.values
-            for(let i = 0; i < dsRegs.length; i++){
-                regN = dsRegs[i]
-                if(slcAcess.value == regN['txt_NumProcess']){
-                    console.log(regN);
-                    console.log(regN['txt_NumProcess']);
-                    objFieldsData['numSolN'] = regN['txt_NumProcess']
-                    objFieldsData['version'] = regN['version']
-                    objTdesc = {};
-                    objTdesc['desc-titulo'] = regN['txt_tituloReuniao']
-                    dTdesc = regN['dt_dataInicio'];
-                    dTdesc = dTdesc.split('-');
-                    dTdesc = dTdesc[2] + '/' + dTdesc[1] + '/' + dTdesc[0];
-                    objTdesc['desc-subTitulo'] = 'Data da Reunião: ' + dTdesc;
-                    await objDefinitionBar.miniMapDefine(regN['txt_NumProcess']);
-                    objDefinitionBar.stAcess_reg();
-                    objDefinitionBar.descDefine(objTdesc);
-
-                    objFieldsData.stAcess_reg(regN);
-
-                    testDatatable.paramsInit(objMain);
-                    dataTablemi = new dataTableConfig();
-                    if(objDefinitionBar.initTrue == false){
-                        myEditor = new determineEditor();
-                        objDefinitionBar.initTrue = true
-                    }else{
-                        myEditor.setValueInputsInEditors()
-                    }
-                    
-                    definePainelEnabled()
-                    setControlNavTabs()
-                    getPDF_ptd();
-                    info_setItns()
-                    DemandResp();
-                    valueToggle();
-
-                    formData_obj.defineFormDataValues('formData_origin', regN);
-                
-                }
-            }
-            myLoading.hide();
+            slcAcess = slcAcessInp.value
         }
+    }
+    if(vldt == true){
+        myLoading.show();
+        dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null).values
+        console.log(dsReg)
+        for(let i = 0; i < dsReg.length; i++){
+            regN = dsReg[i]
+            if(slcAcess == regN['txt_NumProcess']){
+                console.log(regN);
+                console.log(regN['txt_NumProcess']);
+                objFieldsData['numSolN'] = regN['txt_NumProcess']
+                objFieldsData['version'] = regN['version']
+                objTdesc = {};
+                objTdesc['desc-titulo'] = regN['txt_tituloReuniao']
+                dTdesc = regN['dt_dataInicio'];
+                dTdesc = dTdesc.split('-');
+                dTdesc = dTdesc[2] + '/' + dTdesc[1] + '/' + dTdesc[0];
+                objTdesc['desc-subTitulo'] = 'Data da Reunião: ' + dTdesc;
+                await objDefinitionBar.miniMapDefine(regN['txt_NumProcess']);
+                objDefinitionBar.stAcess_reg();
+                objDefinitionBar.descDefine(objTdesc);
+
+                objFieldsData.stAcess_reg(regN);
+
+                testDatatable.paramsInit(objMain);
+                dataTablemi = new dataTableConfig();
+                if(objDefinitionBar.initTrue == false){
+                    myEditor = new determineEditor();
+                    objDefinitionBar.initTrue = true
+                }else{
+                    myEditor.setValueInputsInEditors()
+                }
+                
+                definePainelEnabled()
+                setControlNavTabs()
+                getPDF_ptd();
+                info_setItns()
+                DemandResp();
+                valueToggle();
+
+                formData_obj.defineFormDataValues('formData_origin', regN);
+            
+            }
+        }
+        myLoading.hide();
     }
 }
 window.addEventListener('load', acessRegist)
@@ -824,14 +838,6 @@ function itnsGabinetes(){
         document.getElementById('DadosCadastro').style.display = 'none'
         document.getElementById('PainelControle').style.display = 'none'
         document.getElementById('Delibr').style.display = 'none'
-
-        /*let b = document.getElementById('infoAnaliseDelbr').children[1].children[0];
-        let arrdir = ['DISUP', 'DIRAF', 'DITEC']
-        for(let i = 0; i < arrdir.length; i++){
-            let a = document.getElementById('itnsList_'+arrdir[i])
-            b.appendChild(a);
-        }*/
-
     })
 }
 window.addEventListener('load', itnsGabinetes)
@@ -852,14 +858,72 @@ function initPage(){
         document.getElementById('DadosCadastro').style.display = 'block'
         document.getElementById('PainelControle').style.display = 'block'
         document.getElementById('Delibr').style.display = 'none'
-
-        /*let b = document.getElementById('infoAnaliseDelbr').children[1].children[0];
-        let arrdir = ['DISUP', 'DIRAF', 'DITEC']
-        for(let i = 0; i < arrdir.length; i++){
-            let a = document.getElementById('itnsList_'+arrdir[i])
-            b.appendChild(a);
-        }
-        */
     })
 }
 window.addEventListener('load', initPage)
+function startNewProcess(){
+    let btnCadastro = document.getElementById('btnCadastro');
+    btnCadastro.addEventListener('click', async function () {
+        objGetReturn            = {};
+        objBodyreq              = {};
+        objGetReturn['name']    = ['a'];
+        objGetReturn['a']       = '';
+
+        objBodyreq.user         = objDefineStatus['mat'];
+        objBodyreq.dataInit     = document.getElementById('dt_dataInicio_reg').value
+        objBodyreq.dataLimit    = document.getElementById('dt_datalimi_reg').value
+        objBodyreq.title        = document.getElementById('txt_tituloReuniao_reg').value
+
+        myLoading.show();
+    
+        await orderMethodsMi.createNewDIREX(objBodyreq, objGetReturn);
+
+        console.log(objGetReturn['a'])
+        let objRespStart = objGetReturn['a'];
+        if(objRespStart['processInstanceId']){
+            setDataReg(objRespStart['processInstanceId']) 
+        }else{
+            /*rowMSN = document.getElementById('msnConfirm')
+            rowMSN.children[0].innerText = "Um erro ocorreu no processo de salvamento !";
+            rowMSN.children[0].style.color = 'red'
+            document.getElementById('initSave').style.display = "none"
+            document.getElementById('getNewData').style.display = "none"
+            document.getElementById('slcMove').style.display = "none" 
+            document.getElementById('initMove').style.display = "none" 
+            */
+        }
+
+        myLoading.hide();
+    })
+
+/*
+    orderMethods.prototype.createNewDIREX = async function (objBodyreq, objGetReturn) {
+        await $.ajax({
+            method: "POST",
+            url: this.host+"/process-management/api/v2/processes/CadastrodeReuniãoDIREX/start",
+            contentType: "application/json",
+            async: true,
+            data:  JSON.stringify(
+                {
+                    "targetState": 0,
+                    "subProcessTargetState": 0,
+                    "targetAssignee": objBodyreq.user, //"integracaosgtec",
+                    "comment": "Iniciada pelo painel de Gestão",
+                    "formFields": 
+                    {
+                      "dt_dataInicio": objBodyreq.dataInit,
+                      "dt_datalimit": objBodyreq.dataLimit,
+                      "txt_tituloReuniao": objBodyreq.title
+                    }
+                  }
+            ),
+        }).done(async function (response) { 
+            nameAtt = objGetReturn['name'][0];
+            objGetReturn[nameAtt] = response;
+            await response
+        })
+    }
+    */
+}
+window.addEventListener('load', startNewProcess)
+

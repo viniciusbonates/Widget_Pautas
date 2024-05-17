@@ -336,7 +336,7 @@ orderMethods.prototype.indexFunctionsX = function () {
     } 
 }
 orderMethods.prototype.moveSubst = async function (objBodyreq, objGetReturn) {
-    let resp = await fetch("https://myweb.am.sebrae.com.br/ecm/api/rest/ecm/workflowView/send", {
+    let resp = await fetch(this.host+"/ecm/api/rest/ecm/workflowView/send", {
     "headers": {
         "accept": "application/json, text/javascript, */*; q=0.01",
         "accept-language": "pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7",
@@ -349,7 +349,7 @@ orderMethods.prototype.moveSubst = async function (objBodyreq, objGetReturn) {
         "sec-fetch-site": "same-origin",
         "x-requested-with": "XMLHttpRequest"
      },
-    "referrer": "https://myweb.am.sebrae.com.br/portal/p/1/pageworkflowview?app_ecm_workflowview_processInstanceId="+objBodyreq['processInstanceId']+"app_ecm_workflowview_currentMovto="+objBodyreq['movementSequence']+"&app_ecm_workflowview_taskUserId="+objBodyreq['code']+"&app_ecm_workflowview_managerMode=false",
+    "referrer": this.host+"/portal/p/1/pageworkflowview?app_ecm_workflowview_processInstanceId="+objBodyreq['processInstanceId']+"app_ecm_workflowview_currentMovto="+objBodyreq['movementSequence']+"&app_ecm_workflowview_taskUserId="+objBodyreq['code']+"&app_ecm_workflowview_managerMode=false",
     "referrerPolicy": "strict-origin-when-cross-origin",
     "body": "{\"processInstanceId\":"+objBodyreq['processInstanceId']+","+
             "\"processId\":\"CadastrodeReuniãoDIREX\","+
@@ -366,39 +366,7 @@ orderMethods.prototype.moveSubst = async function (objBodyreq, objGetReturn) {
             "\"appointments\":[],"+
             "\"attachments\":[],"+
             "\"digitalSignature\":false,"+
-            "\"formData\":["+ 
-                            "{\"name\":\"cmb_NomeSolicita\","+
-                            "\"value\":\"00000563\"},"+
-                            "{\"name\":\"hd_numSuperior\",\"value\":\"00000656\"},"+
-                            "{\"name\":\"hd_numState\",\"value\":\"8\"},"+
-                            "{\"name\":\"dt_DataSolicita\",\"value\":\"13/03/2024 09:09:12\"},"+
-                            "{\"name\":\"cmb_GerenteSolicitante\",\"value\":\"Adrianne Antony\"},"+ 
-                            "{\"name\":\"zm_UnidadeSolicitante\",\"value\":\"Diretoria Administrativa Financeira\"},"+
-                            "{\"name\":\"txt_NumProcess\",\"value\":\"79940\"},"+
-                            "{\"name\":\"dt_dataInicio\",\"value\":\"2024-03-18\"},"+
-                            "{\"name\":\"dt_datalimit\",\"value\":\"2024-03-14\"},"+
-                            "{\"name\":\"txt_tituloReuniao\",\"value\":\"40ª REUNIÃO ORDINÁRIA DIREX/AM \"},"+
-                            "{\"name\":\"txt_InfoDISUP\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body></body>\\r\\n</html>\\r\\n\"},"+
-                            "{\"name\":\"txt_InfoDIRAF\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body>\\r\\n<p>TESTE 6</p>\\r\\n</body>\\r\\n</html>\\r\\n\"},"+
-                            "{\"name\":\"txt_InfoDITEC\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body></body>\\r\\n</html>\\r\\n\"},"+
-                            "{\"name\":\"txt_IniDelibr\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body>\\r\\n<p>Aos cinco dias do m&ecirc;s de dezembro de 2022, &agrave;s 10h, reuniu-se a Diretoria Executiva do SEBRAE no Amazonas, de forma virtual, com a participa&ccedil;&atilde;o das Diretoras Lamisse Said da Silva Cavalcanti – Diretora Superintendente, Adrianne Antony Gon&ccedil;alves – Diretora T&eacute;cnica e Ananda Carvalho Normando Pess&ocirc;a – Diretora Administrativa e Financeira para deliberarem os seguintes assuntos:</p>\\r\\n</body>\\r\\n</html>\\r\\n\"},"+
-                            "{\"name\":\"txt_FinDelibr\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body>\\r\\n<p>A reuni&atilde;o foi encerrada &agrave;s 11h30, ficando acordado entre as Diretoras a realiza&ccedil;&atilde;o da 46ª Reuni&atilde;o Ordin&aacute;ria DIREX 2022 no dia 05/12/2022, conforme previsto em calend&aacute;rio.</p>\\r\\n</body>\\r\\n</html>\\r\\n\"},"+
-                            "{\"name\":\"dataSelected\",\"value\":\"\"},"+
-                            "{\"name\":\"slc_demandante\",\"value\":\"0\"},"+
-                            "{\"name\":\"slc_temp\",\"value\":\"\"},"+
-                            "{\"name\":\"slc_DISUP_vt\",\"value\":\"0\"},"+
-                            "{\"name\":\"slc_UCOF_vt\",\"value\":\"0\"},"+
-                            "{\"name\":\"slc_DITEC_vt\",\"value\":\"0\"},"+
-                            "{\"name\":\"txt_Deliberacao\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body></body>\\r\\n</html>\\r\\n\"},"+
-                            "{\"name\":\"txt_Justificativa\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body></body>\\r\\n</html>\\r\\n\"},"+
-                            "{\"name\":\"txt_obsDlbrDISUP\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body></body>\\r\\n</html>\\r\\n\"},"+
-                            "{\"name\":\"txt_obsDlbrDIRAF\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body></body>\\r\\n</html>\\r\\n\"},"+
-                            "{\"name\":\"txt_obsDlbrDITEC\",\"value\":\"<html>\\r\\n<head>\\r\\n\\t<title></title>\\r\\n</head>\\r\\n<body></body>\\r\\n</html>\\r\\n\"},"+
-                            "{\"name\":\"checkbox1\",\"value\":\"\"},"+
-                            "{\"name\":\"switch_DISUP\",\"value\":\"\"},"+
-                            "{\"name\":\"switch_DIRAF\",\"value\":\"\"},"+
-                            "{\"name\":\"switch_DITEC\",\"value\":\"\"},"+
-                            "{\"name\":\"zm_emailsCopia\",\"value\":\"\"}],"+
+            "\"formData\":"+objBodyreq['formData']+","+
             "\"isDigitalSigned\":false,"+
             "\"isLinkReturn\":false,"+
             "\"versionDoc\":"+objBodyreq['version']+","+
@@ -417,7 +385,7 @@ orderMethods.prototype.moveSubst = async function (objBodyreq, objGetReturn) {
     objGetReturn[nameAtt] = resp;
 }
 orderMethods.prototype.saveSubst = async function (NumSolicit, taskUserId, currentMovt, objBodyreq, objGetReturn) {
-    let resp = await fetch("https://myweb.am.sebrae.com.br/ecm/api/rest/ecm/workflowView/send", {
+    let resp = await fetch(this.host+"/ecm/api/rest/ecm/workflowView/send", {
         "headers": {
           "accept": "application/json, text/javascript, */*; q=0.01",
           "accept-language": "pt-PT,pt;q=0.9",
@@ -430,7 +398,7 @@ orderMethods.prototype.saveSubst = async function (NumSolicit, taskUserId, curre
           "sec-fetch-site": "same-origin",
           "x-requested-with": "XMLHttpRequest"
         },
-        "referrer": "https://myweb.am.sebrae.com.br/portal/p/1/pageworkflowview?app_ecm_workflowview_processInstanceId="+NumSolicit+"&app_ecm_workflowview_currentMovto="+currentMovt+"&app_ecm_workflowview_taskUserId="+taskUserId+"&app_ecm_workflowview_managerMode=false",
+        "referrer": this.host+"/portal/p/1/pageworkflowview?app_ecm_workflowview_processInstanceId="+NumSolicit+"&app_ecm_workflowview_currentMovto="+currentMovt+"&app_ecm_workflowview_taskUserId="+taskUserId+"&app_ecm_workflowview_managerMode=false",
         "referrerPolicy": "strict-origin-when-cross-origin",
         "body": "{  \"processInstanceId\":"+objBodyreq['processInstanceId']+","+
                     "\"processId\":\"CadastrodeReuniãoDIREX\","+

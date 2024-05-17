@@ -29,7 +29,7 @@ function info_setItns(){
 
         for(j = 0; j < itns.length; j++){
             NumSolict = itns[j]['txt_NumProcess']
-            itnLink = 'https://myweb.am.sebrae.com.br/portal/p/1/pageworkflowview?app_ecm_workflowview_detailsProcessInstanceID='+NumSolict
+            itnLink = window.origin+'/portal/p/1/pageworkflowview?app_ecm_workflowview_detailsProcessInstanceID='+NumSolict
             console.log(itnLink)
             vli = document.createElement('li')
             va = document.createElement('a')
