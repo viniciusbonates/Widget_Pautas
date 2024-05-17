@@ -40,8 +40,19 @@ function info_setItns(){
             va.setAttribute('ml', 'true');
             va.textContent = NumSolict
 
+            vli2 = document.createElement('li')
+            va2 = document.createElement('a')
+            va2.setAttribute('href', itnLink);
+            va2.setAttribute('class', 'cad-link');
+            va2.setAttribute('target', '_blank');
+            va2.setAttribute('style', 'color: blue');
+            va2.setAttribute('ml', 'true');
+            va2.textContent = NumSolict
+
             vli.appendChild(va)
+            vli2.appendChild(va2)
             document.getElementById('itnsList_ptd_'+dirNow).children[0].appendChild(vli)
+            document.getElementById('itnsList_deliber_op_'+dirNow).children[0].appendChild(vli2)
         }    
     }
 }

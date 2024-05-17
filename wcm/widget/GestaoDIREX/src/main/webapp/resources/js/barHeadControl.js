@@ -108,10 +108,10 @@ function defineElementsbar(){
     objDefinitionBar = {
         initTrue: false,
         divSpn: document.getElementById('CadastroReuniaoDIREX'),
-        arrElements: ['icon-R', 'desc', 'min-fluxo', 'icon-T', 'icon-S','opsCadastro', 'opsAcess', 'DadosCadastro', 'PainelControle'],
+        arrElements: ['icon-R', 'desc', 'min-fluxo', 'icon-P', 'icon-T', 'icon-S','opsCadastro', 'opsAcess', 'DadosCadastro', 'PainelControle'],
         st: 'initArr',
         initArr: ['opsCadastro', 'opsAcess'],
-        acessRegArr: ['icon-R', 'desc', 'min-fluxo', 'icon-T', 'icon-S', 'DadosCadastro', 'PainelControle'],
+        acessRegArr: ['icon-R', 'desc', 'min-fluxo', 'icon-P', 'icon-T', 'icon-S', 'DadosCadastro', 'PainelControle'],
         descDefine: function (obj){
             let arrT = ['desc-titulo', 'desc-subTitulo']
             descElem = document.getElementById('desc');
@@ -814,6 +814,10 @@ function itnsGabinetes(){
         document.getElementById('itnsList_ptd_DIRAF').children[0].innerHTML = ''
         document.getElementById('itnsList_ptd_DISUP').children[0].innerHTML = ''
 
+        document.getElementById('itnsList_deliber_op_DITEC').children[0].innerHTML = ''
+        document.getElementById('itnsList_deliber_op_DIRAF').children[0].innerHTML = ''
+        document.getElementById('itnsList_deliber_op_DISUP').children[0].innerHTML = ''
+
         info_setItns()
 
         document.getElementById('infoAnaliseDelbr').style.display = 'block'
@@ -821,13 +825,41 @@ function itnsGabinetes(){
         document.getElementById('PainelControle').style.display = 'none'
         document.getElementById('Delibr').style.display = 'none'
 
-        let b = document.getElementById('infoAnaliseDelbr').children[1].children[0];
+        /*let b = document.getElementById('infoAnaliseDelbr').children[1].children[0];
+        let arrdir = ['DISUP', 'DIRAF', 'DITEC']
+        for(let i = 0; i < arrdir.length; i++){
+            let a = document.getElementById('itnsList_'+arrdir[i])
+            b.appendChild(a);
+        }*/
+
+    })
+}
+window.addEventListener('load', itnsGabinetes)
+function initPage(){
+    let linkIdx = document.getElementById('init-op')
+    linkIdx.addEventListener('click', function () {
+        document.getElementById('itnsList_ptd_DITEC').children[0].innerHTML = ''
+        document.getElementById('itnsList_ptd_DIRAF').children[0].innerHTML = ''
+        document.getElementById('itnsList_ptd_DISUP').children[0].innerHTML = ''
+
+        document.getElementById('itnsList_deliber_op_DITEC').children[0].innerHTML = ''
+        document.getElementById('itnsList_deliber_op_DIRAF').children[0].innerHTML = ''
+        document.getElementById('itnsList_deliber_op_DISUP').children[0].innerHTML = ''
+
+        info_setItns()
+
+        document.getElementById('infoAnaliseDelbr').style.display = 'none'
+        document.getElementById('DadosCadastro').style.display = 'block'
+        document.getElementById('PainelControle').style.display = 'block'
+        document.getElementById('Delibr').style.display = 'none'
+
+        /*let b = document.getElementById('infoAnaliseDelbr').children[1].children[0];
         let arrdir = ['DISUP', 'DIRAF', 'DITEC']
         for(let i = 0; i < arrdir.length; i++){
             let a = document.getElementById('itnsList_'+arrdir[i])
             b.appendChild(a);
         }
-
+        */
     })
 }
-window.addEventListener('load', itnsGabinetes)
+window.addEventListener('load', initPage)

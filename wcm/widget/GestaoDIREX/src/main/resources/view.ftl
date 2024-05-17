@@ -153,7 +153,7 @@
 						<h6 id="desc-link"><a href="#">Acessar outra reunião / Cadastrar Nova Reunião</a></h6>
 					</div>
 
-					<div style="float: left; padding-left: 100px; padding-right: 100px; padding-top: 5px; display: none; cursor: pointer" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" id="min-fluxo">
+					<div style="float: left; padding-left: 100px; padding-right: 60px; padding-top: 5px; display: none; cursor: pointer" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" id="min-fluxo">
 						<div class="rainbow" style="border: solid;border-width: 4px;border-color: #777;padding-left: 20px;padding-right: 20px;padding-bottom: 35px;padding-top: 35px; float: left; margin: 0px; border-radius: 5px;" id="13n">Definição de Reunião</div>
 						<svg height="100" width="50" xmlns="http://www.w3.org/2000/svg" style="float: left;">
 							<line x1="-20" y1="60" x2="50" y2="60" style="stroke:red;stroke-width:2"></line>
@@ -164,7 +164,11 @@
 						</svg>
 						<div style="border: solid;border-width: 4px;border-color: #777;padding-left: 60px;padding-right: 60px;padding-bottom: 35px;padding-top: 35px; float: left; margin: 0px; border-radius: 5px;" id="10n">Arquivo</div>
 					</div>
-
+					<div id="icon-P" style="float: left; padding-top: 30px; padding-left: 10px; padding-right: 10px; display: none;">
+						<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" fill="currentColor" class="bi bi-files" viewBox="0 0 16 16" style="cursor: pointer" id="init-op">
+							<path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2m0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1M3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"></path>
+						</svg>
+					</div>
 					<div id="icon-T" style="float: left; padding-top: 30px; padding-left: 10px; padding-right: 10px; display: none;">
 						<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" fill="currentColor" class="bi bi-toggles" viewBox="0 0 16 16" style="cursor: pointer" id="deliber-op">
 							<path d="M4.5 9a3.5 3.5 0 1 0 0 7h7a3.5 3.5 0 1 0 0-7zm7 6a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5m-7-14a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5m2.45 0A3.5 3.5 0 0 1 8 3.5 3.5 3.5 0 0 1 6.95 6h4.55a2.5 2.5 0 0 0 0-5zM4.5 0h7a3.5 3.5 0 1 1 0 7h-7a3.5 3.5 0 1 1 0-7"></path>
@@ -518,16 +522,54 @@
 		</div>
 
 		<div class="panel panel-primary" id="infoAnaliseDelbr" style="display: none;">
-			<div class="panel-heading">
-				<h3 class="panel-title">
-					<b>Informações de Análise e Deliberação</b>
-				</h3>
-			</div>
-			<div class="panel-body">
-				<div class="row">
-
+		<div class="panel-heading">
+			<h3 class="panel-title">
+				<b>Informações de Análise e Deliberação</b>
+			</h3>
+		</div>
+		<div class="panel-body">
+			<div class="row">
+			<div class="col-md-12">
+				<div class="form-group">
+					<div class="card" style="color: black">
+						<div class="card-body">
+							<h3 class="card-title">DISUP</h3>
+							<p class="card-text">Itens Inseridos na Reunião</p>
+							<div id="itnsList_deliber_op_DISUP">
+								<ul></ul>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
+			<div class="col-md-12">
+				<div class="form-group">
+					<div class="card" style="color: black">
+						<div class="card-body">
+							<h3 class="card-title">DIRAF</h3>
+							<p class="card-text">Itens Inseridos na Reunião</p>
+							<div id="itnsList_deliber_op_DIRAF">
+								<ul></ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group">
+					<div class="card" style="color: black">
+						<div class="card-body">
+							<h3 class="card-title">DITEC</h3>
+							<p class="card-text">Itens Inseridos na Reunião</p>
+							<div id="itnsList_deliber_op_DITEC">
+								<ul></ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
 		</div>
 
 
