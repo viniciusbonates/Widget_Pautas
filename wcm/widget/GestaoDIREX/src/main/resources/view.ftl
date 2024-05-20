@@ -154,7 +154,7 @@
 					</div>
 
 					<div style="float: left; padding-left: 100px; padding-right: 60px; padding-top: 5px; display: none; cursor: pointer" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-toggle="tooltip" data-placement="bottom" data-original-title="Movimentar" id="min-fluxo">
-						<div class="rainbow" style="border: solid;border-width: 4px;border-color: #777;padding-left: 20px;padding-right: 20px;padding-bottom: 35px;padding-top: 35px; float: left; margin: 0px; border-radius: 5px;" id="13n">Definição de Reunião</div>
+						<div style="border: solid;border-width: 4px;border-color: #777;padding-left: 20px;padding-right: 20px;padding-bottom: 35px;padding-top: 35px; float: left; margin: 0px; border-radius: 5px;" id="13n">Definição de Reunião</div>
 						<svg height="100" width="50" xmlns="http://www.w3.org/2000/svg" style="float: left;">
 							<line x1="-20" y1="60" x2="50" y2="60" style="stroke:red;stroke-width:2"></line>
 						</svg>

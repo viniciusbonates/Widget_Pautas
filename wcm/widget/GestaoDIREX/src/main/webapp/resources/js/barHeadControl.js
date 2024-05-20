@@ -891,10 +891,10 @@ function initPage(){
         document.getElementById('itnsList_deliber_op_DISUP').children[0].innerHTML = ''
 
         info_setItns()
+        definePainelEnabled()
 
         document.getElementById('infoAnaliseDelbr').style.display = 'none'
         document.getElementById('DadosCadastro').style.display = 'block'
-        document.getElementById('PainelControle').style.display = 'block'
         document.getElementById('Delibr').style.display = 'none'
     })
 }
