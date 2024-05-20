@@ -319,20 +319,17 @@ function slcReuniao() {
         for(i = 0; i < arrayOption.length; i++){
             var voption = document.createElement('option')
             att = document.createAttribute('value')
-            att.value = arrayOption[i]['txt_tituloReuniao']
+            att.value =  arrayOption[i]['txt_NumProcess'] + ' - ' + arrayOption[i]['txt_tituloReuniao'];
             voption.setAttributeNode(att)
-            voption.innerText = arrayOption[i]['txt_NumProcess']
+            let dtItnOpt =  arrayOption[i]['dt_dataInicio'].split('-')
+            let dtFormat = dtItnOpt[2]+'/'+dtItnOpt[1]+'/'+dtItnOpt[0]
+            voption.innerText = dtFormat
             vdatalist.appendChild(voption)
         }
         elemSelc.parentElement.appendChild(vdatalist);
 
         document.getElementById("slc_temp_RNO").addEventListener("change", function(){
-            for(i = 0; i < arrayOption.length; i++){
-                if(arrayOption[i]['txt_tituloReuniao'] == this.value){
-                    document.getElementById("slc_reuniao").value = arrayOption[i]['txt_NumProcess']
-                    break;
-                }
-            }
+                    document.getElementById("slc_reuniao").value = this.value.split(' -')[0];
         })
     }
     searchInpTemp()
@@ -352,9 +349,11 @@ function slcReuniao_reload(){
     for(i = 0; i < arrayOption.length; i++){
         var voption = document.createElement('option')
         att = document.createAttribute('value')
-        att.value = arrayOption[i]['txt_tituloReuniao']
+        att.value =  arrayOption[i]['txt_NumProcess'] + ' - ' + arrayOption[i]['txt_tituloReuniao'];
         voption.setAttributeNode(att)
-        voption.innerText = arrayOption[i]['txt_NumProcess']
+        let dtItnOpt =  arrayOption[i]['dt_dataInicio'].split('-')
+        let dtFormat = dtItnOpt[2]+'/'+dtItnOpt[1]+'/'+dtItnOpt[0]
+        voption.innerText = dtFormat
         brs.appendChild(voption)
     }
     document.getElementById('slc_reuniao').value = ''
