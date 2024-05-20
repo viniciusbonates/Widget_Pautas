@@ -183,7 +183,25 @@ window.addEventListener('load', defineElementsbar)
 function acessRegist(){
     let btnAcess = document.getElementById('btnAcessar');
     console.log(btnAcess)
-    btnAcess.addEventListener('click',  async function (){ setDataReg(1) })
+    btnAcess.addEventListener('click', async function (){ 
+        let slcreuniao = document.getElementById('slc_reuniao');
+        let slcTempRNO = document.getElementById('slc_temp_RNO');
+        let ckAttObj = true;
+        if(slcreuniao.value == undefined || slcreuniao.value == null || slcreuniao.value == ''){
+            ckAttObj = false
+            let arrTemp = []
+            arrTemp.push(slcTempRNO)
+            objFieldsNew.setInvalidfeedback(arrTemp)
+        }else{
+            let arrTemp = []
+            arrTemp.push(slcTempRNO)
+            objFieldsNew.setValidfeedback(arrTemp)
+            console.log('valid')
+        }
+        if(ckAttObj){
+            setDataReg(1) 
+        }
+    })
 }
 function validateAcessReg(elem){
     if(elem.value != '' && elem.value != undefined && elem.value != null){
@@ -318,6 +336,7 @@ function slcReuniao() {
         })
     }
     searchInpTemp()
+    document.getElementById('slc_reuniao').value = ''
 }
 function slcReuniao_reload(){
     let brs = document.getElementById('browsersR');
@@ -338,6 +357,7 @@ function slcReuniao_reload(){
         voption.innerText = arrayOption[i]['txt_NumProcess']
         brs.appendChild(voption)
     }
+    document.getElementById('slc_reuniao').value = ''
 }
 function saveFormDataButtonSet(){
     document.getElementById('save-op').addEventListener('click',  async function (){ await conditionTypeSave() });
@@ -888,31 +908,49 @@ function startNewProcess(){
         objGetReturn['name']    = ['a'];
         objGetReturn['a']       = '';
 
+        objFieldsNew.cleanValidatefeedback()
+
         objBodyreq.user         = objDefineStatus['mat'];
         objBodyreq.dataInit     = document.getElementById('dt_dataInicio_reg').value
         objBodyreq.dataLimit    = document.getElementById('dt_datalimi_reg').value
         objBodyreq.title        = document.getElementById('txt_tituloReuniao_reg').value
-
-        myLoading.show();
-    
-        await orderMethodsMi.createNewDIREX(objBodyreq, objGetReturn);
-
-        console.log(objGetReturn['a'])
-        let objRespStart = objGetReturn['a'];
-        if(objRespStart['processInstanceId']){
-            setDataReg(objRespStart['processInstanceId']) 
-        }else{
-            /*rowMSN = document.getElementById('msnConfirm')
-            rowMSN.children[0].innerText = "Um erro ocorreu no processo de salvamento !";
-            rowMSN.children[0].style.color = 'red'
-            document.getElementById('initSave').style.display = "none"
-            document.getElementById('getNewData').style.display = "none"
-            document.getElementById('slcMove').style.display = "none" 
-            document.getElementById('initMove').style.display = "none" 
-            */
+        let arrNamesAttObj = ['dataInit', 'dataLimit', 'title']
+        let ckAttObj = true;
+        for(let y = 0; y < arrNamesAttObj.length; y++){
+            if(objBodyreq[arrNamesAttObj[y]] == undefined || objBodyreq[arrNamesAttObj[y]] == null || objBodyreq[arrNamesAttObj[y]] == ''){
+                ckAttObj = false;
+                let arrTemp = []
+                arrTemp.push(objFieldsNew.fieldsFilter[y])
+                objFieldsNew.setInvalidfeedback(arrTemp)
+            }else{
+                let arrTemp = []
+                arrTemp.push(objFieldsNew.fieldsFilter[y])
+                objFieldsNew.setValidfeedback(arrTemp)
+            }
         }
 
-        myLoading.hide();
+        if(ckAttObj){
+            myLoading.show();
+
+            await orderMethodsMi.createNewDIREX(objBodyreq, objGetReturn);
+            console.log(objGetReturn['a'])
+            let objRespStart = objGetReturn['a'];
+            if(objRespStart['processInstanceId']){
+                setDataReg(objRespStart['processInstanceId']) 
+            }else{
+                /*rowMSN = document.getElementById('msnConfirm')
+                rowMSN.children[0].innerText = "Um erro ocorreu no processo de salvamento !";
+                rowMSN.children[0].style.color = 'red'
+                document.getElementById('initSave').style.display = "none"
+                document.getElementById('getNewData').style.display = "none"
+                document.getElementById('slcMove').style.display = "none" 
+                document.getElementById('initMove').style.display = "none" 
+                */
+            }
+            myLoading.hide();
+        }else{
+            console.log('invalid')
+        }
     })
 
 /*
@@ -945,4 +983,38 @@ function startNewProcess(){
     */
 }
 window.addEventListener('load', startNewProcess)
+function setobjFields(){
+    let initDate  = document.getElementById('dt_dataInicio_reg')
+    let limitDate = document.getElementById('dt_datalimi_reg')
+    let titleR    = document.getElementById('txt_tituloReuniao_reg')
+    objFieldsNew = {
+        fieldsFilter:     [initDate, limitDate, titleR]
+    }
+    objFieldsNew.cleanFieldsFilter = function (){
+        let arrFields = this.fieldsFilter
+        for(let i = 0; i < arrFields.length; i++){
+            arrFields[i].value = '';
+        }
+    }
+    objFieldsNew.cleanValidatefeedback = function (){
+        let arrFields = this.fieldsFilter
+        for(let i = 0; i < arrFields.length; i++){
+            arrFields[i].classList.remove('is-invalid');
+            arrFields[i].classList.remove('is-valid')
+        }
+    }
+    objFieldsNew.setValidfeedback = function (arrFields){
+        for(let i = 0; i < arrFields.length; i++){
+            arrFields[i].classList.remove('is-invalid')
+            arrFields[i].classList.add('is-valid')
+        }
+    }
+    objFieldsNew.setInvalidfeedback = function (arrFields){
+        for(let i = 0; i < arrFields.length; i++){
+            arrFields[i].classList.remove('is-valid')
+            arrFields[i].classList.add('is-invalid')
+        }
+    }
+}
+window.addEventListener('load', setobjFields)
 
