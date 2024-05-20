@@ -8,9 +8,13 @@
             document.getElementById('itnsList_ptd_DITEC').children[0].innerHTML = ''
 			document.getElementById('itnsList_ptd_DIRAF').children[0].innerHTML = ''
 			document.getElementById('itnsList_ptd_DISUP').children[0].innerHTML = ''
-            document.getElementById('slc_temp_RNO').value = ''
+            let slcR = document.getElementById('slc_temp_RNO')
+            slcR.value = ''
             document.getElementById('Delibr').style.display = 'none'
             window["zm_emailsCopia"].clear()
+            let tempArrFields = [slcR]
+			objFieldsNew.cleanFieldsFilter()
+			objFieldsNew.cleanValidatefeedback(tempArrFields)
             document.getElementById('divTableIn').appendChild(elemGet)
             objDefinitionBar.stIni();
             window.testDatatable.objFunc = {

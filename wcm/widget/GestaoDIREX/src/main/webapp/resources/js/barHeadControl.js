@@ -995,11 +995,17 @@ function setobjFields(){
             arrFields[i].value = '';
         }
     }
-    objFieldsNew.cleanValidatefeedback = function (){
+    objFieldsNew.cleanValidatefeedback = function (fields){
         let arrFields = this.fieldsFilter
         for(let i = 0; i < arrFields.length; i++){
             arrFields[i].classList.remove('is-invalid');
             arrFields[i].classList.remove('is-valid')
+        }
+        if(fields != null && fields != undefined && fields != ''){
+            for(let i = 0; i < fields.length; i++){
+                fields[i].classList.remove('is-invalid');
+                fields[i].classList.remove('is-valid')
+            }
         }
     }
     objFieldsNew.setValidfeedback = function (arrFields){
