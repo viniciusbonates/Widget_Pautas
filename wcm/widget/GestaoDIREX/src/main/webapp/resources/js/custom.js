@@ -17,12 +17,12 @@
 			objFieldsNew.cleanValidatefeedback(tempArrFields)
             document.getElementById('divTableIn').appendChild(elemGet)
             objDefinitionBar.stIni();
-            window.testDatatable.objFunc = {
+            window.objDataTable.objFunc = {
                 fnc: [
                     { 'fncName': '', 'metodhParam': '' }
                 ]
             }
-            testDatatable.myTable.destroy()
+            objDataTable.myTable.destroy()
         })
     }
     window.addEventListener('load', initPageConfig)
@@ -162,7 +162,7 @@
     }
     window.addEventListener('load', getDirVinc)
 	
-	var testDatatable = {
+	var objDataTable = {
 		myTable:        null,
 		tableData:      null,
 		dataInit:       null,
@@ -331,19 +331,12 @@
 			var arrColumnsIn = this.arrColumns
 			var itensCollection = this.objCollection
 			var searchMark = 0
-			//Retira as datas com valor nullo	
-			/*var objData = {
-				arrItens: [],		// Array com os itens que serão apresentados na pagina atual 
-				arrItensAll: [], 	// Array produto final após a limpesa conforme condicionais determinadas
-				markItensAll: 0, 	// markItensAll == 1 - determina o fim da montagem do Array 'arrItensAll'
-				pageAtual: -1,		// numero da pagina começando com valor '0'
-				indIten: 0 			// Valor igual ao ultimo Index do 'this.objCollection' do item que foi validado e incluso no array 'arrItens' 
-			};*/
 			this.definePage(this.objData, 1, itensCollection);
 			this.myTable = FLUIGC.datatable('#target', {
-				dataRequest: this.objData.arrItens,
-				renderContent: this.arrColumns,
-				header: this.hder,
+                thisObjDataTable:   this,                                   // < ----------- Necessário passar o objDataTable para utilizar nos metodos deste objeto por conta da perca de escopo.
+				dataRequest:        this.objData.arrItens,
+				renderContent:      this.arrColumns,
+				header:             this.hder,
 				tableStyle: 'table table-bordered table-dark table-hover',
 				classSelected: 'success',
 				navButtons: {
@@ -360,9 +353,9 @@
                             pageAtual: -1,
                             indIten: 0
                         };
+                        console.log(thisObjDataTable)
 						if (!res) {             
-							//this.myTable.reload(dataInit);
-							this.reload(this.myTable, this.dataInit, this.objFunc);
+							thisObjDataTable.reload(this.myTable, this.dataInit, this.objFunc);
 							console.log(this.objFunc)
 							searchMark = 0
 							this.definePage(this.objData, 1, this.objCollection);
@@ -517,7 +510,7 @@
 		}
 
 
-	}; //testDatatable.paramsInit(objMain);
+	}; //objDataTable.paramsInit(objMain);
 
 
 

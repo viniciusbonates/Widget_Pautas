@@ -136,7 +136,7 @@ function dataTableConfig(){
     this.resAPI             = window.res
     this.initMyInterval     = true;
     this.setChangeEvent		= true;
-    this.tableReference     = window.testDatatable;
+    this.tableReference     = window.objDataTable;
     this.itensBuilt         = {
         name: []
     };
