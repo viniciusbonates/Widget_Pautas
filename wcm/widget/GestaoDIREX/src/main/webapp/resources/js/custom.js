@@ -324,45 +324,48 @@
 					break;
 				}
 			}
-			datafilt = objData.arrItensAll
+			this.datafilt = objData.arrItensAll
 			console.log(objData)
 		},
 		loadTable: function () {
-			var arrColumnsIn = this.arrColumns
-			var itensCollection = this.objCollection
-			var searchMark = 0
+            var thisObjDataTable    = this                                   // < ----------- Necessário passar o objDataTable para utilizar nos metodos deste objeto por conta da perca de escopo.
+			var arrColumnsIn        = this.arrColumns
+			var itensCollection     = this.objCollection
+			var searchMark          = 0
 			this.definePage(this.objData, 1, itensCollection);
 			this.myTable = FLUIGC.datatable('#target', {
-                thisObjDataTable:   this,                                   // < ----------- Necessário passar o objDataTable para utilizar nos metodos deste objeto por conta da perca de escopo.
-				dataRequest:        this.objData.arrItens,
-				renderContent:      this.arrColumns,
-				header:             this.hder,
-				tableStyle: 'table table-bordered table-dark table-hover',
-				classSelected: 'success',
+				dataRequest         : this.objData.arrItens,
+				renderContent       : this.arrColumns,
+				header              : this.hder,
+				tableStyle          : 'table table-bordered table-dark table-hover',
+				classSelected       : 'success',
 				navButtons: {
 					enabled: true
 				},
 				search: {
 					enabled: true,
 					onlyEnterkey: true,
-					onSearch: function (res) { //< ---------------------------------------------------------------------------- func Search
-                        this.objData = {
+					onSearch: function (res) {
+                        thisObjDataTable.objData = {
                             arrItens: [],
                             arrItensAll: [],
                             markItensAll: 0,
                             pageAtual: -1,
                             indIten: 0
                         };
-                        console.log(thisObjDataTable)
-						if (!res) {             
-							thisObjDataTable.reload(this.myTable, this.dataInit, this.objFunc);
-							console.log(this.objFunc)
+                        let myTable             = thisObjDataTable.myTable
+                        let dataInit            = thisObjDataTable.dataInit
+                        let objFunc             = thisObjDataTable.objFunc
+                        let objData             = thisObjDataTable.objData
+                        let objCollection       = thisObjDataTable.objCollection
+                        let datafilt            = thisObjDataTable.datafilt
+                        if (!res) {             
+							thisObjDataTable.reload(myTable, dataInit, objFunc);
 							searchMark = 0
-							this.definePage(this.objData, 1, this.objCollection);
-							this.opsNav(1, this.objData.arrItensAll, this.objData, 2, this.myTable, this.objFunc);
+							thisObjDataTable.definePage(objData, 1, objCollection);
+							thisObjDataTable.opsNav(1, objData.arrItensAll, objData, 2, myTable, objFunc);
 						}
-						var dataAll = datafilt
-						var search = dataAll.filter(function (el) {
+						var search = datafilt.filter(function (el) {
 							let resp = 0;
 							for (i = 0; i < arrColumnsIn.length; i++) {
 								if (el[arrColumnsIn[i]] != null) {
@@ -374,9 +377,9 @@
 							return resp;
 						});
 						if (search && search.length && res != '') {
-							console.log(this.objFunc)
+							console.log(objFunc)
 							searchMark = 1
-							this.opsNav(1, search, this.objData, null, this.myTable, this.objFunc);
+							thisObjDataTable.opsNav(1, search, objData, null, myTable, objFunc);
 						} else if (res != '') {
 							FLUIGC.toast({
 								title: 'Searching: ',
@@ -400,8 +403,8 @@
 			console.log(this.dataInit)
 			console.log(this.objData.arrItensAll)
 			this.opsNav(1, this.objData.arrItensAll, this.objData, 2, this.myTable, this.objFunc);
-			this.backward(this.myTable, this.objData.arrItensAll, this.objData, searchMark, this, this.objFunc);	//param this.myTable & thisObj
-			this.forward(this.myTable, this.objData.arrItensAll, this.objData, searchMark, this, this.objFunc);	//param this.myTable & thisObj
+			this.backward(this.myTable, this.objData.arrItensAll, this.objData, searchMark, this, this.objFunc);	
+			this.forward(this.myTable, this.objData.arrItensAll, this.objData, searchMark, this, this.objFunc);
 		},
 		setFunc: function (objFnc) {
 			if (objFnc != '' && objFnc != null && objFnc != undefined) {
