@@ -415,9 +415,6 @@ dataTableConfig.prototype.changeEventInput = function () {
         },
         disabledOptions: function () {              //Disabilita opções de botão 'Ações Assessoria'
             drpDwn  = itens['btnDrpDwn1'];
-            drpDwn.getElementsByTagName('button')[0].disabled = false
-            let lis = drpDwn.getElementsByTagName('li');
-            let dataSelected = document.getElementById('dataSelected').value;
             let States      = [wrkflw.AnaliseAssr, wrkflw.Ajustes, wrkflw.RealizaReuniao, wrkflw.ItemDescartado]
             let refEnabled  = [
                 [wrkflw.AnaliseAssr],
@@ -425,9 +422,12 @@ dataTableConfig.prototype.changeEventInput = function () {
                 [wrkflw.Ajustes, wrkflw.RealizaReuniao, wrkflw.ItemDescartado, 19],
                 [wrkflw.Ajustes, wrkflw.RealizaReuniao, wrkflw.ItemDescartado, 19]
             ] 
+            let dataSelected = document.getElementById('dataSelected').value;
             let cntrts          = DatasetFactory.createConstraint("txt_NumProcess", dataSelected, dataSelected, ConstraintType.MUST); 
             let itenPauta       = DatasetFactory.getDataset('Pauta DIREX', null, new Array(cntrts), null).values[0];
             if(itenPauta['hdn_aprvAssr'] != null || itenPauta['hdn_aprvAssr'] != undefined){
+                drpDwn.getElementsByTagName('button')[0].disabled = false
+                let lis = drpDwn.getElementsByTagName('li');
                 let assrAp = itenPauta['hdn_aprvAssr'];
                 if (assrAp == wrkflw.DespachoDeliber){
                     drpDwn.getElementsByTagName('button')[0].disabled = 'disabled'

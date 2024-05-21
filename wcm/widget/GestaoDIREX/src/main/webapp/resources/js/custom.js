@@ -163,30 +163,37 @@
     window.addEventListener('load', getDirVinc)
 	
 	var testDatatable = {
-		myTable: null,
-		tableData: null,
-		dataInit: null,
-		datafilt: null,
-		arrColumns: '',
-		attRefer: '',
-		hder: '',
-		objCollection: '',
+		myTable:        null,
+		tableData:      null,
+		dataInit:       null,
+		datafilt:       null,
+		arrColumns:     '',
+		attRefer:       '',
+		hder:           '',
+		objCollection:  '',
 		condValidation: '',
-		fnc: '',
-		obj: '',
+		fnc:            '',
+		obj:            '',
 		objFunc: {
 			fnc: [
 				{ 'fncName': '', 'metodhParam': '' }
 			]
 		},
+        objData: {
+            arrItens:       [],		// Array com os itens que serão apresentados na pagina atual 
+            arrItensAll:    [], 	// Array produto final após a limpesa conforme condicionais determinadas
+            markItensAll:   0, 	    // markItensAll == 1 - determina o fim da montagem do Array 'arrItensAll'
+            pageAtual:      -1,		// numero da pagina começando com valor '0'
+            indIten:        0       // Valor igual ao ultimo Index do 'this.objCollection' do item que foi validado e incluso no array 'arrItens' 
+        },
 		paramsInit: function (objMain) {
-			this.arrColumns = objMain.arrColumnsRender
-			this.attRefer = objMain.attRefer
-			this.hder = objMain.hder
-			this.objCollection = objMain.objCollection
-			this.condValidation = objMain.condValidation
-			this.fnc = objMain.fnc
-			this.obj = objMain
+			this.arrColumns             = objMain.arrColumnsRender
+			this.attRefer               = objMain.attRefer
+			this.hder                   = objMain.hder
+			this.objCollection          = objMain.objCollection
+			this.condValidation         = objMain.condValidation
+			this.fnc                    = objMain.fnc
+			this.obj                    = objMain
 			this.loadTable()
 			btnCollection = document.getElementsByTagName('button')
 			for(let i = 0; i < btnCollection.length; i++){
@@ -204,31 +211,25 @@
 			/**
 			 * Press = Determina se a função definepage já foi executada e o Objeto já está formatado.
 			*/
-			objData.arrItens = [];
-			cols = this.arrColumns;
-			determineLenght = 5;
-			attIten = this.attRefer;
-
-
-			itens = itensCollection
-
-
-			fnc = this.fnc
-			condValidation = this.condValidation
-			objAll = this.obj
-			console.log(objAll)
+			objData.arrItens        = [];
+			cols                    = this.arrColumns;
+			determineLenght         = 5;
+			attIten                 = this.attRefer;
+			itens                   = itensCollection
+			fnc                     = this.fnc
+			condValidation          = this.condValidation
+			objAll                  = this.obj
+			console.log(objData)
+            console.log(objAll)
 			console.log(fnc)
 			console.log(itens)
 			if (dirr == 1) {
-
 				i = objData.indIten
 				objData.pageAtual++
 				if (objData.pageAtual != 0) {
 					a = objData.pageAtual + 1
 					objData.indIten = (a * determineLenght) //+ 1
 				} else { objData.indIten = 5 }
-
-
 			} else if (dirr == 0) {
 				if (objData.pageAtual != 0) {
 					a = objData.pageAtual - 1
@@ -327,22 +328,20 @@
 			console.log(objData)
 		},
 		loadTable: function () {
-			var that = this;
-			var thisObj = this;
 			var arrColumnsIn = this.arrColumns
 			var itensCollection = this.objCollection
 			var searchMark = 0
 			//Retira as datas com valor nullo	
-			var objData = {
+			/*var objData = {
 				arrItens: [],		// Array com os itens que serão apresentados na pagina atual 
 				arrItensAll: [], 	// Array produto final após a limpesa conforme condicionais determinadas
 				markItensAll: 0, 	// markItensAll == 1 - determina o fim da montagem do Array 'arrItensAll'
 				pageAtual: -1,		// numero da pagina começando com valor '0'
 				indIten: 0 			// Valor igual ao ultimo Index do 'this.objCollection' do item que foi validado e incluso no array 'arrItens' 
-			};
-			that.definePage(objData, 1, itensCollection);
-			that.myTable = FLUIGC.datatable('#target', {
-				dataRequest: objData.arrItens,
+			};*/
+			this.definePage(this.objData, 1, itensCollection);
+			this.myTable = FLUIGC.datatable('#target', {
+				dataRequest: this.objData.arrItens,
 				renderContent: this.arrColumns,
 				header: this.hder,
 				tableStyle: 'table table-bordered table-dark table-hover',
@@ -353,25 +352,21 @@
 				search: {
 					enabled: true,
 					onlyEnterkey: true,
-					onSearch: function (res) {
-						if (!res) {
-							//that.myTable.reload(dataInit);
-							that.reload(that.myTable, that.dataInit, that.objFunc);
-							console.log(that.objFunc)
-							objData = {
-								arrItens: [],
-								arrItensAll: [],
-								markItensAll: 0,
-								pageAtual: -1,
-								indIten: 0
-							};
-							itensCollection = that.objCollection
+					onSearch: function (res) { //< ---------------------------------------------------------------------------- func Search
+                        this.objData = {
+                            arrItens: [],
+                            arrItensAll: [],
+                            markItensAll: 0,
+                            pageAtual: -1,
+                            indIten: 0
+                        };
+						if (!res) {             
+							//this.myTable.reload(dataInit);
+							this.reload(this.myTable, this.dataInit, this.objFunc);
+							console.log(this.objFunc)
 							searchMark = 0
-							//console.log(itensCollection)
-							that.definePage(objData, 1, itensCollection);
-							that.opsNav(1, objData.arrItensAll, objData, 2, that.myTable, that.objFunc);
-							//that.backward(that.myTable, itensCollection, objData, searchMark, thisObj, that.objFunc);	//param that.myTable & thisObj
-							//that.forward(that.myTable, itensCollection, objData, searchMark, thisObj, that.objFunc);	//param that.myTable & thisObj
+							this.definePage(this.objData, 1, this.objCollection);
+							this.opsNav(1, this.objData.arrItensAll, this.objData, 2, this.myTable, this.objFunc);
 						}
 						var dataAll = datafilt
 						var search = dataAll.filter(function (el) {
@@ -386,21 +381,9 @@
 							return resp;
 						});
 						if (search && search.length && res != '') {
-							//that.myTable.reload(search);
-							console.log(that.objFunc)
-							//that.reload(that.myTable, search, that.objFunc);
-							objData = {
-								arrItens: [],
-								arrItensAll: [],
-								markItensAll: 0,
-								pageAtual: -1,
-								indIten: 0
-							};
-							itensCollection = search
+							console.log(this.objFunc)
 							searchMark = 1
-							that.opsNav(1, search, objData, null, that.myTable, that.objFunc);
-							//that.backward(that.myTable, itensCollection, objData, searchMark, thisObj, that.objFunc);	//param that.myTable & thisObj
-							//that.forward(that.myTable, itensCollection, objData, searchMark, thisObj, that.objFunc);	//param that.myTable & thisObj
+							this.opsNav(1, search, this.objData, null, this.myTable, this.objFunc);
 						} else if (res != '') {
 							FLUIGC.toast({
 								title: 'Searching: ',
@@ -412,7 +395,7 @@
 				},
 			}, function (err, data) {
 				if (data) {
-					that.dataInit = data;
+					this.dataInit = data;
 				}
 				else if (err) {
 					FLUIGC.toast({
@@ -421,14 +404,11 @@
 					});
 				}
 			});
-
-			console.log(that.dataInit)
-			console.log(itensCollection)
-			console.log(objData.arrItensAll)
-
-			that.opsNav(1, objData.arrItensAll, objData, 2, that.myTable, that.objFunc);
-			that.backward(that.myTable, objData.arrItensAll, objData, searchMark, thisObj, that.objFunc);	//param that.myTable & thisObj
-			that.forward(that.myTable, objData.arrItensAll, objData, searchMark, thisObj, that.objFunc);	//param that.myTable & thisObj
+			console.log(this.dataInit)
+			console.log(this.objData.arrItensAll)
+			this.opsNav(1, this.objData.arrItensAll, this.objData, 2, this.myTable, this.objFunc);
+			this.backward(this.myTable, this.objData.arrItensAll, this.objData, searchMark, this, this.objFunc);	//param this.myTable & thisObj
+			this.forward(this.myTable, this.objData.arrItensAll, this.objData, searchMark, this, this.objFunc);	//param this.myTable & thisObj
 		},
 		setFunc: function (objFnc) {
 			if (objFnc != '' && objFnc != null && objFnc != undefined) {
@@ -444,16 +424,11 @@
 		reload: async function (myTable, data, objFunc) {
 			if (myTable != undefined) {
                 await myTable.reload(data);
-				//var a = myTable.reload(data);
-				//console.log(a)
-				//var funNow = 0;
 				if (objFunc != '' && objFunc != null && objFunc != undefined) {
 					for (t = 0; t < objFunc.fnc.length; t++) {
 						if (objFunc.fnc[t].metodhParam == 'reload') {
-
 							let name = objFunc.fnc[t].fncName
 							await objFunc[name]()
-							//console.log(funNow)
 						}
 					}
 				}
@@ -479,7 +454,7 @@
 			}
 
 			if (press == null || press == undefined) {
-				this.definePage(obj, dirr, itens);
+				this.definePage(obj, dirr,  itens);
 				this.reload(myTable, obj.arrItens, objFunc);
 			} else if (press == 1) {
 				this.definePage(obj, dirr, itens, press);
