@@ -22,7 +22,14 @@
                     { 'fncName': '', 'metodhParam': '' }
                 ]
             }
-            objDataTable.myTable.destroy()
+            objDataTable.myTable.destroy();
+            objDataTable.objData= {
+	            arrItens            : [],		// Array com os itens que serão apresentados na pagina atual 
+	            arrItensAll         : [], 	    // Array produto final após a limpesa conforme condicionais determinadas
+	            markItensAll        : 0, 	    // markItensAll == 1 - determina o fim da montagem do Array 'arrItensAll'
+	            pageAtual           : -1,		// numero da pagina começando com valor '0'
+	            indIten             : 0         // Valor igual ao ultimo Index do 'this.objCollection' do item que foi validado e incluso no array 'arrItens' 
+	        }
         })
     }
     window.addEventListener('load', initPageConfig)
@@ -486,6 +493,7 @@
 				},
 			}, function (err, data) {
 				if (data) {
+                    console.log(data)
 					this.dataInit = data;
 				}
 				else if (err) {
@@ -498,8 +506,8 @@
 			console.log(this.dataInit)
 			console.log(this.objData.arrItensAll)
 			await this.opsNav(1, this.objData, 2, this.myTable, this.objFunc);
-			this.backward(this.myTable, this.objData.arrItensAll, this.objData, searchMark, this, this.objFunc);	
-			this.forward(this.myTable, this.objData.arrItensAll, this.objData, searchMark, this, this.objFunc);
+			this.backward(this.myTable, this.objData, searchMark, this, this.objFunc);	
+			this.forward(this.myTable, this.objData, searchMark, this, this.objFunc);
 		},
 		setFunc: function (objFnc) {
 			if (objFnc != '' && objFnc != null && objFnc != undefined) {
