@@ -494,7 +494,7 @@
 			}, function (err, data) {
 				if (data) {
                     console.log(data)
-					this.dataInit = data;
+					thisObjDataTable.dataInit = data;
 				}
 				else if (err) {
 					FLUIGC.toast({
@@ -506,8 +506,8 @@
 			console.log(this.dataInit)
 			console.log(this.objData.arrItensAll)
 			await this.opsNav(1, this.objData, 2, this.myTable, this.objFunc);
-			this.backward(this.myTable, this.objData, searchMark, this, this.objFunc);	
-			this.forward(this.myTable, this.objData, searchMark, this, this.objFunc);
+			this.backward(this.myTable, this.objData.arrItensAll, this.objData, searchMark, this, this.objFunc);	// <----  segundo parametro passado é referente ao array de itens que serão considerados na tabela. Quando utilizado o filtro de pesquisa o array é redimencionado.
+			this.forward(this.myTable, this.objData.arrItensAll, this.objData, searchMark, this, this.objFunc);
 		},
 		setFunc: function (objFnc) {
 			if (objFnc != '' && objFnc != null && objFnc != undefined) {
@@ -523,14 +523,16 @@
 		reload: async function (myTable, data, objFunc) {
 			if (myTable != undefined) {
                 await myTable.reload(data);
-				if (objFunc != '' && objFunc != null && objFunc != undefined) {
-					for (t = 0; t < objFunc.fnc.length; t++) {
-						if (objFunc.fnc[t].metodhParam == 'reload') {
-							let name = objFunc.fnc[t].fncName
-							await objFunc[name]()
-						}
-					}
-				}
+                if(data.length > 0){
+                    if (objFunc != '' && objFunc != null && objFunc != undefined) {
+                        for (t = 0; t < objFunc.fnc.length; t++) {
+                            if (objFunc.fnc[t].metodhParam == 'reload') {
+                                let name = objFunc.fnc[t].fncName
+                                await objFunc[name]()
+                            }
+                        }
+                    }
+                }
 			}
 		},
 		opsNav: async function (dirr, obj, press, myTable, objFunc) {

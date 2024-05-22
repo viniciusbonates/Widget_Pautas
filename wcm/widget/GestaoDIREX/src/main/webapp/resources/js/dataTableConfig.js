@@ -1840,7 +1840,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                     indIten             : 0         // Valor igual ao ultimo Index do 'this.objCollection' do item que foi validado e incluso no array 'arrItens' 
                 }//dataTablemi.tableReference.objData;
                 dataTablemi.tableReference.definePage(objItnsDef, 1,  dtIn);
-                dataTablemi.tableReference.reload(tbIn, dtIn, objFuncIn); 
+                dataTablemi.tableReference.reload(tbIn, dataTablemi.tableReference.objData.arrItens, objFuncIn); 
                 //myAlertAll.fixedMoviment(myAlertAll.validate())  
             }); 
         }
