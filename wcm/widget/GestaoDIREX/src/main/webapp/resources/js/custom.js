@@ -301,11 +301,15 @@
 			/**
 			 * Press = Determina se a função definepage já foi executada e o Objeto já está formatado.
 			*/
+            if(itensCollection){
+                itens                   = itensCollection
+            }else{
+                itens                   = this.configDefinition.objCollection
+            }
 			objData.arrItens        = [];
             cols                    = this.configDefinition.arrColumnsRender;
 			determineLenght         = 5;
 			attIten                 = this.configDefinition.attRefer;
-			itens                   = this.configDefinition.objCollection
 			fnc                     = this.configDefinition.fnc
 			condValidation          = this.configDefinition.condValidation
 			objAll                  = this.configDefinition
@@ -417,7 +421,7 @@
 			this.datafilt = objData.arrItensAll
 			console.log(objData)
 		},
-		loadTable: function () {
+		loadTable: async function () {
             var thisObjDataTable    = this                                   // < ----------- Necessário passar o objDataTable para utilizar nos metodos deste objeto por conta da perca de escopo.
             var configParam         = this.configDefinition
 			var itensCollection     = configParam.objCollection
@@ -435,7 +439,7 @@
 				search: {
 					enabled: true,
 					onlyEnterkey: true,
-					onSearch: function (res) {
+					onSearch: async function (res) {
                         thisObjDataTable.objData = {    
                             arrItens: [],
                             arrItensAll: [],
@@ -447,13 +451,13 @@
                         let dataInit            = thisObjDataTable.dataInit
                         let objFunc             = thisObjDataTable.objFunc
                         let objData             = thisObjDataTable.objData
-                        let objCollection       = thisObjDataTable.objCollection
+                        let objCollection       = configParam.objCollection
                         let datafilt            = thisObjDataTable.datafilt
                         if (!res) {             
-							thisObjDataTable.reload(myTable, dataInit, objFunc);
+							await thisObjDataTable.reload(myTable, dataInit, objFunc);
 							searchMark = 0
 							thisObjDataTable.definePage(objData, 1, objCollection);
-							thisObjDataTable.opsNav(1, objData, 2, myTable, objFunc);
+							await thisObjDataTable.opsNav(1, objData, 2, myTable, objFunc);
 						}
 						var search = datafilt.filter(function (el) {
 							let resp = 0;
@@ -470,7 +474,7 @@
 							console.log(objFunc)
                             objData.arrItensAll = search
 							searchMark = 1
-							thisObjDataTable.opsNav(1, objData, null, myTable, objFunc);
+							await thisObjDataTable.opsNav(1, objData, null, myTable, objFunc);
 						} else if (res != '') {
 							FLUIGC.toast({
 								title: 'Searching: ',
@@ -493,7 +497,7 @@
 			});
 			console.log(this.dataInit)
 			console.log(this.objData.arrItensAll)
-			this.opsNav(1, this.objData, 2, this.myTable, this.objFunc);
+			await this.opsNav(1, this.objData, 2, this.myTable, this.objFunc);
 			this.backward(this.myTable, this.objData.arrItensAll, this.objData, searchMark, this, this.objFunc);	
 			this.forward(this.myTable, this.objData.arrItensAll, this.objData, searchMark, this, this.objFunc);
 		},
@@ -521,7 +525,7 @@
 				}
 			}
 		},
-		opsNav: function (dirr, obj, press, myTable, objFunc) {
+		opsNav: async function (dirr, obj, press, myTable, objFunc) {
             let itens = obj.arrItensAll
 			console.log(itens)
 			console.log(obj)
@@ -542,10 +546,10 @@
 
 			if (press == null || press == undefined) {
 				this.definePage(obj, dirr,  itens);
-				this.reload(myTable, obj.arrItens, objFunc);
+				await this.reload(myTable, obj.arrItens, objFunc);
 			} else if (press == 1) {
 				this.definePage(obj, dirr, itens, press);
-				this.reload(myTable, obj.arrItens, objFunc);
+				await this.reload(myTable, obj.arrItens, objFunc);
 			}
 			if (obj.pageAtual != 0) {
 				btnNav.btnPrev.disabled = false
@@ -579,26 +583,26 @@
 			}
 		},
 		backward: function (myTable, itensCollection, objData, searchMark, Obj, objFunc) {
-			myTable.on('fluig.datatable.backward', function () {
+			myTable.on('fluig.datatable.backward', async function () {
 				let dirr = 0
                 objData.arrItensAll = itensCollection
 				if (searchMark == 1) {
 					console.log(dirr)
-					Obj.opsNav(dirr, objData, searchMark, myTable, objFunc)
+					await Obj.opsNav(dirr, objData, searchMark, myTable, objFunc)
 				} else {
 					console.log(dirr)
-					Obj.opsNav(dirr, objData, null, myTable, objFunc)
+					await Obj.opsNav(dirr, objData, null, myTable, objFunc)
 				}
 			});
 		},
 		forward: function (myTable, itensCollection, objData, searchMark, Obj, objFunc) {
-			myTable.on('fluig.datatable.forward', function () {
+			myTable.on('fluig.datatable.forward', async function () {
                 objData.arrItensAll = itensCollection
 				let dirr = 1
 				if (searchMark == 1) {
-					Obj.opsNav(dirr, objData, searchMark, myTable, objFunc)
+					await Obj.opsNav(dirr, objData, searchMark, myTable, objFunc)
 				} else {
-					Obj.opsNav(dirr, objData, null, myTable, objFunc)
+					await Obj.opsNav(dirr, objData, null, myTable, objFunc)
 				}
 			});
 		}
