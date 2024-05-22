@@ -201,21 +201,19 @@
 				}
 			}
 		},
-        defineItensValid: function (){
-            let objData = {
-                arrItens            : [],		// Array com os itens que serão apresentados na pagina atual 
-                arrItensAll         : [], 	    // Array produto final após a limpesa conforme condicionais determinadas
-                markItensAll        : 0, 	    // markItensAll == 1 - determina o fim da montagem do Array 'arrItensAll'
-                pageAtual           : -1,		// numero da pagina começando com valor '0'
-                indIten             : 0         // Valor igual ao ultimo Index do 'this.objCollection' do item que foi validado e incluso no array 'arrItens' 
-            },
-			cols                    = this.configDefinition.arrColumnsRender;
-			determineLenght         = 5;
-			attIten                 = this.configDefinition.attRefer;
-			itens                   = this.configDefinition.objCollection
-			fnc                     = this.configDefinition.fnc
-			condValidation          = this.configDefinition.condValidation
-			objAll                  = this.configDefinition
+        defineItensValid: function (newItens){
+            this.objData.arrItens       = []
+            this.objData.markItensAll   = 0
+            if(newItens){
+                    itens               = newItens
+            }else{ 	itens               = this.configDefinition.objCollection }
+			cols                        = this.configDefinition.arrColumnsRender;
+			determineLenght             = 5;
+			attIten                     = this.configDefinition.attRefer;
+			itens                       = this.configDefinition.objCollection
+			fnc                         = this.configDefinition.fnc
+			condValidation              = this.configDefinition.condValidation
+			objAll                      = this.configDefinition
             press = 0
             function objS(rslt, ref) {
 				let obj = {
@@ -226,9 +224,9 @@
 			}
 			var objsFunc = [];
 			var count = 0;
-			for (let i = 0; objData.arrItens.length <= itens.length; i++) {
+			for (let i = 0; this.objData.arrItens.length <= itens.length; i++) {
 				item = itens[i]
-				lgnt = objData.arrItens.length
+				lgnt = this.objData.arrItens.length
 				if (item != undefined && item[attIten] != null && item[attIten] != '') {
 					/*********************** Validação ***********************************/
 					if (condValidation.length == 0 || condValidation != '') {
@@ -278,31 +276,32 @@
 									else { obj_din = obj_din + virg }
 								}
 								if (lgnt == 0) {
-									if (objData.arrItens.length != determineLenght) {
-										objData.arrItens[0] = JSON.parse(obj_din);
-										objData.indIten = 0; 
+									if (this.objData.arrItens.length != determineLenght) {
+										this.objData.arrItens[0] = JSON.parse(obj_din);
+										this.objData.indIten = 0; 
 									}
-									if (objData.markItensAll == 0) { objData.arrItensAll[0] = item; } 
+									if (this.objData.markItensAll == 0) { this.objData.arrItensAll[0] = JSON.parse(obj_din); } 
 								} else {
 									count++
-									if (objData.arrItens.length != determineLenght) { 
-                                        objData.arrItens[lgnt]  = JSON.parse(obj_din); 
-                                        objData.indIten++
+									if (this.objData.arrItens.length != determineLenght) { 
+                                        this.objData.arrItens[lgnt]  = JSON.parse(obj_din); 
+                                        this.objData.indIten++
                                     }
-									if (objData.markItensAll == 0) { objData.arrItensAll[count] = item; } 
+									if (this.objData.markItensAll == 0) { this.objData.arrItensAll[count] = JSON.parse(obj_din); } 
 								}
 							}
 						}
 					}
 				} else if (item == undefined) {
-					if (objData.arrItens.length != determineLenght) {        // < ----------- Siginifica que o tamanho do array de itens para serem apresentados não cehgou a 5.
-							objData.indIten = objData.arrItens.length - 1
+					if (this.objData.arrItens.length != determineLenght) {        // < ----------- Siginifica que o tamanho do array de itens para serem apresentados não cehgou a 5.
+							this.objData.indIten = this.objData.arrItens.length - 1
 					}
-					if (objData.markItensAll == 0) { objData.markItensAll = 1 }
+					if (this.objData.markItensAll == 0) { this.objData.markItensAll = 1 }
 					break;
 				}
 			}
-            console.log(objData)
+			this.datafilt = this.objData.arrItensAll
+			console.log(this.objData)
         },
 		definePage: function (objData, dirr, itensCollection, press) {
 			/**
