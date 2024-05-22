@@ -163,37 +163,24 @@
     window.addEventListener('load', getDirVinc)
 	
 	var objDataTable = {
-		myTable:        null,
-		tableData:      null,
-		dataInit:       null,
-		datafilt:       null,
-		arrColumns:     '',
-		attRefer:       '',
-		hder:           '',
-		objCollection:  '',
-		condValidation: '',
-		fnc:            '',
-		obj:            '',
+		myTable             : null,
+		dataInit            : null,
+		datafilt            : null,
+		configDefinition    : '',
 		objFunc: {
 			fnc: [
 				{ 'fncName': '', 'metodhParam': '' }
 			]
 		},
         objData: {
-            arrItens:       [],		// Array com os itens que serão apresentados na pagina atual 
-            arrItensAll:    [], 	// Array produto final após a limpesa conforme condicionais determinadas
-            markItensAll:   0, 	    // markItensAll == 1 - determina o fim da montagem do Array 'arrItensAll'
-            pageAtual:      -1,		// numero da pagina começando com valor '0'
-            indIten:        0       // Valor igual ao ultimo Index do 'this.objCollection' do item que foi validado e incluso no array 'arrItens' 
+            arrItens            : [],		// Array com os itens que serão apresentados na pagina atual 
+            arrItensAll         : [], 	    // Array produto final após a limpesa conforme condicionais determinadas
+            markItensAll        : 0, 	    // markItensAll == 1 - determina o fim da montagem do Array 'arrItensAll'
+            pageAtual           : -1,		// numero da pagina começando com valor '0'
+            indIten             : 0         // Valor igual ao ultimo Index do 'this.objCollection' do item que foi validado e incluso no array 'arrItens' 
         },
 		paramsInit: function (objMain) {
-			this.arrColumns             = objMain.arrColumnsRender
-			this.attRefer               = objMain.attRefer
-			this.hder                   = objMain.hder
-			this.objCollection          = objMain.objCollection
-			this.condValidation         = objMain.condValidation
-			this.fnc                    = objMain.fnc
-			this.obj                    = objMain
+			this.configDefinition       = objMain
 			this.loadTable()
 			btnCollection = document.getElementsByTagName('button')
 			for(let i = 0; i < btnCollection.length; i++){
@@ -207,18 +194,121 @@
 				}
 			}
 		},
+        defineItensValid: function (){
+            let objData = {
+                arrItens            : [],		// Array com os itens que serão apresentados na pagina atual 
+                arrItensAll         : [], 	    // Array produto final após a limpesa conforme condicionais determinadas
+                markItensAll        : 0, 	    // markItensAll == 1 - determina o fim da montagem do Array 'arrItensAll'
+                pageAtual           : -1,		// numero da pagina começando com valor '0'
+                indIten             : 0         // Valor igual ao ultimo Index do 'this.objCollection' do item que foi validado e incluso no array 'arrItens' 
+            },
+			cols                    = this.configDefinition.arrColumnsRender;
+			determineLenght         = 5;
+			attIten                 = this.configDefinition.attRefer;
+			itens                   = this.configDefinition.objCollection
+			fnc                     = this.configDefinition.fnc
+			condValidation          = this.configDefinition.condValidation
+			objAll                  = this.configDefinition
+            press = 0
+            function objS(rslt, ref) {
+				let obj = {
+					rslt: rslt,
+					ref: ref
+				}
+				return obj
+			}
+			var objsFunc = [];
+			var count = 0;
+			for (let i = 0; objData.arrItens.length <= itens.length; i++) {
+				item = itens[i]
+				lgnt = objData.arrItens.length
+				if (item != undefined && item[attIten] != null && item[attIten] != '') {
+					/*********************** Validação ***********************************/
+					if (condValidation.length == 0 || condValidation != '') {
+						console.log(condValidation)
+						for (cv = 0; cv < condValidation.length; cv++) {
+							let nameVal = condValidation[cv].fncName
+							let aVal = objAll[nameVal]()
+							let refVal = condValidation[cv].fncParam
+							console.log(aVal)
+							if (aVal != true || aVal == undefined) {
+								/*********************** Validação ***********************************/
+								console.log(press)
+								if (fnc != '' && press != 1) {
+									for (t = 0; t < fnc.length; t++) {
+										let name = fnc[t].fncName
+										var a = objAll[name]()
+										var ref = fnc[t].fncParam
+										objsFunc[t] = new objS(a, ref)
+									}
+								}
+								console.log(objsFunc)
+								console.log(item)
+								var obj_din = ''
+								let inic = '{'
+								let final = '}'
+								let virg = ','
+								obj_din = obj_din + inic
+								for (j = 0; j < cols.length; j++) {
+									ckn = j + 1
+									valueIt = ''
+									nameCol = cols[j]
+									if (fnc != '') {
+										ckin = false;
+										for (k = 0; k < objsFunc.length; k++) {
+											funNow = objsFunc[k]
+											if (nameCol == funNow.ref) {
+												valueIt = funNow.rslt
+												ckin = true
+												//console.log(valueIt)
+												break
+											}
+										}
+										if (!ckin) { valueIt = item[cols[j]] }
+									}
+									obj_din = obj_din + '"' + cols[j] + '":"' + valueIt + '"'
+									if (ckn == cols.length) { obj_din = obj_din + final; }
+									else { obj_din = obj_din + virg }
+								}
+								if (lgnt == 0) {
+									if (objData.arrItens.length != determineLenght) {
+										objData.arrItens[0] = JSON.parse(obj_din);
+										objData.indIten = 0; 
+									}
+									if (objData.markItensAll == 0) { objData.arrItensAll[0] = item; } 
+								} else {
+									count++
+									if (objData.arrItens.length != determineLenght) { 
+                                        objData.arrItens[lgnt]  = JSON.parse(obj_din); 
+                                        objData.indIten++
+                                    }
+									if (objData.markItensAll == 0) { objData.arrItensAll[count] = item; } 
+								}
+							}
+						}
+					}
+				} else if (item == undefined) {
+					if (objData.arrItens.length != determineLenght) {        // < ----------- Siginifica que o tamanho do array de itens para serem apresentados não cehgou a 5.
+							objData.indIten = objData.arrItens.length - 1
+					}
+					if (objData.markItensAll == 0) { objData.markItensAll = 1 }
+					break;
+				}
+			}
+            console.log(objData)
+        },
 		definePage: function (objData, dirr, itensCollection, press) {
 			/**
 			 * Press = Determina se a função definepage já foi executada e o Objeto já está formatado.
 			*/
 			objData.arrItens        = [];
-			cols                    = this.arrColumns;
+            cols                    = this.configDefinition.arrColumnsRender;
 			determineLenght         = 5;
-			attIten                 = this.attRefer;
-			itens                   = itensCollection
-			fnc                     = this.fnc
-			condValidation          = this.condValidation
-			objAll                  = this.obj
+			attIten                 = this.configDefinition.attRefer;
+			itens                   = this.configDefinition.objCollection
+			fnc                     = this.configDefinition.fnc
+			condValidation          = this.configDefinition.condValidation
+			objAll                  = this.configDefinition
 			console.log(objData)
             console.log(objAll)
 			console.log(fnc)
@@ -315,7 +405,7 @@
 						}
 					}
 				} else if (item == undefined) {
-					if (objData.arrItens.length != determineLenght) {
+					if (objData.arrItens.length != determineLenght) {        // < ----------- Siginifica que o tamanho do array de itens para serem apresentados não cehgou a 5.
 						if (itens.length != objData.indIten) {
 							objData.indIten = i
 						} else { objData.indIten = i }
@@ -329,14 +419,14 @@
 		},
 		loadTable: function () {
             var thisObjDataTable    = this                                   // < ----------- Necessário passar o objDataTable para utilizar nos metodos deste objeto por conta da perca de escopo.
-			var arrColumnsIn        = this.arrColumns
-			var itensCollection     = this.objCollection
+            var configParam         = this.configDefinition
+			var itensCollection     = configParam.objCollection
 			var searchMark          = 0
 			this.definePage(this.objData, 1, itensCollection);
 			this.myTable = FLUIGC.datatable('#target', {
 				dataRequest         : this.objData.arrItens,
-				renderContent       : this.arrColumns,
-				header              : this.hder,
+				renderContent       : configParam.arrColumnsRender,
+				header              : configParam.hder,
 				tableStyle          : 'table table-bordered table-dark table-hover',
 				classSelected       : 'success',
 				navButtons: {
@@ -346,7 +436,7 @@
 					enabled: true,
 					onlyEnterkey: true,
 					onSearch: function (res) {
-                        thisObjDataTable.objData = {
+                        thisObjDataTable.objData = {    
                             arrItens: [],
                             arrItensAll: [],
                             markItensAll: 0,
@@ -363,14 +453,14 @@
 							thisObjDataTable.reload(myTable, dataInit, objFunc);
 							searchMark = 0
 							thisObjDataTable.definePage(objData, 1, objCollection);
-							thisObjDataTable.opsNav(1, objData.arrItensAll, objData, 2, myTable, objFunc);
+							thisObjDataTable.opsNav(1, objData, 2, myTable, objFunc);
 						}
 						var search = datafilt.filter(function (el) {
 							let resp = 0;
-							for (i = 0; i < arrColumnsIn.length; i++) {
-								if (el[arrColumnsIn[i]] != null) {
-									if (el[arrColumnsIn[i]].toUpperCase().indexOf(res.toUpperCase()) >= 0) {
-										resp = el[arrColumnsIn[i]].toUpperCase().indexOf(res.toUpperCase()) >= 0;
+							for (i = 0; i < configParam.arrColumnsRender.length; i++) {
+								if (el[configParam.arrColumnsRender[i]] != null) {
+									if (el[configParam.arrColumnsRender[i]].toUpperCase().indexOf(res.toUpperCase()) >= 0) {
+										resp = el[configParam.arrColumnsRender[i]].toUpperCase().indexOf(res.toUpperCase()) >= 0;
 									}
 								}
 							}
@@ -378,8 +468,9 @@
 						});
 						if (search && search.length && res != '') {
 							console.log(objFunc)
+                            objData.arrItensAll = search
 							searchMark = 1
-							thisObjDataTable.opsNav(1, search, objData, null, myTable, objFunc);
+							thisObjDataTable.opsNav(1, objData, null, myTable, objFunc);
 						} else if (res != '') {
 							FLUIGC.toast({
 								title: 'Searching: ',
@@ -402,7 +493,7 @@
 			});
 			console.log(this.dataInit)
 			console.log(this.objData.arrItensAll)
-			this.opsNav(1, this.objData.arrItensAll, this.objData, 2, this.myTable, this.objFunc);
+			this.opsNav(1, this.objData, 2, this.myTable, this.objFunc);
 			this.backward(this.myTable, this.objData.arrItensAll, this.objData, searchMark, this, this.objFunc);	
 			this.forward(this.myTable, this.objData.arrItensAll, this.objData, searchMark, this, this.objFunc);
 		},
@@ -430,8 +521,8 @@
 				}
 			}
 		},
-		opsNav: function (dirr, itens, obj, press, myTable, objFunc) {
-
+		opsNav: function (dirr, obj, press, myTable, objFunc) {
+            let itens = obj.arrItensAll
 			console.log(itens)
 			console.log(obj)
 
@@ -488,26 +579,26 @@
 			}
 		},
 		backward: function (myTable, itensCollection, objData, searchMark, Obj, objFunc) {
-			//console.log(myTable)
 			myTable.on('fluig.datatable.backward', function () {
 				let dirr = 0
+                objData.arrItensAll = itensCollection
 				if (searchMark == 1) {
 					console.log(dirr)
-					Obj.opsNav(dirr, itensCollection, objData, searchMark, myTable, objFunc)
+					Obj.opsNav(dirr, objData, searchMark, myTable, objFunc)
 				} else {
 					console.log(dirr)
-					Obj.opsNav(dirr, itensCollection, objData, null, myTable, objFunc)
+					Obj.opsNav(dirr, objData, null, myTable, objFunc)
 				}
 			});
 		},
 		forward: function (myTable, itensCollection, objData, searchMark, Obj, objFunc) {
-			//console.log(myTable)
 			myTable.on('fluig.datatable.forward', function () {
+                objData.arrItensAll = itensCollection
 				let dirr = 1
 				if (searchMark == 1) {
-					Obj.opsNav(dirr, itensCollection, objData, searchMark, myTable, objFunc)
+					Obj.opsNav(dirr, objData, searchMark, myTable, objFunc)
 				} else {
-					Obj.opsNav(dirr, itensCollection, objData, null, myTable, objFunc)
+					Obj.opsNav(dirr, objData, null, myTable, objFunc)
 				}
 			});
 		}

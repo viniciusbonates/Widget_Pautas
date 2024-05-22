@@ -1829,8 +1829,17 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
             btn.getElementsByTagName('button')[0].addEventListener('click', function() { 
                 console.log(dataTablemi)
                 let tbIn        = dataTablemi.tableReference.myTable;
-                let dtIn        = dataTablemi.tableReference.dataInit;
+                let c1          = DatasetFactory.createConstraint("hdn_dir_vinc", objDefineStatus.matDir, objDefineStatus.matDir, ConstraintType.MUST, true);
+                let dtIn        = DatasetFactory.getDataset('Pauta DIREX', null, new Array(c1), null).values //dataTablemi.tableReference.dataInit;
                 let objFuncIn   = dataTablemi.tableReference.objFunc;
+                let objItnsDef  = {
+                    arrItens            : [],		// Array com os itens que serão apresentados na pagina atual 
+                    arrItensAll         : [], 	    // Array produto final após a limpesa conforme condicionais determinadas
+                    markItensAll        : 0, 	    // markItensAll == 1 - determina o fim da montagem do Array 'arrItensAll'
+                    pageAtual           : -1,		// numero da pagina começando com valor '0'
+                    indIten             : 0         // Valor igual ao ultimo Index do 'this.objCollection' do item que foi validado e incluso no array 'arrItens' 
+                }//dataTablemi.tableReference.objData;
+                dataTablemi.tableReference.definePage(objItnsDef, 1,  dtIn);
                 dataTablemi.tableReference.reload(tbIn, dtIn, objFuncIn); 
                 //myAlertAll.fixedMoviment(myAlertAll.validate())  
             }); 
