@@ -303,128 +303,20 @@
 			this.datafilt = this.objData.arrItensAll
 			console.log(this.objData)
         },
-		definePage: function (objData, dirr, itensCollection, press) {
-			/**
-			 * Press = Determina se a função definepage já foi executada e o Objeto já está formatado.
-			*/
-            if(itensCollection){
-                itens                   = itensCollection
-            }else{
-                itens                   = this.configDefinition.objCollection
-            }
-			objData.arrItens        = [];
-            cols                    = this.configDefinition.arrColumnsRender;
+		definePage: function (objData, dirr) {
 			determineLenght         = 5;
-			attIten                 = this.configDefinition.attRefer;
-			fnc                     = this.configDefinition.fnc
-			condValidation          = this.configDefinition.condValidation
-			objAll                  = this.configDefinition
 			console.log(objData)
-            console.log(objAll)
-			console.log(fnc)
-			console.log(itens)
-			if (dirr == 1) {
-				i = objData.indIten
-				objData.pageAtual++
-				if (objData.pageAtual != 0) {
-					a = objData.pageAtual + 1
-					objData.indIten = (a * determineLenght) //+ 1
-				} else { objData.indIten = 5 }
-			} else if (dirr == 0) {
-				if (objData.pageAtual != 0) {
-					a = objData.pageAtual - 1
-					i = (a * determineLenght) //+ 1
-					a = objData.pageAtual
-					objData.indIten = (a * determineLenght) //+ 1
-				} else { objData.indIten = 0 }
-				objData.pageAtual--
-			}
-			function objS(rslt, ref) {
-				obj = {
-					rslt: rslt,
-					ref: ref
-				}
-				return obj
-			}
-			var objsFunc = [];
-			var count = 0;
-			for (i = i; objData.arrItens.length <= itens.length; i++) {
+			for (let i = 0; this.objData.arrItens.length <= this.objData.arrItensAll.length; i++) {
 				item = itens[i]
-				lgnt = objData.arrItens.length
-				if (item != undefined && item[attIten] != null && item[attIten] != '') {
-					/*********************** Validação ***********************************/
-					if (condValidation.length == 0 || condValidation != '') {
-						console.log(condValidation)
-						for (cv = 0; cv < condValidation.length; cv++) {
-							let nameVal = condValidation[cv].fncName
-							let aVal = objAll[nameVal]()
-							let refVal = condValidation[cv].fncParam
-							console.log(aVal)
-							if (aVal != true || aVal == undefined) {
-								/*********************** Validação ***********************************/
-								console.log(press)
-								if (fnc != '' && press != 1) {
-									for (t = 0; t < fnc.length; t++) {
-										let name = fnc[t].fncName
-										var a = objAll[name]()
-										var ref = fnc[t].fncParam
-										objsFunc[t] = new objS(a, ref)
-									}
-								}
-								console.log(objsFunc)
-								console.log(item)
-								var obj_din = ''
-								let inic = '{'
-								let final = '}'
-								let virg = ','
-								obj_din = obj_din + inic
-								for (j = 0; j < cols.length; j++) {
-									ckn = j + 1
-									valueIt = ''
-									nameCol = cols[j]
-									if (fnc != '') {
-										ckin = false;
-										for (k = 0; k < objsFunc.length; k++) {
-											funNow = objsFunc[k]
-											if (nameCol == funNow.ref) {
-												valueIt = funNow.rslt
-												ckin = true
-												//console.log(valueIt)
-												break
-											}
-										}
-										if (!ckin) { valueIt = item[cols[j]] }
-									}
-									obj_din = obj_din + '"' + cols[j] + '":"' + valueIt + '"'
-									if (ckn == cols.length) { obj_din = obj_din + final; }
-									else { obj_din = obj_din + virg }
-								}
-								if (lgnt == 0) {
-									if (objData.arrItens.length != determineLenght) {
-										objData.arrItens[0] = JSON.parse(obj_din);
-										//objData.indIten = i + 1; 
-									}
-									if (objData.markItensAll == 0) { objData.arrItensAll[0] = item; } //JSON.parse(obj_din)
-								} else {
-									count++
-
-									if (objData.arrItens.length != determineLenght) { objData.arrItens[lgnt] = JSON.parse(obj_din); } //objData.indIten = i + 1
-									if (objData.markItensAll == 0) { objData.arrItensAll[count] = item; } //JSON.parse(obj_din)
-								}
-							}
-						}
+				lgnt = objData.arrItens.length	
+				if (lgnt == 0) {
+					if (objData.arrItens.length != determineLenght) {
+						objData.arrItens[0] = this.objData.arrItensAll[0];
 					}
-				} else if (item == undefined) {
-					if (objData.arrItens.length != determineLenght) {        // < ----------- Siginifica que o tamanho do array de itens para serem apresentados não cehgou a 5.
-						if (itens.length != objData.indIten) {
-							objData.indIten = i
-						} else { objData.indIten = i }
-					}
-					if (objData.markItensAll == 0) { objData.markItensAll = 1 }
-					break;
+				} else {
+					if (objData.arrItens.length != determineLenght) { objData.arrItens[i] = this.objData.arrItensAll[i]; } 
 				}
 			}
-			this.datafilt = objData.arrItensAll
 			console.log(objData)
 		},
 		loadTable: async function () {
