@@ -147,14 +147,18 @@ function defineElementsbar(){
                     if(divAtN != undefined){
                         mnWk.children[numProc].classList.add('rainbow')
                     }
-                }else{
-                    let numProc = regItmN.state.sequence + 'n';
-                    divAtN = mnWk.children[numProc];
-                    if(divAtN != undefined){
-                        mnWk.children[numProc].classList.remove('rainbow')    
-                    }
                 }
             }
+            for(let i = 0; i < obTemp.states.length; i++){
+                if(obTemp.states[i] != objDefineStatus.sequnce){
+                   let numProc = obTemp.states[i] + 'n';
+                   console.log(numProc)
+                   divAtN = mnWk.children[numProc];
+                   if(divAtN != undefined){
+                       mnWk.children[numProc].classList.remove('rainbow')    
+                   }
+                }
+           }
         },
         stIni: function (){
             let arrJobNow = this['initArr'];
