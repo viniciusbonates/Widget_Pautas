@@ -377,8 +377,7 @@
                         let objData             = thisObjDataTable.objData
                         let objCollection       = configParam.objCollection
                         let datafilt            = thisObjDataTable.datafilt
-                        if (!res) {             
-							searchMark = 0
+                        if (!res) {        
                             thisObjDataTable.defineItensValid()
 							await thisObjDataTable.opsNav(null, myTable, objFunc);
 						}
@@ -396,7 +395,6 @@
 						if (search && search.length && res != '') {
                             objData.arrItensAll     = search
 							objData.markItensAll    = 1
-							searchMark              = 1
 							await thisObjDataTable.opsNav(null, myTable, objFunc);
 						} else if (res != '') {
 							FLUIGC.toast({
