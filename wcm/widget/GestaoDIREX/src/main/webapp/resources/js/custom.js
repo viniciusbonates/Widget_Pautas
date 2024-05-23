@@ -184,7 +184,12 @@
             arrItensAll         : [], 	    // Array produto final após a limpesa conforme condicionais determinadas
             markItensAll        : 0, 	    // markItensAll == 1 - determina o fim da montagem do Array 'arrItensAll'
             pageAtual           : -1,		// numero da pagina começando com valor '0'
-            indIten             : 0         // Valor igual ao ultimo Index do 'this.objCollection' do item que foi validado e incluso no array 'arrItens' 
+            indIten             : -1        // Valor igual ao ultimo Index do 'this.objCollection' do item que foi validado e incluso no array 'arrItens' 
+        },
+        cleanObjData: function (){
+            this.objData['arrItens']    = []
+            this.objData['pageAtual']   = -1
+            this.objData['indIten']     = -1
         },
 		paramsInit: function (objMain) {
 			this.configDefinition       = objMain
@@ -304,27 +309,33 @@
 			console.log(this.objData)
         },
 		definePage: function (objData, dirr) {
-			determineLenght         = 5;
-			console.log(objData)
-			for (let i = 0; this.objData.arrItens.length <= this.objData.arrItensAll.length; i++) {
-				item = itens[i]
-				lgnt = objData.arrItens.length	
-				if (lgnt == 0) {
-					if (objData.arrItens.length != determineLenght) {
-						objData.arrItens[0] = this.objData.arrItensAll[0];
-					}
-				} else {
-					if (objData.arrItens.length != determineLenght) { objData.arrItens[i] = this.objData.arrItensAll[i]; } 
-				}
+            if(!objData){
+                this.cleanObjData()
+            }
+			let determineLenght = 5;
+            if(this.objData.pageAtual == -1){ this.objData.pageAtual = 0 };
+            if(dirr){ // < ---- dirr = 1 forward, dirr = 0 backward
+                if(dirr == 1){
+                    this.objData.pageAtual++
+                }else if(dirr == 0){
+                    this.objData.pageAtual--
+                }
+            }
+			for (let i = 0; this.objData.arrItens.length < this.objData.arrItensAll.length; i++) {			
+				if(this.objData.arrItens.length != determineLenght) { 
+					this.objData.arrItens[i]    = this.objData.arrItensAll[i];
+                    this.objData.indIten++ 
+				}	
 			}
-			console.log(objData)
+			console.log(this.objData)
 		},
 		loadTable: async function () {
             var thisObjDataTable    = this                                   // < ----------- Necessário passar o objDataTable para utilizar nos metodos deste objeto por conta da perca de escopo.
             var configParam         = this.configDefinition
 			var itensCollection     = configParam.objCollection
 			var searchMark          = 0
-			this.definePage(this.objData, 1, itensCollection);
+            this.defineItensValid()
+			this.definePage();
 			this.myTable = FLUIGC.datatable('#target', {
 				dataRequest         : this.objData.arrItens,
 				renderContent       : configParam.arrColumnsRender,
@@ -339,11 +350,11 @@
 					onlyEnterkey: true,
 					onSearch: async function (res) {
                         thisObjDataTable.objData = {    
-                            arrItens: [],
-                            arrItensAll: [],
-                            markItensAll: 0,
-                            pageAtual: -1,
-                            indIten: 0
+                            arrItens        : [],
+                            arrItensAll     : [],
+                            markItensAll    : 0,
+                            pageAtual       : -1,
+                            indIten         : -1
                         };
                         let myTable             = thisObjDataTable.myTable
                         let dataInit            = thisObjDataTable.dataInit
@@ -352,10 +363,11 @@
                         let objCollection       = configParam.objCollection
                         let datafilt            = thisObjDataTable.datafilt
                         if (!res) {             
-							await thisObjDataTable.reload(myTable, dataInit, objFunc);
+							//await thisObjDataTable.reload(myTable, dataInit, objFunc);
 							searchMark = 0
-							thisObjDataTable.definePage(objData, 1, objCollection);
-							await thisObjDataTable.opsNav(1, objData, 2, myTable, objFunc);
+							//thisObjDataTable.definePage(objData, 1, objCollection);
+                            thisObjDataTable.defineItensValid()
+							await thisObjDataTable.opsNav(null, objData, null, myTable, objFunc);
 						}
 						var search = datafilt.filter(function (el) {
 							let resp = 0;
@@ -369,10 +381,9 @@
 							return resp;
 						});
 						if (search && search.length && res != '') {
-							console.log(objFunc)
-                            objData.arrItensAll = search
-							searchMark = 1
-							await thisObjDataTable.opsNav(1, objData, null, myTable, objFunc);
+                            objData.arrItensAll     = search
+							searchMark              = 1
+							await thisObjDataTable.opsNav(null, objData, null, myTable, objFunc);
 						} else if (res != '') {
 							FLUIGC.toast({
 								title: 'Searching: ',
@@ -394,8 +405,6 @@
 					});
 				}
 			});
-			console.log(this.dataInit)
-			console.log(this.objData.arrItensAll)
 			await this.opsNav(1, this.objData, 2, this.myTable, this.objFunc);
 			this.backward(this.myTable, this.objData.arrItensAll, this.objData, searchMark, this, this.objFunc);	// <----  segundo parametro passado é referente ao array de itens que serão considerados na tabela. Quando utilizado o filtro de pesquisa o array é redimencionado.
 			this.forward(this.myTable, this.objData.arrItensAll, this.objData, searchMark, this, this.objFunc);
@@ -430,7 +439,6 @@
             let itens = obj.arrItensAll
 			console.log(itens)
 			console.log(obj)
-
 			btnNav = {
 				btnPrev: 0,
 				btnNext: 0
@@ -444,10 +452,9 @@
 					btnNav.btnNext = btnNow;
 				}
 			}
-
 			if (press == null || press == undefined) {
-				this.definePage(obj, dirr,  itens);
-				await this.reload(myTable, obj.arrItens, objFunc);
+				this.definePage(obj, dirr);                     // < --- Redefini os parametros do objDataTable.objData para o reload
+				await this.reload(myTable, obj.arrItens, objFunc);      // < --- Apenas recarrega a tabela com a nova pagina definida com os parametros de objDataTable.objData
 			} else if (press == 1) {
 				this.definePage(obj, dirr, itens, press);
 				await this.reload(myTable, obj.arrItens, objFunc);
@@ -455,7 +462,7 @@
 			if (obj.pageAtual != 0) {
 				btnNav.btnPrev.disabled = false
 			}
-			if (obj.indIten == itens.length) {
+			if (obj.indIten == itens.length-1){                         // < --- itens.length-1 referente ao ultimo index do array com todos os itens, caso obj.indIten tenha esse valor siginifca que não há mas opções para mostrar
 				btnNav.btnNext.disabled = true
 			}
 		},
