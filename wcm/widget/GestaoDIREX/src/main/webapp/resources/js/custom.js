@@ -308,8 +308,8 @@
 			this.datafilt = this.objData.arrItensAll
 			console.log(this.objData)
         },
-		definePage: function (objData, dirr) {
-            if(!objData){
+		definePage: function (cls, dirr) {
+            if(!cls){
                 this.cleanObjData()
             }
 			let determineLenght = 5;
@@ -363,11 +363,9 @@
                         let objCollection       = configParam.objCollection
                         let datafilt            = thisObjDataTable.datafilt
                         if (!res) {             
-							//await thisObjDataTable.reload(myTable, dataInit, objFunc);
 							searchMark = 0
-							//thisObjDataTable.definePage(objData, 1, objCollection);
                             thisObjDataTable.defineItensValid()
-							await thisObjDataTable.opsNav(null, objData, null, myTable, objFunc);
+							await thisObjDataTable.opsNav(null, null, myTable, objFunc);
 						}
 						var search = datafilt.filter(function (el) {
 							let resp = 0;
@@ -382,8 +380,9 @@
 						});
 						if (search && search.length && res != '') {
                             objData.arrItensAll     = search
+							objData.markItensAll    = 1
 							searchMark              = 1
-							await thisObjDataTable.opsNav(null, objData, null, myTable, objFunc);
+							await thisObjDataTable.opsNav(null, null, myTable, objFunc);
 						} else if (res != '') {
 							FLUIGC.toast({
 								title: 'Searching: ',
@@ -405,7 +404,7 @@
 					});
 				}
 			});
-			await this.opsNav(1, this.objData, 2, this.myTable, this.objFunc);
+			await this.opsNav(1, 2, this.myTable, this.objFunc);
 			this.backward(this.myTable, this.objData.arrItensAll, this.objData, searchMark, this, this.objFunc);	// <----  segundo parametro passado é referente ao array de itens que serão considerados na tabela. Quando utilizado o filtro de pesquisa o array é redimencionado.
 			this.forward(this.myTable, this.objData.arrItensAll, this.objData, searchMark, this, this.objFunc);
 		},
@@ -435,10 +434,7 @@
                 }
 			}
 		},
-		opsNav: async function (dirr, obj, press, myTable, objFunc) {
-            let itens = obj.arrItensAll
-			console.log(itens)
-			console.log(obj)
+		opsNav: async function (dirr, press, myTable, objFunc) {
 			btnNav = {
 				btnPrev: 0,
 				btnNext: 0
@@ -453,16 +449,16 @@
 				}
 			}
 			if (press == null || press == undefined) {
-				this.definePage(obj, dirr);                     // < --- Redefini os parametros do objDataTable.objData para o reload
-				await this.reload(myTable, obj.arrItens, objFunc);      // < --- Apenas recarrega a tabela com a nova pagina definida com os parametros de objDataTable.objData
+				this.definePage(null, dirr);                                                    // < --- Redefini os parametros do objDataTable.objData para o reload
+				await this.reload(myTable, this.objData.arrItens, objFunc);                     // < --- Apenas recarrega a tabela com a nova pagina definida com os parametros de objDataTable.objData
 			} else if (press == 1) {
-				this.definePage(obj, dirr, itens, press);
-				await this.reload(myTable, obj.arrItens, objFunc);
+				this.definePage(null, dirr, itens, press);
+				await this.reload(myTable, this.objData.arrItens, objFunc);
 			}
-			if (obj.pageAtual != 0) {
+			if (this.objData.pageAtual != 0) {
 				btnNav.btnPrev.disabled = false
 			}
-			if (obj.indIten == itens.length-1){                         // < --- itens.length-1 referente ao ultimo index do array com todos os itens, caso obj.indIten tenha esse valor siginifca que não há mas opções para mostrar
+			if (this.objData.indIten == this.objData.arrItensAll.length-1){                              // < --- this.objData.arrItensAll.length-1 referente ao ultimo index do array com todos os itens, caso obj.indIten tenha esse valor siginifca que não há mas opções para mostrar
 				btnNav.btnNext.disabled = true
 			}
 		},
