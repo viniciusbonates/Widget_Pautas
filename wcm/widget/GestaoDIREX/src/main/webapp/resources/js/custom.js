@@ -28,7 +28,8 @@
 	            arrItensAll         : [], 	    // Array produto final após a limpesa conforme condicionais determinadas
 	            markItensAll        : 0, 	    // markItensAll == 1 - determina o fim da montagem do Array 'arrItensAll'
 	            pageAtual           : -1,		// numero da pagina começando com valor '0'
-	            indIten             : 0         // Valor igual ao ultimo Index do 'this.objCollection' do item que foi validado e incluso no array 'arrItens' 
+	            indIten             : -1,        // Valor igual ao ultimo Index do 'this.objCollection' do item que foi validado e incluso no array 'arrItens' 
+                indItenB            : -1
 	        }
         })
     }
@@ -184,12 +185,14 @@
             arrItensAll         : [], 	    // Array produto final após a limpesa conforme condicionais determinadas
             markItensAll        : 0, 	    // markItensAll == 1 - determina o fim da montagem do Array 'arrItensAll'
             pageAtual           : -1,		// numero da pagina começando com valor '0'
-            indIten             : -1        // Valor igual ao ultimo Index do 'this.objCollection' do item que foi validado e incluso no array 'arrItens' 
+            indIten             : -1,       // Valor igual ao ultimo Index do 'this.objCollection' do item que foi validado e incluso no array 'arrItens' 
+            indItenB            : -1
         },
         cleanObjData: function (){
             this.objData['arrItens']    = []
             this.objData['pageAtual']   = -1
             this.objData['indIten']     = -1
+            this.objData['indItenB']     = -1
         },
 		paramsInit: function (objMain) {
 			this.configDefinition       = objMain
@@ -312,20 +315,31 @@
             if(!cls){
                 this.cleanObjData()
             }
+			let indxItemRef = 0
 			let determineLenght = 5;
             if(this.objData.pageAtual == -1){ this.objData.pageAtual = 0 };
+			  if(this.objData.indItenB == -1){ this.objData.indItenB = 0 };
             if(dirr){ // < ---- dirr = 1 forward, dirr = 0 backward
                 if(dirr == 1){
                     this.objData.pageAtual++
+                    this.objData.arrItens           = []
+                    console.log(indxItemRef)
+                    indxItemRef                     = this.objData.indIten + 1	
+                    this.objData.indItenB           = this.objData.indIten + 1	
+					     console.log(this.objData.arrItens )
+                    console.log(indxItemRef)
+                    console.log(this.objData)
                 }else if(dirr == 0){
                     this.objData.pageAtual--
+                    this.objData.arrItens           = []    
+                    indxItemRef                     = this.objData.indItenB - determineLenght 	
                 }
             }
-			for (let i = 0; this.objData.arrItens.length < this.objData.arrItensAll.length; i++) {			
-				if(this.objData.arrItens.length != determineLenght) { 
-					this.objData.arrItens[i]    = this.objData.arrItensAll[i];
-                    this.objData.indIten++ 
-				}	
+			let countLength = 0
+			for (let i = indxItemRef; i < this.objData.arrItensAll.length && this.objData.arrItens.length != determineLenght; i++) {			
+				this.objData.arrItens[countLength]    = this.objData.arrItensAll[i];
+				this.objData.indIten++ 
+				countLength++
 			}
 			console.log(this.objData)
 		},
@@ -354,7 +368,8 @@
                             arrItensAll     : [],
                             markItensAll    : 0,
                             pageAtual       : -1,
-                            indIten         : -1
+                            indIten         : -1,
+                            indItenB        : -1
                         };
                         let myTable             = thisObjDataTable.myTable
                         let dataInit            = thisObjDataTable.dataInit
@@ -365,7 +380,7 @@
                         if (!res) {             
 							searchMark = 0
                             thisObjDataTable.defineItensValid()
-							await thisObjDataTable.opsNav(null, null, myTable, objFunc);
+							await thisObjDataTable.opsNav(null, myTable, objFunc);
 						}
 						var search = datafilt.filter(function (el) {
 							let resp = 0;
@@ -382,7 +397,7 @@
                             objData.arrItensAll     = search
 							objData.markItensAll    = 1
 							searchMark              = 1
-							await thisObjDataTable.opsNav(null, null, myTable, objFunc);
+							await thisObjDataTable.opsNav(null, myTable, objFunc);
 						} else if (res != '') {
 							FLUIGC.toast({
 								title: 'Searching: ',
@@ -404,9 +419,14 @@
 					});
 				}
 			});
-			await this.opsNav(1, 2, this.myTable, this.objFunc);
-			this.backward(this.myTable, this.objData.arrItensAll, this.objData, searchMark, this, this.objFunc);	// <----  segundo parametro passado é referente ao array de itens que serão considerados na tabela. Quando utilizado o filtro de pesquisa o array é redimencionado.
-			this.forward(this.myTable, this.objData.arrItensAll, this.objData, searchMark, this, this.objFunc);
+			if (this.objData.pageAtual != 0) {
+				btnNav.btnPrev.disabled = false
+			}
+			if (this.objData.indIten == this.objData.arrItensAll.length-1){                         
+				btnNav.btnNext.disabled = true
+			}
+			this.backward(this.myTable, this, this.objFunc);	// <----  segundo parametro passado é referente ao array de itens que serão considerados na tabela. Quando utilizado o filtro de pesquisa o array é redimencionado.
+			this.forward(this.myTable, this, this.objFunc);
 		},
 		setFunc: function (objFnc) {
 			if (objFnc != '' && objFnc != null && objFnc != undefined) {
@@ -432,9 +452,10 @@
                         }
                     }
                 }
+                document.scrollingElement.scrollTop = 9000
 			}
 		},
-		opsNav: async function (dirr, press, myTable, objFunc) {
+		opsNav: async function (dirr, myTable, objFunc) {
 			btnNav = {
 				btnPrev: 0,
 				btnNext: 0
@@ -448,13 +469,14 @@
 					btnNav.btnNext = btnNow;
 				}
 			}
-			if (press == null || press == undefined) {
-				this.definePage(null, dirr);                                                    // < --- Redefini os parametros do objDataTable.objData para o reload
-				await this.reload(myTable, this.objData.arrItens, objFunc);                     // < --- Apenas recarrega a tabela com a nova pagina definida com os parametros de objDataTable.objData
-			} else if (press == 1) {
-				this.definePage(null, dirr, itens, press);
-				await this.reload(myTable, this.objData.arrItens, objFunc);
+			if(!dirr){
+                this.definePage();                                                              // < --- Redefini os parametros do objDataTable.objData para o reload
+                await this.reload(myTable, this.objData.arrItens, objFunc);                     // < --- Apenas recarrega a tabela com a nova pagina definida com os parametros de objDataTable.objData
+            }else if(dirr){
+                this.definePage(1, dirr);                                                       // < --- Redefini os parametros do objDataTable.objData para o reload
+                await this.reload(myTable, this.objData.arrItens, objFunc);                     // < --- Apenas recarrega a tabela com a nova pagina definida com os parametros de objDataTable.objData
 			}
+			
 			if (this.objData.pageAtual != 0) {
 				btnNav.btnPrev.disabled = false
 			}
@@ -486,28 +508,16 @@
 				});
 			}
 		},
-		backward: function (myTable, itensCollection, objData, searchMark, Obj, objFunc) {
+		backward: function (myTable, thisObjDataTable, objFunc) {
 			myTable.on('fluig.datatable.backward', async function () {
 				let dirr = 0
-                objData.arrItensAll = itensCollection
-				if (searchMark == 1) {
-					console.log(dirr)
-					await Obj.opsNav(dirr, objData, searchMark, myTable, objFunc)
-				} else {
-					console.log(dirr)
-					await Obj.opsNav(dirr, objData, null, myTable, objFunc)
-				}
+				await thisObjDataTable.opsNav(dirr, myTable, objFunc)
 			});
 		},
-		forward: function (myTable, itensCollection, objData, searchMark, Obj, objFunc) {
+		forward: function (myTable, thisObjDataTable, objFunc) {
 			myTable.on('fluig.datatable.forward', async function () {
-                objData.arrItensAll = itensCollection
 				let dirr = 1
-				if (searchMark == 1) {
-					await Obj.opsNav(dirr, objData, searchMark, myTable, objFunc)
-				} else {
-					await Obj.opsNav(dirr, objData, null, myTable, objFunc)
-				}
+				await thisObjDataTable.opsNav(dirr, myTable, objFunc)
 			});
 		}
 
