@@ -346,8 +346,6 @@
 		loadTable: async function () {
             var thisObjDataTable    = this                                   // < ----------- Necessário passar o objDataTable para utilizar nos metodos deste objeto por conta da perca de escopo.
             var configParam         = this.configDefinition
-			var itensCollection     = configParam.objCollection
-			var searchMark          = 0
             this.defineItensValid()
 			this.definePage();
 			this.myTable = FLUIGC.datatable('#target', {
@@ -375,7 +373,6 @@
                         let dataInit            = thisObjDataTable.dataInit
                         let objFunc             = thisObjDataTable.objFunc
                         let objData             = thisObjDataTable.objData
-                        let objCollection       = configParam.objCollection
                         let datafilt            = thisObjDataTable.datafilt
                         if (!res) {        
                             thisObjDataTable.defineItensValid()
