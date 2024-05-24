@@ -1102,7 +1102,7 @@ dataTableConfig.prototype.loadEventTable = function () {
             let initCount   = tableReference.objData.indItenB   + 1
             let total       = tableReference.objData.arrItensAll.length
             let text        = ''
-            
+
             if(initCount == total){
                 text = 'Apresentando <b>'+initCount+'</b> de <b>'+total+' itens no total</b>'
             }else{
@@ -1902,7 +1902,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                 /*dataTablemi.tableReference.definePage(objItnsDef, 1,  dtIn);
                 dataTablemi.tableReference.reload(myTable, dataTablemi.tableReference.objData.arrItens, objFuncIn); 
                 */
-                dataTablemi.tableReference.defineItensValid()
+                dataTablemi.tableReference.defineItensValid(dtIn)
                 dataTablemi.tableReference.opsNav(null, myTable, objFuncIn);
 
                 //myAlertAll.fixedMoviment(myAlertAll.validate())  

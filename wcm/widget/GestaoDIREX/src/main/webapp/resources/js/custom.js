@@ -212,13 +212,12 @@
         defineItensValid: function (newItens){
             this.objData.arrItens       = []
             this.objData.markItensAll   = 0
-            if(newItens){
-                    itens               = newItens
-            }else{ 	itens               = this.configDefinition.objCollection }
+            itens                       = this.configDefinition.objCollection
+            console.log(newItens)
+            if(newItens){ itens         = newItens }
 			cols                        = this.configDefinition.arrColumnsRender;
 			determineLenght             = 5;
 			attIten                     = this.configDefinition.attRefer;
-			itens                       = this.configDefinition.objCollection
 			fnc                         = this.configDefinition.fnc
 			condValidation              = this.configDefinition.condValidation
 			objAll                      = this.configDefinition
