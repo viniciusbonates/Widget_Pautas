@@ -938,8 +938,14 @@ dataTableConfig.prototype.changeEventTable = function () {
             let finalCount  = tableReference.objData.indIten    + 1
             let initCount   = tableReference.objData.indItenB   + 1
             let total       = tableReference.objData.arrItensAll.length
+            let text        = ''
 
-            let text = 'Apresentando <b>'+initCount+'</b> a <b>'+finalCount+'</b> de <b>'+total+' itens no total</b>'
+            if(initCount == total){
+                text = 'Apresentando <b>'+initCount+'</b> de <b>'+total+' itens no total</b>'
+            }else{
+                text = 'Apresentando <b>'+initCount+'</b> a <b>'+finalCount+'</b> de <b>'+total+' itens no total</b>'
+            }
+           
          
             divCountShow.innerHTML = text
 			
@@ -1095,9 +1101,13 @@ dataTableConfig.prototype.loadEventTable = function () {
             let finalCount  = tableReference.objData.indIten    + 1
             let initCount   = tableReference.objData.indItenB   + 1
             let total       = tableReference.objData.arrItensAll.length
-
-            let text = 'Apresentando <b>'+initCount+'</b> a <b>'+finalCount+'</b> de <b>'+total+' itens no total</b>'
-         
+            let text        = ''
+            
+            if(initCount == total){
+                text = 'Apresentando <b>'+initCount+'</b> de <b>'+total+' itens no total</b>'
+            }else{
+                text = 'Apresentando <b>'+initCount+'</b> a <b>'+finalCount+'</b> de <b>'+total+' itens no total</b>'
+            }
 
             var divCountShow = document.createElement('div');
             divCountShow.setAttribute('style', 'float: left');
