@@ -194,9 +194,9 @@
             this.objData['indIten']     = -1
             this.objData['indItenB']     = -1
         },
-		paramsInit: function (objMain) {
+		paramsInit: async function (objMain) {
 			this.configDefinition       = objMain
-			this.loadTable()
+			await this.loadTable()
 			btnCollection = document.getElementsByTagName('button')
 			for(let i = 0; i < btnCollection.length; i++){
 				if(btnCollection[i].attributes['data-nav-prev'] != undefined){
@@ -414,11 +414,18 @@
 					});
 				}
 			});
-			if (this.objData.pageAtual != 0) {
-				btnNav.btnPrev.disabled = false
+			btnNav = {
+				btnPrev: 0,
+				btnNext: 0
 			}
-			if (this.objData.indIten == this.objData.arrItensAll.length-1){                         
-				btnNav.btnNext.disabled = true
+			btnBck = document.getElementsByTagName('button')
+			for (j = 0; j < btnBck.length; j++) {
+				btnNow = btnBck[j];
+				if (btnNow.attributes['data-nav-prev']) {
+					btnNav.btnPrev = btnNow;
+				} else if (btnNow.attributes['data-nav-next']) {
+					btnNav.btnNext = btnNow;
+				}
 			}
 			this.backward(this.myTable, this, this.objFunc);	// <----  segundo parametro passado é referente ao array de itens que serão considerados na tabela. Quando utilizado o filtro de pesquisa o array é redimencionado.
 			this.forward(this.myTable, this, this.objFunc);

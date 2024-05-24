@@ -249,7 +249,7 @@ async function setDataReg(op, newProcess){
 
                 objFieldsData.stAcess_reg(regN);
 
-                objDataTable.paramsInit(objMain);
+                await objDataTable.paramsInit(objMain);
                 dataTablemi = new dataTableConfig();
                 if(objDefinitionBar.initTrue == false){
                     myEditor = new determineEditor();
