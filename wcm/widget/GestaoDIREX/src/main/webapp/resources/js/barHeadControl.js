@@ -955,35 +955,6 @@ function startNewProcess(){
             console.log('invalid')
         }
     })
-
-/*
-    orderMethods.prototype.createNewDIREX = async function (objBodyreq, objGetReturn) {
-        await $.ajax({
-            method: "POST",
-            url: this.host+"/process-management/api/v2/processes/CadastrodeReuniãoDIREX/start",
-            contentType: "application/json",
-            async: true,
-            data:  JSON.stringify(
-                {
-                    "targetState": 0,
-                    "subProcessTargetState": 0,
-                    "targetAssignee": objBodyreq.user, //"integracaosgtec",
-                    "comment": "Iniciada pelo painel de Gestão",
-                    "formFields": 
-                    {
-                      "dt_dataInicio": objBodyreq.dataInit,
-                      "dt_datalimit": objBodyreq.dataLimit,
-                      "txt_tituloReuniao": objBodyreq.title
-                    }
-                  }
-            ),
-        }).done(async function (response) { 
-            nameAtt = objGetReturn['name'][0];
-            objGetReturn[nameAtt] = response;
-            await response
-        })
-    }
-    */
 }
 window.addEventListener('load', startNewProcess)
 function setobjFields(){

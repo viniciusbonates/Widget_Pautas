@@ -197,7 +197,7 @@
 		paramsInit: async function (objMain) {
 			this.configDefinition       = objMain
 			await this.loadTable()
-			btnCollection = document.getElementsByTagName('button')
+            btnCollection = document.getElementsByTagName('button')
 			for(let i = 0; i < btnCollection.length; i++){
 				if(btnCollection[i].attributes['data-nav-prev'] != undefined){
 					btnCollection[i].type = 'button'

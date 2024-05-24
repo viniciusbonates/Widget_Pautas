@@ -762,14 +762,16 @@ dataTableConfig.prototype.changeEventInput = function () {
 dataTableConfig.prototype.changeEventTable = function () {
     var TableFluig          = this.TableFluig();
     var constructIcon       = this.constructIcon(); 
-    let wrkflw      = this.statesWorkflow
-    let itens = this.itensBuilt;
+    let wrkflw              = this.statesWorkflow
+    let itens               = this.itensBuilt;
+    let tableReference      = this.tableReference
     let objFunc = {
         fnc: [
                 {'fncName': 'openItem', 'metodhParam': 'reload'},
                 {'fncName': 'statusAsr', 'metodhParam': 'reload'},
                 {'fncName': 'enabledButton', 'metodhParam': 'reload'},
-                {'fncName': 'formatDinamic', 'metodhParam': 'reload'}      
+                {'fncName': 'formatDinamic', 'metodhParam': 'reload'},
+                {'fncName': 'setCountItens', 'metodhParam': 'reload'}         
         ], 
         formatDinamic: function () {
             var configFormat = {                                                                            // Caso configField não seja configurado. As opçãoes Default serão apresentadas.
@@ -928,6 +930,25 @@ dataTableConfig.prototype.changeEventTable = function () {
             document.getElementById('Delibr').style.display = 'none'
             iten.getElementsByTagName('button')[0].disabled = true
             drpDwnIn.getElementsByTagName('button')[0].disabled = true
+        },
+        setCountItens: function () {
+            let areaNavBtns = TableFluig.table.lastElementChild;
+            let divCountShow = areaNavBtns.children['countShow'];
+
+            let finalCount  = tableReference.objData.indIten    + 1
+            let initCount   = tableReference.objData.indItenB   + 1
+            let total       = tableReference.objData.arrItensAll.length
+
+            let text = 'Apresentando <b>'+initCount+'</b> a <b>'+finalCount+'</b> de <b>'+total+' itens no total</b>'
+         
+            divCountShow.innerHTML = text
+			
+            /*divButtonsNav.appendChild(btnCollection[0])
+            divButtonsNav.appendChild(btnCollection[0])
+
+            areaNavBtns.appendChild(divCountShow)
+            areaNavBtns.appendChild(divButtonsNav)
+            */
         }
     }
     this.tableReference.setFunc(objFunc);
@@ -938,12 +959,14 @@ dataTableConfig.prototype.loadEventTable = function () {
     let itens               = this.itensBuilt;
     let wrkflw              = this.statesWorkflow
     let itensConfigsUpd     = this.itensConfigs
+    let tableReference      = this.tableReference
     console.log(itens)
     let objFuncload = {
         fnc: [
                 {'fncName': 'openItem', 'metodhParam': 'load'},
                 {'fncName': 'statusAsr', 'metodhParam': 'load'},
-                {'fncName': 'enabledRefresh', 'metodhParam': 'load'}
+                {'fncName': 'enabledRefresh', 'metodhParam': 'load'},
+                {'fncName': 'setCountItens', 'metodhParam': 'load'}   
         ],
         openItem: function () {
             var url = "https://myweb.am.sebrae.com.br/portal/p/1/pageworkflowview?app_ecm_workflowview_detailsProcessInstanceID="
@@ -1063,6 +1086,32 @@ dataTableConfig.prototype.loadEventTable = function () {
             var iten = itens['btn2']
             console.log(iten)
             iten.getElementsByTagName('button')[0].disabled = false
+        },
+        setCountItens: function () {
+            let areaNavBtns = TableFluig.table.lastElementChild;
+            let btnCollection = areaNavBtns.children;
+            areaNavBtns.classList.remove('text-right');
+            
+            let finalCount  = tableReference.objData.indIten    + 1
+            let initCount   = tableReference.objData.indItenB   + 1
+            let total       = tableReference.objData.arrItensAll.length
+
+            let text = 'Apresentando <b>'+initCount+'</b> a <b>'+finalCount+'</b> de <b>'+total+' itens no total</b>'
+         
+
+            var divCountShow = document.createElement('div');
+            divCountShow.setAttribute('style', 'float: left');
+            divCountShow.setAttribute('id', 'countShow');
+            divCountShow.innerHTML = text
+
+            var divButtonsNav = document.createElement('div');
+            divButtonsNav.setAttribute('class', 'text-right');
+			
+            divButtonsNav.appendChild(btnCollection[0])
+            divButtonsNav.appendChild(btnCollection[0])
+
+            areaNavBtns.appendChild(divCountShow)
+            areaNavBtns.appendChild(divButtonsNav)
         }
     }
     if(objFuncload != '' && objFuncload != null && objFuncload != undefined){
@@ -1828,7 +1877,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
             console.log(btn)
             btn.getElementsByTagName('button')[0].addEventListener('click', function() { 
                 console.log(dataTablemi)
-                let myTable        = dataTablemi.tableReference.myTable;
+                let myTable     = dataTablemi.tableReference.myTable;
                 let c1          = DatasetFactory.createConstraint("hdn_dir_vinc", objDefineStatus.matDir, objDefineStatus.matDir, ConstraintType.MUST, true);
                 let dtIn        = DatasetFactory.getDataset('Pauta DIREX', null, new Array(c1), null).values //dataTablemi.tableReference.dataInit;
                 let objFuncIn   = dataTablemi.tableReference.objFunc;
