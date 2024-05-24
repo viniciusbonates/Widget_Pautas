@@ -427,6 +427,12 @@
 					btnNav.btnNext = btnNow;
 				}
 			}
+			if (this.objData.pageAtual != 0) {
+				btnNav.btnPrev.disabled = false
+			}
+			if (this.objData.indIten == this.objData.arrItensAll.length-1){                              // < --- this.objData.arrItensAll.length-1 referente ao ultimo index do array com todos os itens, caso obj.indIten tenha esse valor siginifca que não há mas opções para mostrar
+				btnNav.btnNext.disabled = true
+			}
 			this.backward(this.myTable, this, this.objFunc);	// <----  segundo parametro passado é referente ao array de itens que serão considerados na tabela. Quando utilizado o filtro de pesquisa o array é redimencionado.
 			this.forward(this.myTable, this, this.objFunc);
 		},

@@ -304,7 +304,7 @@ function slcReuniao() {
     objOptions  = { values: [] };
     
     setOptionsSelectObj(dsReg, objOptions, elemSelc)
-
+    
     function searchInpTemp(){
         var inpTemp = document.createElement('input');
         inpTemp.setAttribute('list', 'browsersR');
@@ -939,7 +939,7 @@ function startNewProcess(){
             console.log(objGetReturn['a'])
             let objRespStart = objGetReturn['a'];
             if(objRespStart['processInstanceId']){
-                setDataReg(objRespStart['processInstanceId']) 
+                setDataReg(2, objRespStart['processInstanceId']) 
             }else{
                 /*rowMSN = document.getElementById('msnConfirm')
                 rowMSN.children[0].innerText = "Um erro ocorreu no processo de salvamento !";
