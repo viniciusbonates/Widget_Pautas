@@ -284,7 +284,7 @@ function getPDF_ptd () {
     for(j = 0; j < arrInpsAcess.length; j++){
         inpAcessNow = document.getElementById(arrInpsAcess[j])
         if(inpAcessNow.checked == true){
-            document.getElementById(arrins[j]+'_all').style.display = 'block'; 
+            document.getElementById('itnsList_deliber_op_'+arrins[j]).style.display = 'block'; 
         }
     }
 }

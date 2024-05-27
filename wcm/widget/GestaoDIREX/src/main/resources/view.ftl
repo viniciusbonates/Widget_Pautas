@@ -535,7 +535,7 @@
 						<div class="card-body">
 							<h3 class="card-title">DISUP</h3>
 							<p class="card-text">Itens Inseridos na Reunião</p>
-							<div id="itnsList_deliber_op_DISUP">
+							<div id="itnsList_deliber_op_DISUP" style="display: none">
 								<ul></ul>
 							</div>
 						</div>
@@ -548,7 +548,7 @@
 						<div class="card-body">
 							<h3 class="card-title">DIRAF</h3>
 							<p class="card-text">Itens Inseridos na Reunião</p>
-							<div id="itnsList_deliber_op_DIRAF">
+							<div id="itnsList_deliber_op_DIRAF" style="display: none">
 								<ul></ul>
 							</div>
 						</div>
@@ -561,7 +561,7 @@
 						<div class="card-body">
 							<h3 class="card-title">DITEC</h3>
 							<p class="card-text">Itens Inseridos na Reunião</p>
-							<div id="itnsList_deliber_op_DITEC">
+							<div id="itnsList_deliber_op_DITEC" style="display: none">
 								<ul></ul>
 							</div>
 						</div>

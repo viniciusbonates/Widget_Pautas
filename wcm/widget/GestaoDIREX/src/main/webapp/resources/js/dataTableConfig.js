@@ -816,7 +816,7 @@ dataTableConfig.prototype.changeEventTable = function () {
             //console.log(secIntervalOpenItem)
             await pushOpenItem()
             async function pushOpenItem(){    
-                var url = "https://myweb.am.sebrae.com.br/portal/p/1/pageworkflowview?app_ecm_workflowview_detailsProcessInstanceID="
+                var url = window.origin+"/portal/p/1/pageworkflowview?app_ecm_workflowview_detailsProcessInstanceID=" //https://myweb.am.sebrae.com.br
                 var arrColumnsRender = ['N° Solicitação', 'Data Solicitação', 'Nome Solicitante', 'Unidade', 'Assunto', 'Justificativa']
                 var indexLink = []
                 var divIn = document.getElementsByClassName('row fs-no-margin')
@@ -975,7 +975,7 @@ dataTableConfig.prototype.loadEventTable = function () {
                 {'fncName': 'setCountItens', 'metodhParam': 'load'}   
         ],
         openItem: function () {
-            var url = "https://myweb.am.sebrae.com.br/portal/p/1/pageworkflowview?app_ecm_workflowview_detailsProcessInstanceID="
+            var url = window.origin+"/portal/p/1/pageworkflowview?app_ecm_workflowview_detailsProcessInstanceID=" //https://myweb.am.sebrae.com.br 
             var arrColumnsRender = ['N° Solicitação', 'Data Solicitação', 'Nome Solicitante', 'Unidade', 'Assunto', 'Justificativa']
             var indexLink = []
             var divIn       = document.getElementsByClassName('row fs-no-margin')

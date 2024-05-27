@@ -5,6 +5,7 @@
             slcReuniao_reload()
             document.getElementById('slc_reuniao').value = ''
             document.getElementById('slc_temp').outerHTML = ''
+            document.getElementById('infoAnaliseDelbr').style.display = 'none'
             document.getElementById('itnsList_ptd_DITEC').children[0].innerHTML = ''
 			document.getElementById('itnsList_ptd_DIRAF').children[0].innerHTML = ''
 			document.getElementById('itnsList_ptd_DISUP').children[0].innerHTML = ''
