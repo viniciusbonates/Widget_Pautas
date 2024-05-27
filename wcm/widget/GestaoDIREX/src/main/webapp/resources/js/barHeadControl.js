@@ -100,7 +100,19 @@ function formFieldsDefine(){
         numSolN: '',
         stAcess_reg: function (ds){
             for(let i = 0; i < formData_obj['fieldsNecessary'].length; i++){
-                document.getElementById(formData_obj['fieldsNecessary'][i]).value = ds[formData_obj['fieldsNecessary'][i]];
+                let fieldInpNow =  document.getElementById(formData_obj['fieldsNecessary'][i]);
+                if(fieldInpNow.type == 'checkbox'){
+                    if(ds[formData_obj['fieldsNecessary'][i]] == 'on'){
+                        fieldInpNow.checked = true
+                        fieldInpNow.value   = ds[formData_obj['fieldsNecessary'][i]] 
+                    }else{
+                        fieldInpNow.checked = false
+                        fieldInpNow.value   = '' 
+                    }
+                }else{
+                    document.getElementById(formData_obj['fieldsNecessary'][i]).value = ds[formData_obj['fieldsNecessary'][i]];
+            
+                }
             }
         }
     }
