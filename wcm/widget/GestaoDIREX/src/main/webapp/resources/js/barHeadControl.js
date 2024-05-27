@@ -645,14 +645,21 @@ function moveProcessSet(){
                 slcMoveOpt.setAttribute('value', '0');
                 slcMoveOpt.innerText = '';
                 document.getElementById('slc_moveProcess').appendChild(slcMoveOpt);
-            for(let i = 0; i < statesAll.length; i++){
-                let state   = statesAll[i]
-                if(state != stateNow){
-                    opsMove.push(state)
-                    let slcMoveOpt = document.createElement('option');
-                    slcMoveOpt.setAttribute('value', state);
-                    slcMoveOpt.innerText = obTemp['sttsNames'][i];
-                    document.getElementById('slc_moveProcess').appendChild(slcMoveOpt);
+            if(stateNow == 13 || stateNow == 10){
+                let slcMoveOpt = document.createElement('option');
+                slcMoveOpt.setAttribute('value', 8);
+                slcMoveOpt.innerText = obTemp['sttsNames'][1];
+                document.getElementById('slc_moveProcess').appendChild(slcMoveOpt);
+            }else{
+                for(let i = 0; i < statesAll.length; i++){
+                    let state   = statesAll[i]
+                    if(state != stateNow){
+                        opsMove.push(state)
+                        let slcMoveOpt = document.createElement('option');
+                        slcMoveOpt.setAttribute('value', state);
+                        slcMoveOpt.innerText = obTemp['sttsNames'][i];
+                        document.getElementById('slc_moveProcess').appendChild(slcMoveOpt);
+                    }
                 }
             }
             console.log(opsMove)
