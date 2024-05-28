@@ -245,7 +245,7 @@ function updatePDF_ptd(dirIndx){
         myToast_ptd('warning', 'Não a itens de Pauta para Gerar o Arquivo');
     } 
 }
-function getPDF_ptd () { 
+function getPDF_ptd() { 
     var ds_mat_ger_pdf  = colleague;
     var ds_und_ger_pdf  = dsc_Unidades;
     und = ''

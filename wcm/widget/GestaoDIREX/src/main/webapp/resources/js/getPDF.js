@@ -145,6 +145,7 @@ function updatePDF(){
                             dirImed = ds_und_ger_pdf.values[j]['Sigla'];
                             if(ds_und_ger_pdf.values[j]['Sigla'] == 'NTIC'){
                                 matDir = "%Pool:Role:DIRAF%";
+                                siglaNova = 'DIRAF'
                             }else{
                                 matDir = "%Pool:Role:"+ds_und_ger_pdf.values[j]['Sigla']+"%";
                                 siglaNova = ds_und_ger_pdf.values[j]['Sigla']

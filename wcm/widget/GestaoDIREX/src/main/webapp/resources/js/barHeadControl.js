@@ -892,8 +892,13 @@ function itnsGabinetes(){
         document.getElementById('itnsList_deliber_op_DITEC').children[0].innerHTML = ''
         document.getElementById('itnsList_deliber_op_DIRAF').children[0].innerHTML = ''
         document.getElementById('itnsList_deliber_op_DISUP').children[0].innerHTML = ''
+        
+        document.getElementById('itnsList_deliber_op_DITEC').style.display = 'none'
+        document.getElementById('itnsList_deliber_op_DIRAF').style.display = 'none'
+        document.getElementById('itnsList_deliber_op_DISUP').style.display = 'none'
 
         info_setItns()
+        getPDF_ptd()
 
         document.getElementById('infoAnaliseDelbr').style.display = 'block'
         document.getElementById('DadosCadastro').style.display = 'none'
