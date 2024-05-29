@@ -1532,7 +1532,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                                     dataTablemi.funcsChange[name]();
                                 }
                             }
-                            console.log(intervmoveItemReprov)
+                            //console.log(intervmoveItemReprov)
                             console.log(myEditor)
                             myEditor.setDataInput(document.getElementById('txt_Justificativa'))
                             myEditor.disabledEditor(document.getElementById('txt_Justificativa'))
@@ -1602,7 +1602,6 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                                 await dataTablemi.APImethods.movePOST(inpValue, statusNext, Delibr, Justf, '', '', resultAnalis, demandRsp, '');  // < -------------------- modificado
                                 //var intervmoveItemAprov = setInterval(defineStatusDelibrAprov, 100); 
                                 await defineStatusDelibrAprov()
-                                console.log(intervmoveItemAprov)
                             }else{ itensTools.myToast('info', 'É necessário preencher os campos obrigatórios!'); }
                         //}
                     //}
@@ -1655,7 +1654,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                                     dataTablemi.funcsChange[name]();
                                 }
                             }
-                            console.log(intervmoveItemAprov)
+                            //console.log(intervmoveItemAprov)
                             console.log(myEditor)
                             myEditor.cleanEditor(document.getElementById('txt_Justificativa'))
                             myEditor.setDataInput(document.getElementById('txt_Justificativa'))
