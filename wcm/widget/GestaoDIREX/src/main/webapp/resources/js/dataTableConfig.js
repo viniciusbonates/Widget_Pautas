@@ -1600,14 +1600,15 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                         //if(inpNow.value != '' && inpNow.value != 0){
                             if(ckY == 0 &&statusNext != statusAssr){           
                                 await dataTablemi.APImethods.movePOST(inpValue, statusNext, Delibr, Justf, '', '', resultAnalis, demandRsp, '');  // < -------------------- modificado
-                                var intervmoveItemAprov = setInterval(defineStatusDelibrAprov, 100); 
+                                //var intervmoveItemAprov = setInterval(defineStatusDelibrAprov, 100); 
+                                await defineStatusDelibrAprov
                                 console.log(intervmoveItemAprov)
                             }else{ itensTools.myToast('info', 'É necessário preencher os campos obrigatórios!'); }
                         //}
                     //}
                 //}         
                 
-                function defineStatusDelibrAprov () { 
+                async function defineStatusDelibrAprov () { 
                     let colItens        = dataTablemi.TableFluig().getCol('Aprov.Assessoria');
                     let colValue        = dataTablemi.TableFluig().getCol('N° Solicitação');
                     var itenBtn1        = dataTablemi.itensBuilt['btn1'];
@@ -1670,9 +1671,9 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                             
                             window["zm_emailsCopia"].disable(false)              // < ------------------- adicionado
 
-                            clearInterval(intervmoveItemAprov)
+                            //clearInterval(intervmoveItemAprov)
                         }
-                        else{ clearInterval(intervmoveItemAprov) }
+                        else{ itensTools.myToast('danger', 'Erro ao tentar realizar ação!'); }
                     }
                 }
             }
