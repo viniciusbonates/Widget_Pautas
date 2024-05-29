@@ -355,7 +355,7 @@
 				dataRequest         : this.objData.arrItens,
 				renderContent       : configParam.arrColumnsRender,
 				header              : configParam.hder,
-				tableStyle          : 'table table-bordered table-dark table-hover',
+				tableStyle          : 'table table-bordered table-hover', //table-dark
 				classSelected       : 'success',
 				navButtons: {
 					enabled: true

@@ -458,6 +458,14 @@ function updatePDF(){
                   win.document.write(   elements  );
         
                   win.document.write(   '<script>'+
+                                        'bd = document.getElementsByTagName(\'body\');'+
+                                        'console.log(bd);'+
+                                        'bd1 = bd[0];'+
+                                        'for(let i = 0; i < bd1.childNodes.length; i++){'+
+                                            'if(bd1.childNodes[i].textContent == \'undefined\'){'+
+                                                'bd1.removeChild(bd1.childNodes[i]);'+
+                                            '};'+ 
+                                        '};'+
                                     'setTimeout(() => {'+
                                         'window.print();'+
                                     '}, 1200);'+

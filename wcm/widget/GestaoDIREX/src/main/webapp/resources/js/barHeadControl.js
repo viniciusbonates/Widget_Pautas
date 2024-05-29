@@ -624,6 +624,7 @@ function getNewData(){
                 formData_Final[formData_obj['fieldsNecessary'][j]] = formData_obj.formData_diff_newGetValues[formData_obj['fieldsNecessary'][j]]
             }
         }
+        definePainelEnabled()
         objFieldsData.stAcess_reg(formData_Final);
         myEditor.setValueInputsInEditors()
         formData_obj.defineFormDataValues('formData_origin', formData_Final);
