@@ -1476,7 +1476,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                             if(ckY == 0 && statusNext != statusAssr){          
                                 await dataTablemi.APImethods.movePOST(inpValue, statusNext, Delibr, Justf, '', '', resultAnalis, demandRsp,'');  // < -------------------- modificado
                                 //var intervmoveItemReprov = setInterval(defineStatusReprovAssessor, 100); 
-                                await defineStatusReprovAssessor
+                                await defineStatusReprovAssessor()
                             }else{ itensTools.myToast('info', 'É necessário preencher os campos obrigatórios!'); }
                         //}
                     //}
@@ -1601,7 +1601,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                             if(ckY == 0 &&statusNext != statusAssr){           
                                 await dataTablemi.APImethods.movePOST(inpValue, statusNext, Delibr, Justf, '', '', resultAnalis, demandRsp, '');  // < -------------------- modificado
                                 //var intervmoveItemAprov = setInterval(defineStatusDelibrAprov, 100); 
-                                await defineStatusDelibrAprov
+                                await defineStatusDelibrAprov()
                                 console.log(intervmoveItemAprov)
                             }else{ itensTools.myToast('info', 'É necessário preencher os campos obrigatórios!'); }
                         //}
