@@ -38,6 +38,53 @@
         })
     }
     window.addEventListener('load', initPageConfig)
+
+    function checkChanges(){
+        document.getElementById('PainelControle').addEventListener('click', async function (){
+            let numSolc = objFieldsData.numSolN
+            await objDefinitionBar.miniMapDefine(numSolc)
+            definePainelEnabled();
+            console.log(dataTablemi.tableReference)
+            let colStatus   = dataTablemi.TableFluig().getCol('Aprov.Assessoria');
+            let colNum      = dataTablemi.TableFluig().getCol('N° Solicitação');
+            let states      = dataTablemi.statesWorkflow
+            let objStNess  = {
+                arrStnames: ['Aprovado', 'Análise', 'Excluído', 'Ajuste', 'Deliberado', 'Reprovado'],
+                arrStInt:   [14, 11, 17, 8, 19, 19]
+            }
+            let objForCheck = {}
+            for(let i = 0; i < colStatus.length; i++){
+                for(let j = 0; j < objStNess.arrStnames.length; j++){
+                    if(colStatus[i].innerText.indexOf(objStNess.arrStnames[j]) != -1){
+                        let indx    = 's' + colNum[i].innerText
+                        stInt       = objStNess.arrStInt[j]
+                        c1 = DatasetFactory.createConstraint("txt_NumProcess", colNum[i].innerText, colNum[i].innerText,  ConstraintType.MUST, true); 
+                        cnst = new Array(c1);
+                        let itnCnow = DatasetFactory.getDataset('Pauta DIREX', null, cnst, null).values;
+                        console.log(itnCnow)
+                        if(itnCnow[0]['hdn_aprvAssr'] != stInt){
+                            console.log('MUDOU')
+                        }else{
+                            console.log('NADA')
+                        }
+                        objForCheck[indx] = objStNess.arrStInt[j]
+                    }
+                }
+            
+            }
+            console.log(objForCheck)
+        })
+        /*document.getElementById('exampleModalToggle').addEventListener("click", function (event) { 
+            console.log(event);
+            let tgN = event.target
+            if(tgN.classList.contains('divOpt') == false && tgN.id != 'slcNew' && tgN.id != 'slc_temp'){
+                document.getElementById('slcNew').style.display = 'none'
+            }
+        });
+        */
+    }
+    window.addEventListener('load', checkChanges)
+    
     function getDirVinc(){
         objDefineStatus = {}
         objDefineStatus.stts = 14

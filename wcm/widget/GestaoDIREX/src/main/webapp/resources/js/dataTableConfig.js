@@ -1905,10 +1905,11 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                 /*dataTablemi.tableReference.definePage(objItnsDef, 1,  dtIn);
                 dataTablemi.tableReference.reload(myTable, dataTablemi.tableReference.objData.arrItens, objFuncIn); 
                 */
-                dataTablemi.tableReference.defineItensValid(dtIn)
+                ataTablemi.tableReference.defineItensValid(dtIn)
                 dataTablemi.tableReference.opsNav(null, myTable, objFuncIn);
 
                 //myAlertAll.fixedMoviment(myAlertAll.validate())  
+                
             }); 
         }
     }
@@ -2042,7 +2043,6 @@ dataTableConfig.prototype.statusAsr = async function () {
         } 
     }
 }
-
 function dataTableinit() { dataTablemi = new dataTableConfig(); }
 //window.addEventListener('load', dataTableinit)
 
