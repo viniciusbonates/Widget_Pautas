@@ -64,6 +64,7 @@
                         console.log(itnCnow)
                         if(itnCnow[0]['hdn_aprvAssr'] != stInt){
                             console.log('MUDOU')
+                            document.getElementById('btn2').getElementsByTagName('button')[0].click()
                         }else{
                             console.log('NADA')
                         }
