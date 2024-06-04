@@ -19,41 +19,45 @@ function info_setItns(){
 
     arrdir = ['DISUP', 'DIRAF', 'DITEC']
     for(i = 0; i < arrdir.length; i++){
-        dirNow = arrdir[i]
-        matDir = "%Pool:Role:"+dirNow+"%";
-        c1 = DatasetFactory.createConstraint("hdn_dir_vinc", matDir, matDir,  ConstraintType.MUST, true); 
-        cnst = new Array(c1, c2, c3, c4);
-        itns = DatasetFactory.getDataset('Pauta DIREX', null, cnst, null).values;
-        console.log(itns)
-        //<a href="https://myweb.am.sebrae.com.br/portal/p/1/pageworkflowview?app_ecm_workflowview_detailsProcessInstanceID=26559" class="cad-link" target="_blank" style="color:blue" ml="true"><i class="flaticon flaticon-link icon-md"></i>26559</a>
+        dirNow      = arrdir[i]
+        let switchC  = 'switch_'+dirNow
+        if(dataDtIn.values[0][switchC] == 'on'){             // << ------------------------- Verifica se toogle está habilitado para mostrar itens de diretoria.
+            console.log(dataDtIn.values[0][switchC])
+            matDir = "%Pool:Role:"+dirNow+"%";
+            c1 = DatasetFactory.createConstraint("hdn_dir_vinc", matDir, matDir,  ConstraintType.MUST, true); 
+            cnst = new Array(c1, c2, c3, c4);
+            itns = DatasetFactory.getDataset('Pauta DIREX', null, cnst, null).values;
+            console.log(itns)
+            //<a href="https://myweb.am.sebrae.com.br/portal/p/1/pageworkflowview?app_ecm_workflowview_detailsProcessInstanceID=26559" class="cad-link" target="_blank" style="color:blue" ml="true"><i class="flaticon flaticon-link icon-md"></i>26559</a>
 
-        for(j = 0; j < itns.length; j++){
-            NumSolict = itns[j]['txt_NumProcess']
-            itnLink = window.origin+'/portal/p/1/pageworkflowview?app_ecm_workflowview_detailsProcessInstanceID='+NumSolict
-            console.log(itnLink)
-            vli = document.createElement('li')
-            va = document.createElement('a')
-            va.setAttribute('href', itnLink);
-            va.setAttribute('class', 'cad-link');
-            va.setAttribute('target', '_blank');
-            va.setAttribute('style', 'color: blue');
-            va.setAttribute('ml', 'true');
-            va.textContent = NumSolict
+            for(j = 0; j < itns.length; j++){
+                NumSolict = itns[j]['txt_NumProcess']
+                itnLink = window.origin+'/portal/p/1/pageworkflowview?app_ecm_workflowview_detailsProcessInstanceID='+NumSolict
+                console.log(itnLink)
+                vli = document.createElement('li')
+                va = document.createElement('a')
+                va.setAttribute('href', itnLink);
+                va.setAttribute('class', 'cad-link');
+                va.setAttribute('target', '_blank');
+                va.setAttribute('style', 'color: blue');
+                va.setAttribute('ml', 'true');
+                va.textContent = NumSolict
 
-            vli2 = document.createElement('li')
-            va2 = document.createElement('a')
-            va2.setAttribute('href', itnLink);
-            va2.setAttribute('class', 'cad-link');
-            va2.setAttribute('target', '_blank');
-            va2.setAttribute('style', 'color: blue');
-            va2.setAttribute('ml', 'true');
-            va2.textContent = NumSolict
+                vli2 = document.createElement('li')
+                va2 = document.createElement('a')
+                va2.setAttribute('href', itnLink);
+                va2.setAttribute('class', 'cad-link');
+                va2.setAttribute('target', '_blank');
+                va2.setAttribute('style', 'color: blue');
+                va2.setAttribute('ml', 'true');
+                va2.textContent = NumSolict
 
-            vli.appendChild(va)
-            vli2.appendChild(va2)
-            document.getElementById('itnsList_ptd_'+dirNow).children[0].appendChild(vli)
-            document.getElementById('itnsList_deliber_op_'+dirNow).children[0].appendChild(vli2)
-        }    
+                vli.appendChild(va)
+                vli2.appendChild(va2)
+                document.getElementById('itnsList_ptd_'+dirNow).children[0].appendChild(vli)
+                document.getElementById('itnsList_deliber_op_'+dirNow).children[0].appendChild(vli2)
+            }    
+        }
     }
 }
 //window.addEventListener('load', info_setItns)
