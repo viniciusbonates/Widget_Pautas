@@ -84,7 +84,7 @@
         });
         */
     }
-    //window.addEventListener('load', checkChanges)
+    window.addEventListener('load', checkChanges)
     
     function getDirVinc(){
         objDefineStatus = {}

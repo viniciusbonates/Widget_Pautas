@@ -536,9 +536,10 @@ dataTableConfig.prototype.changeEventInput = function () {
                         }else{
                             nck = nowInp.id.split('_')[1]    
                         }
-                        nowInp.options[0].selected = true;
+                       
                         ckSlcN = 0;
                         if(nowInp.tagName == 'SELECT'){
+                            nowInp.options[0].selected = true;
                             for(let j = 0; j < nowInp.options.length; j++){
                                 for(k = 0; k < arrAlt.length; k++){
                                     if(nowInp.options[j].value == itenPauta[arrAlt[k]] && arrAlt[k].indexOf(nck) != -1){
@@ -589,10 +590,9 @@ dataTableConfig.prototype.changeEventInput = function () {
                         }else{
                             nck = nowInp.id.split('_')[1]    
                         }
-                        nowInp.options[0].selected = true;
                         ckSlcN = 0;
                         if(nowInp.tagName == 'SELECT'){
-                            console.log(nowInp)
+                            nowInp.options[0].selected = true;
                                 for(let j = 0; j < nowInp.options.length; j++){
                                     for(k = 0; k < arrAlt.length; k++){
                                         if(nowInp.options[j].value == itenPauta[arrAlt[k]] && arrAlt[k].indexOf(nck) != -1){
@@ -656,9 +656,9 @@ dataTableConfig.prototype.changeEventInput = function () {
                         }else{
                             nck = nowInp.id.split('_')[1]    
                         }
-                        nowInp.options[0].selected = true;
                         ckSlcN = 0;
                         if(nowInp.tagName == 'SELECT'){
+                            nowInp.options[0].selected = true;
                             for(let j = 0; j < nowInp.options.length; j++){
                                 for(k = 0; k < arrAlt.length; k++){
                                     if(nowInp.options[j].value == itenPauta[arrAlt[k]] && arrAlt[k].indexOf(nck) != -1){
@@ -721,8 +721,8 @@ dataTableConfig.prototype.changeEventInput = function () {
                             nck = nowInp.id.split('_')[1]    
                         }
                         ckSlcN = 0;
-                        nowInp.options[0].selected = true;
                         if(nowInp.tagName == 'SELECT'){
+                            nowInp.options[0].selected = true;
                             for(let j = 0; j < nowInp.options.length; j++){
                                 for(k = 0; k < arrAlt.length; k++){
                                     if(nowInp.options[j].value == itenPauta[arrAlt[k]] && arrAlt[k].indexOf(nck) != -1){
