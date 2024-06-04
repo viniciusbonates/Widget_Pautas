@@ -465,7 +465,7 @@ dataTableConfig.prototype.changeEventInput = function () {
                 let resAnalis = itenPauta['txt_resultAnalis'];              // <---- Campo resultado da Analise assessoria defini o Se foi para status 19 devido Deliberação ou devido Reprovação 
                 let inps = document.getElementsByClassName('inpDlbr') // < ------------- OBTEM OS INPUTS NO HTML 
                 arrNamesIt  = ['slc_demandante', 'slc_DISUP_vt', 'slc_UCOF_vt', 'slc_DITEC_vt', 'txt_Deliberacao', 'txt_Justificativa', 'txt_obsDlbrDIRAF', 'txt_obsDlbrDITEC', 'txt_obsDlbrDISUP'] 
-                arrAlt      = ['slc_UCOF_vt', 'hdn_DISUP_vt', 'hdn_DITEC_vt', 'slc_demandante']
+                arrAlt      = ['hdn_DIRAF_vt', 'hdn_DISUP_vt', 'hdn_DITEC_vt', 'slc_demandante']
                 if(wrkflw.AnaliseAssr == assrAp){
                     document.getElementById('Delibr').style.display = 'block';
                     iten.getElementsByTagName('button')[0].disabled = true;
@@ -531,7 +531,12 @@ dataTableConfig.prototype.changeEventInput = function () {
                     iten.getElementsByTagName('button')[0].disabled = true;
                     for(let i = 0; i < inps.length; i++){
                         let nowInp = inps[arrNamesIt[i]]
-                        nck = nowInp.id.split('_')[1]
+                        if(nowInp.id == 'slc_UCOF_vt'){
+                            nck = 'DIRAF'    
+                        }else{
+                            nck = nowInp.id.split('_')[1]    
+                        }
+                        nowInp.options[0].selected = true;
                         ckSlcN = 0;
                         if(nowInp.tagName == 'SELECT'){
                             for(let j = 0; j < nowInp.options.length; j++){
@@ -579,8 +584,12 @@ dataTableConfig.prototype.changeEventInput = function () {
                     iten.getElementsByTagName('button')[0].disabled = false;
                     for(let i = 0; i < inps.length; i++){
                         let nowInp = inps[arrNamesIt[i]];
-                        nck = nowInp.id.split('_')[1]
-                        console.log(nck)
+                        if(nowInp.id == 'slc_UCOF_vt'){
+                            nck = 'DIRAF'    
+                        }else{
+                            nck = nowInp.id.split('_')[1]    
+                        }
+                        nowInp.options[0].selected = true;
                         ckSlcN = 0;
                         if(nowInp.tagName == 'SELECT'){
                             console.log(nowInp)
@@ -642,7 +651,12 @@ dataTableConfig.prototype.changeEventInput = function () {
                     console.log(itenPauta)
                     for(let i = 0; i < inps.length; i++){
                         let nowInp = inps[arrNamesIt[i]]
-                        nck = nowInp.id.split('_')[1]
+                        if(nowInp.id == 'slc_UCOF_vt'){
+                            nck = 'DIRAF'    
+                        }else{
+                            nck = nowInp.id.split('_')[1]    
+                        }
+                        nowInp.options[0].selected = true;
                         ckSlcN = 0;
                         if(nowInp.tagName == 'SELECT'){
                             for(let j = 0; j < nowInp.options.length; j++){
@@ -701,8 +715,13 @@ dataTableConfig.prototype.changeEventInput = function () {
                 }else if(wrkflw.DespachoDeliber == assrAp && resAnalis == 1){
                     for(let i = 0; i < inps.length; i++){
                         let nowInp = inps[arrNamesIt[i]];
-                        nck = nowInp.id.split('_')[1]
+                        if(nowInp.id == 'slc_UCOF_vt'){
+                            nck = 'DIRAF'    
+                        }else{
+                            nck = nowInp.id.split('_')[1]    
+                        }
                         ckSlcN = 0;
+                        nowInp.options[0].selected = true;
                         if(nowInp.tagName == 'SELECT'){
                             for(let j = 0; j < nowInp.options.length; j++){
                                 for(k = 0; k < arrAlt.length; k++){
