@@ -42,8 +42,15 @@
     function checkChanges(){
         document.getElementById('PainelControle').addEventListener('click', async function (){
             let numSolc = objFieldsData.numSolN
+            let lastState =  obTemp['stateActive'].state.sequence
             await objDefinitionBar.miniMapDefine(numSolc)
-            definePainelEnabled();
+            let stateNow    = obTemp['stateActive'].state.sequence
+            console.log(lastState)
+            console.log(stateNow)
+            if(lastState != stateNow){
+                definePainelEnabled();
+                myToast('info', 'Processo movimentado, painel de controle dos itens inacessível.');
+            }
             console.log(dataTablemi.tableReference)
             let colStatus   = dataTablemi.TableFluig().getCol('Aprov.Assessoria');
             let colNum      = dataTablemi.TableFluig().getCol('N° Solicitação');
@@ -64,6 +71,7 @@
                         console.log(itnCnow)
                         if(itnCnow[0]['hdn_aprvAssr'] != stInt){
                             console.log('MUDOU')
+                            myToast('info', 'Um item foi alterado por outro usuário.');
                             document.getElementById('btn2').getElementsByTagName('button')[0].click()
                         }else{
                             console.log('NADA')
