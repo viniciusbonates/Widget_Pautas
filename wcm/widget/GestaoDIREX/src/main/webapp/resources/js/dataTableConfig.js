@@ -226,12 +226,9 @@ dataTableConfig.prototype.constructButtonDropDown = function (configButtonDrpDwn
         buttonV.setAttribute('disabled','disabled');
         buttonV.setAttribute('data-bs-toggle','dropdown');
         buttonV.setAttribute('aria-expanded','false');
-        buttonV.innerText = configButtonDrpDwn.innerText;
-    //var spanV = document.createElement('span');
-    //    spanV.setAttribute('class', 'caret');    
+        buttonV.innerText = configButtonDrpDwn.innerText; 
     var ulV = document.createElement('ul');
         ulV.setAttribute('class', 'dropdown-menu mrk');
-        //ulV.setAttribute('role', 'menu');
     for(let i = 0; i < configButtonDrpDwn.ul.length; i++){
         if(configButtonDrpDwn.ul[i].class == 'divider'){
             var liV = document.createElement('li');
@@ -239,10 +236,13 @@ dataTableConfig.prototype.constructButtonDropDown = function (configButtonDrpDwn
             ulV.appendChild(liV);
         }else{
             var liV = document.createElement('li');
-                //liV.setAttribute('style', 'cursor: pointer');
                 liV.setAttribute('class', 'mrk');
                 liV.setAttribute('id', configButtonDrpDwn.ul[i].id);
                 liV.setAttribute('value', configButtonDrpDwn.ul[i].value);
+                if(configButtonDrpDwn.ul[i].id == 'AjusteAssr'){
+                    liV.setAttribute('data-bs-toggle', 'modal');
+                    liV.setAttribute('data-bs-target', '#exampleModalPopovers');
+                }
             var aV = document.createElement('a');
                 aV.setAttribute('class', 'dropdown-item mrk');
                 aV.setAttribute('href', '#');
@@ -1241,7 +1241,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
             let lis = drpDwn.getElementsByTagName('li');
             for(let i = 0; i < lis.length; i++){
                 let liNow = lis[i];
-                if(liNow.id && liNow.id != 'AprovarAssr' && liNow.id != 'ReprovarAssr'){
+                if(liNow.id && liNow.id != 'AprovarAssr' && liNow.id != 'ReprovarAssr' && liNow.id != 'AjusteAssr'){
                     await liNow.addEventListener('click', async function() { await hipotesis(this); await hipotesis2(); }); /******************************** */
                     async function hipotesis(elem){
                         console.log(objHandleIcons)

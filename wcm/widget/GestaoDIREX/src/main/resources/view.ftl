@@ -125,6 +125,25 @@
 	</div>
   </div>
 
+  <div class="modal fade show" id="exampleModalPopovers" tabindex="-1" aria-labelledby="exampleModalPopoversLabel" style="display: block;" aria-modal="true" role="dialog">
+	<div class="modal-dialog modal-dialog-centered">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h1 class="modal-title fs-5" id="exampleModalPopoversLabel">Justificativa da Devolução</h1>
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body">
+        <label for="JustfDevolv">Texto jusitficativa:</label>
+        <hr>
+		<textarea class="form-control" name="JustfDevolv" id="JustfDevolv" rows="5"></textarea></div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+		  <button type="button" class="btn btn-primary">Enviar</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+
 <div class="fluig-style-guide">
 	<form name="form" role="form">
 		<div class="paragraph-is-required system-message-information alert alert-info" role="alert"
@@ -677,7 +696,8 @@
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label for="txt_Justificativa">Justificativa do Demandante:</label>
+							<label for="txt_Justificativa">Justificativa do Demandante / Dotação Orçamentária<span
+								class="Obrigatorio"><strong>*</strong></span>:</label>
 							<textarea class="form-control inpDlbr" rows="22" name="txt_Justificativa"
 								id="txt_Justificativa" style="color: black;"></textarea>
 						</div>
