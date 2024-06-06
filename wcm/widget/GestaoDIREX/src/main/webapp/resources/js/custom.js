@@ -39,8 +39,24 @@
     }
     window.addEventListener('load', initPageConfig)
 
-    function checkChanges(){
-        document.getElementById('PainelControle').addEventListener('click', async function (){
+    function setCheckChanges(){
+        objCkForDelbr = {
+            status: 0,
+            nSolict: []
+        }
+        document.getElementById('target').addEventListener('click', checkChanges)
+    }
+    async function checkChanges(event, c){
+        console.log(event);
+        console.log(c);
+        let tgN = event.target
+        let snlCk = 0
+        if(tgN.classList.contains('mrk') == true){ // && tgN.id != 'slcNew' && tgN.id != 'slc_temp'
+            snlCk++
+            console.log(snlCk)
+            console.log('///// ----------------------------------- <> snlCk')
+        }
+        if(c != undefined && snlCk == 0){
             let numSolc = objFieldsData.numSolN
             let lastState =  obTemp['stateActive'].state.sequence
             await objDefinitionBar.miniMapDefine(numSolc)
@@ -51,48 +67,42 @@
                 definePainelEnabled();
                 myToast('info', 'Processo movimentado, painel de controle dos itens inacessível.');
             }
-            console.log(dataTablemi.tableReference)
-            let colStatus   = dataTablemi.TableFluig().getCol('Aprov.Assessoria');
-            let colNum      = dataTablemi.TableFluig().getCol('N° Solicitação');
-            let states      = dataTablemi.statesWorkflow
-            let objStNess  = {
-                arrStnames: ['Aprovado', 'Análise', 'Excluído', 'Ajuste', 'Deliberado', 'Reprovado'],
-                arrStInt:   [14, 11, 17, 8, 19, 19]
-            }
-            let objForCheck = {}
-            for(let i = 0; i < colStatus.length; i++){
-                for(let j = 0; j < objStNess.arrStnames.length; j++){
-                    if(colStatus[i].innerText.indexOf(objStNess.arrStnames[j]) != -1){
-                        let indx    = 's' + colNum[i].innerText
-                        stInt       = objStNess.arrStInt[j]
-                        c1 = DatasetFactory.createConstraint("txt_NumProcess", colNum[i].innerText, colNum[i].innerText,  ConstraintType.MUST, true); 
-                        cnst = new Array(c1);
-                        let itnCnow = DatasetFactory.getDataset('Pauta DIREX', null, cnst, null).values;
-                        console.log(itnCnow)
-                        if(itnCnow[0]['hdn_aprvAssr'] != stInt){
-                            console.log('MUDOU')
-                            myToast('info', 'Um item foi alterado por outro usuário.');
-                            document.getElementById('btn2').getElementsByTagName('button')[0].click()
+        }
+        console.log(dataTablemi.tableReference)
+        let colStatus   = dataTablemi.TableFluig().getCol('Aprov.Assessoria');
+        let colNum      = dataTablemi.TableFluig().getCol('N° Solicitação');
+        let states      = dataTablemi.statesWorkflow
+        let objStNess  = {
+            arrStnames: ['Aprovado', 'Análise', 'Excluído', 'Ajuste', 'Deliberado', 'Reprovado'],
+            arrStInt:   [14, 11, 17, 8, 19, 19]
+        }
+        let objForCheck = {}
+        for(let i = 0; i < colStatus.length; i++){
+            for(let j = 0; j < objStNess.arrStnames.length; j++){
+                if(colStatus[i].innerText.indexOf(objStNess.arrStnames[j]) != -1){
+                    let indx    = 's' + colNum[i].innerText
+                    stInt       = objStNess.arrStInt[j]
+                    c1 = DatasetFactory.createConstraint("txt_NumProcess", colNum[i].innerText, colNum[i].innerText,  ConstraintType.MUST, true); 
+                    cnst = new Array(c1);
+                    let itnCnow = DatasetFactory.getDataset('Pauta DIREX', null, cnst, null).values;
+                    console.log(itnCnow)
+                    if(itnCnow[0]['hdn_aprvAssr'] != stInt){
+                        console.log('MUDOU')
+                        myToast('info', 'Um item foi alterado por outro usuário.');
+                        objCkForDelbr['status']     = 1
+                        objCkForDelbr['nSolict'].push(colNum[i].innerText)
+                        if(snlCk == 0){ document.getElementById('btn2').getElementsByTagName('button')[0].click() }
                         }else{
-                            console.log('NADA')
-                        }
-                        objForCheck[indx] = objStNess.arrStInt[j]
+                        console.log('NADA')
                     }
+                    objForCheck[indx] = objStNess.arrStInt[j]
                 }
-            
             }
-            console.log(objForCheck)
-        })
-        /*document.getElementById('exampleModalToggle').addEventListener("click", function (event) { 
-            console.log(event);
-            let tgN = event.target
-            if(tgN.classList.contains('divOpt') == false && tgN.id != 'slcNew' && tgN.id != 'slc_temp'){
-                document.getElementById('slcNew').style.display = 'none'
-            }
-        });
-        */
+        
+        }
+        console.log(objForCheck)
     }
-    window.addEventListener('load', checkChanges)
+    window.addEventListener('load', setCheckChanges)
     
     function getDirVinc(){
         objDefineStatus = {}

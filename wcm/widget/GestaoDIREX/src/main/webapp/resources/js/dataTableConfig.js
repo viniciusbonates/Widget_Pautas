@@ -196,11 +196,11 @@ dataTableConfig.prototype.constructInputValueSelected = function (configField){
 dataTableConfig.prototype.constructButton = function (configButton){
     var buttonV = document.createElement('button');
         buttonV.setAttribute('type', 'button');
-        buttonV.setAttribute('class','btn btn-primary');
+        buttonV.setAttribute('class','btn btn-primary mrk');
         buttonV.setAttribute('disabled','disabled');
         buttonV.innerText = configButton.innerText;
     var iV = document.createElement('i');
-        iV.setAttribute('class', configButton.setIcon);
+        iV.setAttribute('class', configButton.setIcon + ' mrk');
         iV.setAttribute('aria-hidden', 'true');
     var divV = document.createElement('div');
         divV.setAttribute('id', configButton.id);
@@ -222,7 +222,7 @@ dataTableConfig.prototype.constructButtonDropDown = function (configButtonDrpDwn
         divV.setAttribute('class', 'dropdown');
     var buttonV = document.createElement('button');
         buttonV.setAttribute('type', 'button');
-        buttonV.setAttribute('class','btn btn-primary dropdown-toggle');
+        buttonV.setAttribute('class','btn btn-primary dropdown-toggle mrk');
         buttonV.setAttribute('disabled','disabled');
         buttonV.setAttribute('data-bs-toggle','dropdown');
         buttonV.setAttribute('aria-expanded','false');
@@ -230,20 +230,21 @@ dataTableConfig.prototype.constructButtonDropDown = function (configButtonDrpDwn
     //var spanV = document.createElement('span');
     //    spanV.setAttribute('class', 'caret');    
     var ulV = document.createElement('ul');
-        ulV.setAttribute('class', 'dropdown-menu');
+        ulV.setAttribute('class', 'dropdown-menu mrk');
         //ulV.setAttribute('role', 'menu');
     for(let i = 0; i < configButtonDrpDwn.ul.length; i++){
         if(configButtonDrpDwn.ul[i].class == 'divider'){
             var liV = document.createElement('li');
-            liV.setAttribute('class', configButtonDrpDwn.ul[i].class);
+            liV.setAttribute('class', configButtonDrpDwn.ul[i].class+' mrk');
             ulV.appendChild(liV);
         }else{
             var liV = document.createElement('li');
                 //liV.setAttribute('style', 'cursor: pointer');
+                liV.setAttribute('class', 'mrk');
                 liV.setAttribute('id', configButtonDrpDwn.ul[i].id);
                 liV.setAttribute('value', configButtonDrpDwn.ul[i].value);
             var aV = document.createElement('a');
-                aV.setAttribute('class', 'dropdown-item');
+                aV.setAttribute('class', 'dropdown-item mrk');
                 aV.setAttribute('href', '#');
                 if(configButtonDrpDwn.ul[i].icon != undefined){
                     var iconV = this.constructIcon().construct(configButtonDrpDwn.ul[i].icon);
@@ -1697,8 +1698,9 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
             }
         },moveItemDelibr: function () {
             btn             = itens['btn1'];
+            btn.getElementsByTagName('button')[0].addEventListener('click', async function() { await moveDelibrDefinition(); await hipotesis2();});
             console.log(btn)
-            btn.addEventListener('click', async function() { await moveDelibrDefinition(); await hipotesis2();}); 
+            //btn.addEventListener('click', async function() { await moveDelibrDefinition(); await hipotesis2();}); 
             async function moveDelibrDefinition(){
                 let nameIten    = 'dataSelected'
                 statusDelibr    = wrkflw.DespachoDeliber;
@@ -1813,24 +1815,42 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                         }
                     }
                 }
-                for(i = 0; i < inpsPanel.length; i++){
-                    inpNow = inpsPanel[arrNamesInp[i]]
-                    if(inpNow != undefined){
-                        if(ckY == 0 && statusDelibr != statusAssr){    
-                            await dataTablemi.APImethods.movePOST(inpValue, statusDelibr, Delibr, Justf, votesThisItnNow, obsThisItnNow, resultAnalis, demandRsp, usersForEmail);  // < -------------------- modificado 
-                            for(emailIn = 0; emailIn < arrUserEmails.length; emailIn++){                                                                                            // < -------------------- modificado 
-                                dataTablemi.APImethods.emailSend(arrUserEmails[emailIn], Delibr, tituloRN, dtRN, resultadoDelbr, obsDISUP, obsDIRAF, obsDITEC) 
-                                login = arrUserEmails[emailIn]
-                                login = login.split('@')[0]
-                                console.log(login)
-                                dataTablemi.APImethods.sendNotification('', login, tituloRN, inpValue)
-                            }                                                                                                 
-                            //var intervmoveItemDelibr = setInterval(defineStatusDelibr, 200);
-                            await defineStatusDelibr()
-                            //console.log(intervmoveItemDelibr)
-                        }else{ itensTools.myToast('info', 'É necessário preencher todos os campos de Deliberação!'); break; }
-                    }                
+                await checkChanges(event, 1)
+                let ckSt        = objCkForDelbr['status']         // <------- status de checagem de alterações, caso exista o valor será 1, se não valor igual a 0
+                let nSolicts    = objCkForDelbr['nSolict']        // <------- Número das solicitações modificadas
+                sinalStop       = 0
+                if(ckSt == 1){
+                    if(nSolicts.length > 1){
+                        for(let x of nSolicts){
+                            console.log(x)
+                            sinalStop = (inpValue == x) ? 1 : 0;
+                        }
+                    }else{ sinalStop = (inpValue == nSolicts[0]) ? 1 : 0; }
                 }
+                if(sinalStop != 1){                                 // <------- Garante que não está tentando fazer uma movimentação em um item já movimentado e modificação por outro usuário 
+                    for(i = 0; i < inpsPanel.length; i++){
+                        inpNow = inpsPanel[arrNamesInp[i]]
+                        if(inpNow != undefined){
+                            if(ckY == 0 && statusDelibr != statusAssr){    
+                                await dataTablemi.APImethods.movePOST(inpValue, statusDelibr, Delibr, Justf, votesThisItnNow, obsThisItnNow, resultAnalis, demandRsp, usersForEmail);  // < -------------------- modificado 
+                                for(emailIn = 0; emailIn < arrUserEmails.length; emailIn++){                                                                                            // < -------------------- modificado 
+                                    dataTablemi.APImethods.emailSend(arrUserEmails[emailIn], Delibr, tituloRN, dtRN, resultadoDelbr, obsDISUP, obsDIRAF, obsDITEC) 
+                                    login = arrUserEmails[emailIn]
+                                    login = login.split('@')[0]
+                                    console.log(login)
+                                    dataTablemi.APImethods.sendNotification('', login, tituloRN, inpValue)
+                                }                                                                                                 
+                                //var intervmoveItemDelibr = setInterval(defineStatusDelibr, 200);
+                                await defineStatusDelibr()
+                                //console.log(intervmoveItemDelibr)
+                            }else{ itensTools.myToast('info', 'É necessário preencher todos os campos de Deliberação!'); break; }
+                        }                
+                    }
+                }else{ 
+                    document.getElementById('btn2').getElementsByTagName('button')[0].click()           // <------- Caso tenha sido movimentado por outro usuário atualiza com as novas informações
+                }
+                objCkForDelbr['status'] = 0
+                objCkForDelbr['nSolict'] = []
                 async function defineStatusDelibr () { 
                     let colItens = dataTablemi.TableFluig().getCol('Aprov.Assessoria');
                     let colValue = dataTablemi.TableFluig().getCol('N° Solicitação');
