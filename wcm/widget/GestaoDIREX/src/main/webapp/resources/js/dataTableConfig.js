@@ -1236,17 +1236,20 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                     objHandleIcons[itnHnow.id] = itnHnow.setIcon
                 }
             }
-            console.log(objHandleIcons)
             document.getElementById('envAjust').addEventListener('click', async function () {
                 let AjusteAssr = document.getElementById('AjusteAssr')
-                console.log(AjusteAssr)
-                await dataTablemi.hipotesis(AjusteAssr); await hipotesis2();
+                await dataTablemi.opsMoveAssessorias(AjusteAssr); await hipotesis2();
+                justfExec     = document.getElementById('justfExec')
+                justfConcl      = document.getElementById('justfConcl')
+                justfExec.style.display     = 'none'
+                justfConcl.style.display    = 'block'
+                this.style.display          = 'none'
             })
             let lis = drpDwn.getElementsByTagName('li');
             for(let i = 0; i < lis.length; i++){
                 let liNow = lis[i];
                 if(liNow.id && liNow.id != 'AprovarAssr' && liNow.id != 'ReprovarAssr' && liNow.id != 'AjusteAssr'){
-                    await liNow.addEventListener('click', async function() { await dataTablemi.hipotesis(this); await hipotesis2(); }); /******************************** */
+                    await liNow.addEventListener('click', async function() { await dataTablemi.opsMoveAssessorias(this); await hipotesis2(); }); /******************************** */
                 }
             }
         },moveItemReprov: function () {
@@ -1905,7 +1908,7 @@ dataTableConfig.prototype.statusAsr = async function () {
         } 
     }
 }
-dataTableConfig.prototype.hipotesis = async function (elem){
+dataTableConfig.prototype.opsMoveAssessorias = async function (elem){
     console.log(objHandleIcons)
     let nameIten        = 'dataSelected'
     inpsPanel           = document.getElementsByClassName('inpDlbr')

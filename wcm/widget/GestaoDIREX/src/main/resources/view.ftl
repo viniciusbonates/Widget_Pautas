@@ -133,9 +133,14 @@
 		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		</div>
 		<div class="modal-body">
-        <label for="JustfDevolv">Texto jusitficativa:</label>
-        <hr>
-		<textarea class="form-control" name="JustfDevolv" id="JustfDevolv" rows="5"></textarea></div>
+			<div id="justfExec">
+				<label for="JustfDevolv">Texto jusitficativa:</label>
+				<hr>
+				<textarea class="form-control" name="JustfDevolv" id="JustfDevolv" rows="5"></textarea></div>
+			</div>
+			<div id="justfConcl" style="display: none;">
+				<h3>Item enviado para ajustes de demandante.</h3>
+			</div>
 		<div class="modal-footer">
 		  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
 		  <button type="button" class="btn btn-primary" id="envAjust">Enviar</button>
