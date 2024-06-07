@@ -18,7 +18,7 @@ function orderMethods(){
     this.targetAssignee         = window.WCMAPI.userCode //document.getElementById('cmb_NomeSolicita').value
     resMethods();
 }
-orderMethods.prototype.movePOST = async function (NumSolicitacao, acao, dlbr, justf, votes, obsThis, resultAnalis, demandRsp, usersForEmail) { // < ------- mod
+orderMethods.prototype.movePOST = async function (NumSolicitacao, acao, dlbr, justf, votes, obsThis, resultAnalis, demandRsp, usersForEmail, devolv) { // < ------- mod
     var Nsolicitacao                = NumSolicitacao;           // Para este escopo
     orderMethodsMi.Nsolicitacao     = NumSolicitacao;           // Para o .done do ajax
     var acao                        = acao
@@ -58,7 +58,8 @@ orderMethods.prototype.movePOST = async function (NumSolicitacao, acao, dlbr, ju
                         "txt_obsDlbrDITEC":  obsThis.DITEC,
                         "txt_resultAnalis": resultAnalis,
                         "slc_demandante": demandRsp,
-                        "zm_emailsCopia": usersForEmail                 // < ------- mod
+                        "zm_emailsCopia": usersForEmail,                 // < ------- mod
+                        "txt_devolv": devolv
                     }
                 }else if(justf != undefined || justf != ''){
                         console.log('  /* * /* / * / */ * * / */ * / */ * /* /* //* / * / /* / * /* / * / * /')    
@@ -67,10 +68,14 @@ orderMethods.prototype.movePOST = async function (NumSolicitacao, acao, dlbr, ju
                             "txt_Justificativa":  justf,
                             "txt_resultAnalis": resultAnalis,
                             "slc_demandante": demandRsp,
-                            "txt_Deliberacao":  dlbr
+                            "txt_Deliberacao":  dlbr,
+                            "txt_devolv": devolv
                         }
                 }else{
-                        var setFields = { "hdn_aprvAssr": aprvAssr }
+                        var setFields = { 
+                            "hdn_aprvAssr": aprvAssr, 
+                            "txt_devolv": devolv
+                        }
                 }
                 /*
                 async function transferRequest(){
