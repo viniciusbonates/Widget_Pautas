@@ -134,16 +134,41 @@
 		</div>
 		<div class="modal-body">
 			<div id="justfExec">
-				<label for="JustfDevolv">Texto jusitficativa:</label>
+				<label for="JustfDevolv">Texto jusitficativa<span class="Obrigatorio"><strong>*</strong></span>:</label>
 				<hr>
-				<textarea class="form-control" name="JustfDevolv" id="JustfDevolv" rows="5"></textarea></div>
+				<textarea class="form-control" name="JustfDevolv" id="JustfDevolv" rows="5"></textarea>
 			</div>
 			<div id="justfConcl" style="display: none;">
 				<h3>Item enviado para ajustes de demandante.</h3>
 			</div>
+		</div>
 		<div class="modal-footer">
 		  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
 		  <button type="button" class="btn btn-primary" id="envAjust">Enviar</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+
+  <div class="modal modal-lg fade" id="novaPauta" tabindex="-1" aria-labelledby="novaPautaLabel" aria-modal="true">
+	<div class="modal-dialog modal-dialog-centered">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h1 class="modal-title fs-5" id="novaPautaLabel">Inserção de Nova Pauta</h1>
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body">
+			<div id="justfExec">
+				<label for="txt_assunto_addPauta">Assunto<span class="Obrigatorio"><strong>*</strong></span>:</label>
+				<input type="text" class="form-control" name="txt_assunto_addPauta" id="txt_assunto_addPauta">
+				<hr>
+				<label for="txt_Justificativa_addPauta">Justificativa do Demandante / Dotação Orçamentária<span class="Obrigatorio"><strong>*</strong></span>:</label>
+				<textarea class="form-control" name="txt_Justificativa_addPauta" id="txt_Justificativa_addPauta" rows="5"></textarea>
+			</div>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+		  <button type="button" class="btn btn-primary" id="envPauta">Enviar</button>
 		</div>
 	  </div>
 	</div>

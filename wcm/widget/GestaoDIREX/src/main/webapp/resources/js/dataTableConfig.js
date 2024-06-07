@@ -55,7 +55,6 @@ function dataTableConfig(){
             }
         }
     /*** End Input Object Configuration ***/
-
     var configButton = {
         type: 'button',
         id: 'btn1',
@@ -63,7 +62,8 @@ function dataTableConfig(){
         setIcon: 'fluigicon fluigicon-checked icon-sm', 
         col: 'col-md-1',
         wid: 'width: 13%',
-        class: 'btn btn-primary mrk'
+        class: 'btn btn-primary mrk',
+        disabled: true
     }
     var configButton1 = {
         type: 'button',
@@ -72,16 +72,22 @@ function dataTableConfig(){
         setIcon: 'flaticon flaticon-refresh icon-sm', 
         col: 'col-md-1',
         wid: 'width: 5%',
-        class: 'btn btn-primary mrk'
+        class: 'btn btn-primary mrk',
+        disabled: true
     }
     var configButton2 = {
         type: 'button',
-        id: 'btn2',
+        id: 'btn3',
         innerText: ' Nova Pauta ',
         setIcon: 'fluigicon fluigicon-fileadd icon-sm', 
         col: 'col-md-1',
         wid: 'width: 13%',
-        class: 'btn btn-success mrk'
+        class: 'btn btn-success mrk',
+        disabled: false,
+        setAtt: {
+            'data-bs-toggle': 'modal',
+            'data-bs-target': '#novaPauta'
+        }
     }
      /**
      *  targetState:    11  = Analise Assr
@@ -133,7 +139,7 @@ function dataTableConfig(){
     }
 
     this.itensConfigs       = [configDropdowns, configButton, configButton1, configButton2];//configButton                  // Determina os itens criados
-    this.orderSuper         = ["dataSelected", "btnDrpDwn1", "btn1", "btn2", "datatable-area-search"];//"btn1"              // Determina a ordem dos elementos no linha superior. Deve ser determinado da esquerda para direita indicando os elementos por 'id'. Ex: ['btn1', 'btnDrpDwn1', ...]
+    this.orderSuper         = ["dataSelected", "btnDrpDwn1", "btn1", "btn2", "btn3", "datatable-area-search"];//"btn1"              // Determina a ordem dos elementos no linha superior. Deve ser determinado da esquerda para direita indicando os elementos por 'id'. Ex: ['btn1', 'btnDrpDwn1', ...]
 
     this.statesWorkflow     = {
         Ajustes: 8,
@@ -207,7 +213,15 @@ dataTableConfig.prototype.constructButton = function (configButton){
     var buttonV = document.createElement('button');
         buttonV.setAttribute('type', 'button');
         buttonV.setAttribute('class', configButton.class);
-        buttonV.setAttribute('disabled','disabled');
+        if(configButton.disabled){ buttonV.setAttribute('disabled','disabled'); }
+        if(configButton.setAtt != undefined){
+            let setAtt = configButton.setAtt
+            for(x in setAtt){
+                elemAtt = x
+                value   = setAtt[x]
+                buttonV.setAttribute(elemAtt, value);
+            }
+        }
         buttonV.innerText = configButton.innerText;
     var iV = document.createElement('i');
         iV.setAttribute('class', configButton.setIcon + ' mrk');
