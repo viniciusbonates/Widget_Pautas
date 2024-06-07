@@ -59,10 +59,11 @@ function dataTableConfig(){
     var configButton = {
         type: 'button',
         id: 'btn1',
-        innerText: 'Enviar Deliberação',
+        innerText: ' Enviar Deliberação ',
         setIcon: 'fluigicon fluigicon-checked icon-sm', 
         col: 'col-md-1',
-        wid: 'width: 13%'
+        wid: 'width: 13%',
+        class: 'btn btn-primary mrk'
     }
     var configButton1 = {
         type: 'button',
@@ -70,9 +71,18 @@ function dataTableConfig(){
         innerText: '',
         setIcon: 'flaticon flaticon-refresh icon-sm', 
         col: 'col-md-1',
-        wid: 'width: 13%'
+        wid: 'width: 5%',
+        class: 'btn btn-primary mrk'
     }
-
+    var configButton2 = {
+        type: 'button',
+        id: 'btn2',
+        innerText: ' Nova Pauta ',
+        setIcon: 'fluigicon fluigicon-fileadd icon-sm', 
+        col: 'col-md-1',
+        wid: 'width: 13%',
+        class: 'btn btn-success mrk'
+    }
      /**
      *  targetState:    11  = Analise Assr
      *                  9   = Ajuste
@@ -122,7 +132,7 @@ function dataTableConfig(){
         ]
     }
 
-    this.itensConfigs       = [configDropdowns, configButton, configButton1];//configButton                                 // Determina os itens criados
+    this.itensConfigs       = [configDropdowns, configButton, configButton1, configButton2];//configButton                  // Determina os itens criados
     this.orderSuper         = ["dataSelected", "btnDrpDwn1", "btn1", "btn2", "datatable-area-search"];//"btn1"              // Determina a ordem dos elementos no linha superior. Deve ser determinado da esquerda para direita indicando os elementos por 'id'. Ex: ['btn1', 'btnDrpDwn1', ...]
 
     this.statesWorkflow     = {
@@ -196,7 +206,7 @@ dataTableConfig.prototype.constructInputValueSelected = function (configField){
 dataTableConfig.prototype.constructButton = function (configButton){
     var buttonV = document.createElement('button');
         buttonV.setAttribute('type', 'button');
-        buttonV.setAttribute('class','btn btn-primary mrk');
+        buttonV.setAttribute('class', configButton.class);
         buttonV.setAttribute('disabled','disabled');
         buttonV.innerText = configButton.innerText;
     var iV = document.createElement('i');
