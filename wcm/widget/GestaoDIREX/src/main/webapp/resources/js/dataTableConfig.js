@@ -1261,13 +1261,19 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                 }
             }
             document.getElementById('envAjust').addEventListener('click', async function () {
-                let AjusteAssr = document.getElementById('AjusteAssr')
-                await dataTablemi.opsMoveAssessorias(AjusteAssr); await hipotesis2();
-                justfExec                   = document.getElementById('justfExec')
-                justfConcl                  = document.getElementById('justfConcl')
-                justfExec.style.display     = 'none'
-                justfConcl.style.display    = 'block'
-                this.style.display          = 'none'
+                JustfDevolv                  = document.getElementById('JustfDevolv')
+                if(JustfDevolv.value != null && JustfDevolv.value != '' && JustfDevolv.value != undefined){
+                    let AjusteAssr = document.getElementById('AjusteAssr')
+                    await dataTablemi.opsMoveAssessorias(AjusteAssr); await hipotesis2();
+                    justfExec                   = document.getElementById('justfExec')
+                    justfConcl                  = document.getElementById('justfConcl')
+                    justfExec.style.display     = 'none'
+                    justfConcl.style.display    = 'block'
+                    this.style.display          = 'none'
+                }else{
+                    let arrf = [JustfDevolv]
+                    objFieldsNew.setInvalidfeedback(arrf)
+                }
             })
             document.getElementById('AjusteAssr').addEventListener('click', async function () {
                 justfExec                   = document.getElementById('justfExec')
