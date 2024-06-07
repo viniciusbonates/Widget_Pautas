@@ -1237,193 +1237,16 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                 }
             }
             console.log(objHandleIcons)
-            
+            document.getElementById('envAjust').addEventListener('click', async function () {
+                let AjusteAssr = document.getElementById('AjusteAssr')
+                console.log(AjusteAssr)
+                await dataTablemi.hipotesis(AjusteAssr); await hipotesis2();
+            })
             let lis = drpDwn.getElementsByTagName('li');
             for(let i = 0; i < lis.length; i++){
                 let liNow = lis[i];
                 if(liNow.id && liNow.id != 'AprovarAssr' && liNow.id != 'ReprovarAssr' && liNow.id != 'AjusteAssr'){
-                    await liNow.addEventListener('click', async function() { await hipotesis(this); await hipotesis2(); }); /******************************** */
-                    async function hipotesis(elem){
-                        console.log(objHandleIcons)
-                        let nameIten        = 'dataSelected'
-                        inpsPanel           = document.getElementsByClassName('inpDlbr')
-                        let it              = dataTablemi.itensBuilt[nameIten];
-                        var iten            = dataTablemi.itensBuilt['btn1'];
-                        inp                 = it.getElementsByTagName('input')[0];
-                        inpValue            = inp.value;  
-                        let cntrts          = DatasetFactory.createConstraint("txt_NumProcess", inpValue, inpValue, ConstraintType.MUST); 
-                        let itenPauta       = DatasetFactory.getDataset('Pauta DIREX', null, new Array(cntrts), null).values[0];
-                        let statusAssr      = itenPauta['hdn_aprvAssr'];
-                        let resultAnalis    = 0;     
-                        demandRsp = inpsPanel['slc_demandante'].value;     
-                        Justf = inpsPanel['txt_Justificativa'].value; 
-                        Delibr  = inpsPanel['txt_Deliberacao'].value;
-
-                        if(elem.value != statusAssr){     
-                            await dataTablemi.APImethods.movePOST(inpValue, elem.value, Delibr, Justf, '', '', resultAnalis, demandRsp, ''); /******** */ // < -------------------- modificado
-                            var interv = setInterval(defineStatus, 200);
-                            console.log(interv)
-                        }
-                        function defineStatus () { 
-                            console.log(objHandleIcons)
-                            let colItens = dataTablemi.TableFluig().getCol('Aprov.Assessoria');
-                            let colValue = dataTablemi.TableFluig().getCol('N° Solicitação');
-
-                            let cntrts          = DatasetFactory.createConstraint("txt_NumProcess", inpValue, inpValue, ConstraintType.MUST); 
-                            let itenPauta       = DatasetFactory.getDataset('Pauta DIREX', null, new Array(cntrts), null).values[0];
-                            stateNow      = itenPauta['hdn_aprvAssr'];                                            
-                            if(stateNow == elem.value){
-                                var colItem = 0;
-                                for(let i = 0; i < colValue.length; i++){
-                                    if(inpValue == colValue[i].innerText){
-                                        colItem = colItens[i]
-                                    }
-                                } 
-                                console.log(stateNow);
-                                if(stateNow == wrkflw.AnaliseAssr){
-                                    //colItem.removeChild(colItem.children[0])
-                                    colItem.innerHTML = ''
-                                    iconThis = objHandleIcons["ReverterAssr"]
-                                    iconThis = iconThis.replace('sm', 'md')
-                                    let icon = constructIcon.construct(iconThis);
-                                    //colItem.innerHTML = ''
-                                    //let icon = dataTablemi.constructIcon().construct('fluigicon fluigicon-file-bell-empty icon-md');
-                                    colItem.appendChild(icon);
-                                    let icn             = colItem.innerHTML;                                     //Descrição
-                                    icn                 = icn +' <b>Análise</b>';
-                                    colItem.innerHTML    = icn;
-                                    dataTablemi.resAPI = {};
-                                    window.res['arrIndx'].push('1');
-                                    orderMethodsMi.indexFunctionsX();
-                                    itensTools.myToast('success', 'Ação realizada com sucesso!');
-
-                                    let inps = document.getElementsByClassName('inpDlbr')
-                                    arrNamesIt = ['slc_DISUP_vt', 'slc_UCOF_vt', 'slc_DITEC_vt', 'txt_obsDlbrDIRAF', 'txt_obsDlbrDITEC', 'txt_obsDlbrDISUP',] //'txt_Deliberacao'
-                                    document.getElementById('Delibr').style.display = 'block';
-                                    iten.getElementsByTagName('button')[0].disabled = true 
-                                    for(let i = 0; i < inps.length; i++){
-                                        let nowInp = inps[arrNamesIt[i]];
-                                        if(nowInp != undefined){
-                                            nowInp.value = '';
-                                            nowInp.disabled = true;
-                                        }
-                                    } 
-                                    for(let i = 0; i < dataTablemi.funcsChange.Name.length; i++){
-                                        let name 		= dataTablemi.funcsChange.Name[i];
-                                        if(dataTablemi.funcsChange.Name[i] == 'a'){
-                                            dataTablemi.funcsChange[name](0);
-                                        }else{
-                                            dataTablemi.funcsChange[name]();
-                                        }
-                                    }
-                                    
-                                    document.getElementById('txt_Justificativa').disabled = false
-                                    console.log(myEditor)
-
-                                    myEditor.cleanEditor(document.getElementById('txt_Justificativa'))
-                                    myEditor.setDataInput(document.getElementById('txt_Justificativa'))
-                                    myEditor.cleanEditor(document.getElementById('txt_Deliberacao'))
-                                    myEditor.setDataInput(document.getElementById('txt_Deliberacao'))
-                                    //myEditor.disabledEditor(document.getElementById('txt_Deliberacao'))
-
-                                    myEditor.setDataInput(document.getElementById('txt_obsDlbrDIRAF'))
-                                    myEditor.disabledEditor(document.getElementById('txt_obsDlbrDIRAF'))
-                                    myEditor.setDataInput(document.getElementById('txt_obsDlbrDITEC'))
-                                    myEditor.disabledEditor(document.getElementById('txt_obsDlbrDITEC'))
-                                    myEditor.setDataInput(document.getElementById('txt_obsDlbrDISUP'))
-                                    myEditor.disabledEditor(document.getElementById('txt_obsDlbrDISUP'))
-
-                                    window["zm_emailsCopia"].disable(true)              // < ------------------- adicionado
-
-                                    clearInterval(interv)
-                                }
-                                else if(stateNow == wrkflw.ItemDescartado){
-                                    //colItem.removeChild(colItem.children[0])
-                                    colItem.innerHTML = ''
-                                    iconThis = objHandleIcons["ExcluirAssr"]
-                                    iconThis = iconThis.replace('sm', 'md')
-                                    let icon = constructIcon.construct(iconThis);
-                                    //colItem.innerHTML = ''
-                                    //let icon = dataTablemi.constructIcon().construct('flaticon flaticon-file-delete icon-md');
-                                    colItem.appendChild(icon);
-                                    let icn             = colItem.innerHTML;                                     //Descrição
-                                    icn                 = icn +' <b>Excluído</b>';
-                                    colItem.innerHTML    = icn;
-
-                                    myEditor.setDataInput(document.getElementById('txt_Justificativa'))
-                                    myEditor.disabledEditor(document.getElementById('txt_Justificativa'))
-                                    myEditor.setDataInput(document.getElementById('txt_Deliberacao'))
-                                    myEditor.disabledEditor(document.getElementById('txt_Deliberacao'))
-                                    myEditor.setDataInput(document.getElementById('txt_obsDlbrDIRAF'))
-                                    myEditor.disabledEditor(document.getElementById('txt_obsDlbrDIRAF'))
-                                    myEditor.setDataInput(document.getElementById('txt_obsDlbrDITEC'))
-                                    myEditor.disabledEditor(document.getElementById('txt_obsDlbrDITEC'))
-                                    myEditor.setDataInput(document.getElementById('txt_obsDlbrDISUP'))
-                                    myEditor.disabledEditor(document.getElementById('txt_obsDlbrDISUP'))
-
-                                    for(let i = 0; i < dataTablemi.funcsChange.Name.length; i++){
-                                        let name 		= dataTablemi.funcsChange.Name[i];
-                                        if(dataTablemi.funcsChange.Name[i] == 'a'){
-                                            dataTablemi.funcsChange[name](1);
-                                        }else{
-                                            dataTablemi.funcsChange[name]();
-                                        }
-                                    }
-
-                                    window["zm_emailsCopia"].disable(true)              // < ------------------- adicionado
-
-                                    dataTablemi.resAPI = {};
-                                    window.res['arrIndx'].push('1');
-                                    orderMethodsMi.indexFunctionsX();
-                                    itensTools.myToast('success', 'Ação realizada com sucesso!');
-                                    clearInterval(interv)
-                                }
-                                else if(stateNow == wrkflw.Ajustes){
-                                    //colItem.removeChild(colItem.children[0])
-                                    colItem.innerHTML = ''
-                                    iconThis = objHandleIcons["AjusteAssr"]
-                                    iconThis = iconThis.replace('sm', 'md')
-                                    let icon = constructIcon.construct(iconThis);
-                                    //colItem.innerHTML = ''
-                                    //let icon = dataTablemi.constructIcon().construct('fluigicon fluigicon-fileedit icon-md');
-                                    colItem.appendChild(icon);
-                                    let icn             = colItem.innerHTML;                                     //Descrição
-                                    icn                 = icn +' <b>Ajuste</b>';
-                                    colItem.innerHTML    = icn;
-
-                                    myEditor.setDataInput(document.getElementById('txt_Justificativa'))
-                                    myEditor.disabledEditor(document.getElementById('txt_Justificativa'))
-                                    myEditor.setDataInput(document.getElementById('txt_Deliberacao'))
-                                    myEditor.disabledEditor(document.getElementById('txt_Deliberacao'))
-                                    myEditor.setDataInput(document.getElementById('txt_obsDlbrDIRAF'))
-                                    myEditor.disabledEditor(document.getElementById('txt_obsDlbrDIRAF'))
-                                    myEditor.setDataInput(document.getElementById('txt_obsDlbrDITEC'))
-                                    myEditor.disabledEditor(document.getElementById('txt_obsDlbrDITEC'))
-                                    myEditor.setDataInput(document.getElementById('txt_obsDlbrDISUP'))
-                                    myEditor.disabledEditor(document.getElementById('txt_obsDlbrDISUP'))
-
-                                    for(let i = 0; i < dataTablemi.funcsChange.Name.length; i++){
-                                        let name 		= dataTablemi.funcsChange.Name[i];
-                                        if(dataTablemi.funcsChange.Name[i] == 'a'){
-                                            dataTablemi.funcsChange[name](1);
-                                        }else{
-                                            dataTablemi.funcsChange[name]();
-                                        }
-                                    }
-
-                                    window["zm_emailsCopia"].disable(true)              // < ------------------- adicionado
-
-                                    dataTablemi.resAPI = {};
-                                    window.res['numIndx'] = 2;
-                                    window.res['arrIndx'].push('1');
-                                    orderMethodsMi.indexFunctionsX();
-                                    itensTools.myToast('success', 'Ação realizada com sucesso!');
-                                    clearInterval(interv)
-                                }
-                                else{ clearInterval(interv) }
-                            }
-                        }
-                    }
+                    await liNow.addEventListener('click', async function() { await dataTablemi.hipotesis(this); await hipotesis2(); }); /******************************** */
                 }
             }
         },moveItemReprov: function () {
@@ -2080,6 +1903,173 @@ dataTableConfig.prototype.statusAsr = async function () {
                 icn = icn +' <b>Análise</b>';
             }
         } 
+    }
+}
+dataTableConfig.prototype.hipotesis = async function (elem){
+    console.log(objHandleIcons)
+    let nameIten        = 'dataSelected'
+    inpsPanel           = document.getElementsByClassName('inpDlbr')
+    let it              = this.itensBuilt[nameIten];
+    var iten            = this.itensBuilt['btn1'];
+    inp                 = it.getElementsByTagName('input')[0];
+    inpValue            = inp.value;  
+    let cntrts          = DatasetFactory.createConstraint("txt_NumProcess", inpValue, inpValue, ConstraintType.MUST); 
+    let itenPauta       = DatasetFactory.getDataset('Pauta DIREX', null, new Array(cntrts), null).values[0];
+    let statusAssr      = itenPauta['hdn_aprvAssr'];
+    let resultAnalis    = 0;     
+    demandRsp = inpsPanel['slc_demandante'].value;     
+    Justf = inpsPanel['txt_Justificativa'].value; 
+    Delibr  = inpsPanel['txt_Deliberacao'].value;
+
+    if(elem.value != statusAssr){     
+        await this.APImethods.movePOST(inpValue, elem.value, Delibr, Justf, '', '', resultAnalis, demandRsp, ''); /******** */ // < -------------------- modificado
+        //var interv = setInterval(defineStatus, 200);
+        await defineStatus()
+    }
+    async function defineStatus () { 
+        console.log(objHandleIcons)
+        let colItens        = dataTablemi.TableFluig().getCol('Aprov.Assessoria');
+        let colValue        = dataTablemi.TableFluig().getCol('N° Solicitação');
+        let wrkflw          = dataTablemi.statesWorkflow;
+        let constructIcon   = dataTablemi.constructIcon(); 
+        let cntrts          = DatasetFactory.createConstraint("txt_NumProcess", inpValue, inpValue, ConstraintType.MUST); 
+        let itenPauta       = DatasetFactory.getDataset('Pauta DIREX', null, new Array(cntrts), null).values[0];
+        stateNow            = itenPauta['hdn_aprvAssr'];                                            
+        if(stateNow == elem.value){
+            var colItem = 0;
+            for(let i = 0; i < colValue.length; i++){
+                if(inpValue == colValue[i].innerText){
+                    colItem = colItens[i]
+                }
+            } 
+            console.log(stateNow);
+            if(stateNow == wrkflw.AnaliseAssr){
+                colItem.innerHTML = ''
+                iconThis = objHandleIcons["ReverterAssr"]
+                iconThis = iconThis.replace('sm', 'md')
+                let icon = constructIcon.construct(iconThis);
+                colItem.appendChild(icon);
+                let icn             = colItem.innerHTML;                                     //Descrição
+                icn                 = icn +' <b>Análise</b>';
+                colItem.innerHTML    = icn;
+                dataTablemi.resAPI = {};
+                window.res['arrIndx'].push('1');
+                orderMethodsMi.indexFunctionsX();
+                itensTools.myToast('success', 'Ação realizada com sucesso!');
+
+                let inps = document.getElementsByClassName('inpDlbr')
+                arrNamesIt = ['slc_DISUP_vt', 'slc_UCOF_vt', 'slc_DITEC_vt', 'txt_obsDlbrDIRAF', 'txt_obsDlbrDITEC', 'txt_obsDlbrDISUP',] //'txt_Deliberacao'
+                document.getElementById('Delibr').style.display = 'block';
+                iten.getElementsByTagName('button')[0].disabled = true 
+                for(let i = 0; i < inps.length; i++){
+                    let nowInp = inps[arrNamesIt[i]];
+                    if(nowInp != undefined){
+                        nowInp.value = '';
+                        nowInp.disabled = true;
+                    }
+                } 
+                for(let i = 0; i < dataTablemi.funcsChange.Name.length; i++){
+                    let name 		= dataTablemi.funcsChange.Name[i];
+                    if(dataTablemi.funcsChange.Name[i] == 'a'){
+                        dataTablemi.funcsChange[name](0);
+                    }else{
+                        dataTablemi.funcsChange[name]();
+                    }
+                }
+                
+                document.getElementById('txt_Justificativa').disabled = false
+                console.log(myEditor)
+
+                myEditor.cleanEditor(document.getElementById('txt_Justificativa'))
+                myEditor.setDataInput(document.getElementById('txt_Justificativa'))
+                myEditor.cleanEditor(document.getElementById('txt_Deliberacao'))
+                myEditor.setDataInput(document.getElementById('txt_Deliberacao'))
+
+                myEditor.setDataInput(document.getElementById('txt_obsDlbrDIRAF'))
+                myEditor.disabledEditor(document.getElementById('txt_obsDlbrDIRAF'))
+                myEditor.setDataInput(document.getElementById('txt_obsDlbrDITEC'))
+                myEditor.disabledEditor(document.getElementById('txt_obsDlbrDITEC'))
+                myEditor.setDataInput(document.getElementById('txt_obsDlbrDISUP'))
+                myEditor.disabledEditor(document.getElementById('txt_obsDlbrDISUP'))
+
+                window["zm_emailsCopia"].disable(true)              // < ------------------- adicionado
+            }
+            else if(stateNow == wrkflw.ItemDescartado){
+                colItem.innerHTML = ''
+                iconThis = objHandleIcons["ExcluirAssr"]
+                iconThis = iconThis.replace('sm', 'md')
+                let icon = constructIcon.construct(iconThis);
+                colItem.appendChild(icon);
+                let icn             = colItem.innerHTML;                                     //Descrição
+                icn                 = icn +' <b>Excluído</b>';
+                colItem.innerHTML    = icn;
+
+                myEditor.setDataInput(document.getElementById('txt_Justificativa'))
+                myEditor.disabledEditor(document.getElementById('txt_Justificativa'))
+                myEditor.setDataInput(document.getElementById('txt_Deliberacao'))
+                myEditor.disabledEditor(document.getElementById('txt_Deliberacao'))
+                myEditor.setDataInput(document.getElementById('txt_obsDlbrDIRAF'))
+                myEditor.disabledEditor(document.getElementById('txt_obsDlbrDIRAF'))
+                myEditor.setDataInput(document.getElementById('txt_obsDlbrDITEC'))
+                myEditor.disabledEditor(document.getElementById('txt_obsDlbrDITEC'))
+                myEditor.setDataInput(document.getElementById('txt_obsDlbrDISUP'))
+                myEditor.disabledEditor(document.getElementById('txt_obsDlbrDISUP'))
+
+                for(let i = 0; i < dataTablemi.funcsChange.Name.length; i++){
+                    let name 		= dataTablemi.funcsChange.Name[i];
+                    if(dataTablemi.funcsChange.Name[i] == 'a'){
+                        dataTablemi.funcsChange[name](1);
+                    }else{
+                        dataTablemi.funcsChange[name]();
+                    }
+                }
+
+                window["zm_emailsCopia"].disable(true)              // < ------------------- adicionado
+
+                dataTablemi.resAPI = {};
+                window.res['arrIndx'].push('1');
+                orderMethodsMi.indexFunctionsX();
+                itensTools.myToast('success', 'Ação realizada com sucesso!');
+            }
+            else if(stateNow == wrkflw.Ajustes){
+                colItem.innerHTML = ''
+                iconThis = objHandleIcons["AjusteAssr"]
+                iconThis = iconThis.replace('sm', 'md')
+                let icon = constructIcon.construct(iconThis);
+                colItem.appendChild(icon);
+                let icn             = colItem.innerHTML;                                     //Descrição
+                icn                 = icn +' <b>Ajuste</b>';
+                colItem.innerHTML    = icn;
+
+                myEditor.setDataInput(document.getElementById('txt_Justificativa'))
+                myEditor.disabledEditor(document.getElementById('txt_Justificativa'))
+                myEditor.setDataInput(document.getElementById('txt_Deliberacao'))
+                myEditor.disabledEditor(document.getElementById('txt_Deliberacao'))
+                myEditor.setDataInput(document.getElementById('txt_obsDlbrDIRAF'))
+                myEditor.disabledEditor(document.getElementById('txt_obsDlbrDIRAF'))
+                myEditor.setDataInput(document.getElementById('txt_obsDlbrDITEC'))
+                myEditor.disabledEditor(document.getElementById('txt_obsDlbrDITEC'))
+                myEditor.setDataInput(document.getElementById('txt_obsDlbrDISUP'))
+                myEditor.disabledEditor(document.getElementById('txt_obsDlbrDISUP'))
+
+                for(let i = 0; i < dataTablemi.funcsChange.Name.length; i++){
+                    let name 		= dataTablemi.funcsChange.Name[i];
+                    if(dataTablemi.funcsChange.Name[i] == 'a'){
+                        dataTablemi.funcsChange[name](1);
+                    }else{
+                        dataTablemi.funcsChange[name]();
+                    }
+                }
+
+                window["zm_emailsCopia"].disable(true)              // < ------------------- adicionado
+
+                dataTablemi.resAPI = {};
+                window.res['numIndx'] = 2;
+                window.res['arrIndx'].push('1');
+                orderMethodsMi.indexFunctionsX();
+                itensTools.myToast('success', 'Ação realizada com sucesso!');
+            }
+        }
     }
 }
 function dataTableinit() { dataTablemi = new dataTableConfig(); }

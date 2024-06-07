@@ -125,7 +125,7 @@
 	</div>
   </div>
 
-  <div class="modal fade show" id="exampleModalPopovers" tabindex="-1" aria-labelledby="exampleModalPopoversLabel" style="display: block;" aria-modal="true" role="dialog">
+  <div class="modal fade" id="exampleModalPopovers" tabindex="-1" aria-labelledby="exampleModalPopoversLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered">
 	  <div class="modal-content">
 		<div class="modal-header">
@@ -138,7 +138,7 @@
 		<textarea class="form-control" name="JustfDevolv" id="JustfDevolv" rows="5"></textarea></div>
 		<div class="modal-footer">
 		  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-		  <button type="button" class="btn btn-primary">Enviar</button>
+		  <button type="button" class="btn btn-primary" id="envAjust">Enviar</button>
 		</div>
 	  </div>
 	</div>
