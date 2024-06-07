@@ -1240,8 +1240,39 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                 {'fncName': 'moveItemDelibr'},
                 {'fncName': 'refreshTable'},
                 {'fncName': 'moveItemAprov'},
-                {'fncName': 'moveItemReprov'}
+                {'fncName': 'moveItemReprov'},
+                {'fncName': 'novaPauta'}
         ],
+        novaPauta: function () {
+            document.getElementById('envPauta').addEventListener('click', async function () {
+                myEditor.setDataInputsParams()
+                txt_assunto_addPauta                    = document.getElementById('txt_assunto_addPauta')
+                txt_Justificativa_addPauta              = document.getElementById('txt_Justificativa_addPauta')
+                arrInpsEnvPauta = [txt_assunto_addPauta, txt_Justificativa_addPauta]
+                objFieldsNew.cleanValidatefeedback(arrInpsEnvPauta)
+                snlCkenvPauta = 0
+                arrValid = []
+                for(let i = 0; i < arrInpsEnvPauta.length; i++){
+                    if(arrInpsEnvPauta[i].value == null || arrInpsEnvPauta[i].value == undefined || arrInpsEnvPauta[i].value == '' || arrInpsEnvPauta[i].value == '<html>\n<head>\n\t<title></title>\n</head>\n<body></body>\n</html>\n'){
+                        arrValid.push(arrInpsEnvPauta[i])
+                        snlCkenvPauta++
+                    }
+                }
+                if(snlCkenvPauta == 0){
+                    /*let AjusteAssr = document.getElementById('AjusteAssr')
+                    //await dataTablemi.opsMoveAssessorias(AjusteAssr); await hipotesis2();
+                    justfExec                   = document.getElementById('justfExec')
+                    justfConcl                  = document.getElementById('justfConcl')
+                    justfExec.style.display     = 'none'
+                    justfConcl.style.display    = 'block'
+                    this.style.display          = 'none'
+                    */
+                    itensTools.myToast('success', 'validado');
+                }else{
+                    objFieldsNew.setInvalidfeedback(arrValid)
+                }
+            })
+        },
         moveItem: async function () {
             drpDwn  = itens['btnDrpDwn1'];
             itensConfigsH   = itensConfigsUpd;
@@ -1262,6 +1293,8 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
             }
             document.getElementById('envAjust').addEventListener('click', async function () {
                 JustfDevolv                  = document.getElementById('JustfDevolv')
+                let arrf = [JustfDevolv]
+                objFieldsNew.cleanValidatefeedback(JustfDevolv)
                 if(JustfDevolv.value != null && JustfDevolv.value != '' && JustfDevolv.value != undefined){
                     let AjusteAssr = document.getElementById('AjusteAssr')
                     await dataTablemi.opsMoveAssessorias(AjusteAssr); await hipotesis2();
@@ -1271,7 +1304,6 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                     justfConcl.style.display    = 'block'
                     this.style.display          = 'none'
                 }else{
-                    let arrf = [JustfDevolv]
                     objFieldsNew.setInvalidfeedback(arrf)
                 }
             })
