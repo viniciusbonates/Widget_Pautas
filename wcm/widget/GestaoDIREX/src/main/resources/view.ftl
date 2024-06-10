@@ -584,6 +584,9 @@
 						<div class="card-body">
 							<h3 class="card-title">DISUP</h3>
 							<p class="card-text">Itens Inseridos na Reunião</p>
+							<div class="input-group">
+								<button type="button" class="btn btn-primary" id="getData_deliber_op_DISUP" value="DISUP">Obter PDF</button>
+							</div>
 							<div id="itnsList_deliber_op_DISUP" style="display: none">
 								<ul></ul>
 							</div>
@@ -597,6 +600,10 @@
 						<div class="card-body">
 							<h3 class="card-title">DIRAF</h3>
 							<p class="card-text">Itens Inseridos na Reunião</p>
+							<div class="input-group">
+								<button type="button" class="btn btn-primary" id="getData_deliber_op_DIRAF" value="DIRAF">Obter PDF</button>
+							</div>
+							<br>
 							<div id="itnsList_deliber_op_DIRAF" style="display: none">
 								<ul></ul>
 							</div>
@@ -610,6 +617,9 @@
 						<div class="card-body">
 							<h3 class="card-title">DITEC</h3>
 							<p class="card-text">Itens Inseridos na Reunião</p>
+							<div class="input-group">
+								<button type="button" class="btn btn-primary" id="getData_deliber_op_DITEC" value="DITEC">Obter PDF</button>
+							</div>
 							<div id="itnsList_deliber_op_DITEC" style="display: none">
 								<ul></ul>
 							</div>

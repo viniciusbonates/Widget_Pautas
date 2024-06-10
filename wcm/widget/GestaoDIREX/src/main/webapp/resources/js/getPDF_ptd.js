@@ -284,13 +284,16 @@ function getPDF_ptd() {
     for(i = 0; i < arrins.length; i++){
         dirIn = arrdir[i];
         btnDirItnsNow =  document.getElementById(arrins[i])
+        BTN_deliber_op =  document.getElementById('getData_deliber_op_'+dirIn)
         btnDirItnsNow.value = dirIn
         if(arrdir[i] != matDir){ 
             console.log(arrins[i]+'_all')
             document.getElementById(arrins[i]+'_all').style.display = 'none';
             document.getElementById(arrInpsAcess[i]+'_all').style.display = 'none'; 
         }
+        btnDirItnsNow.removeEventListener('click', updatePDF_ptd)                               // Garante não irá acumular a mesma função 
         btnDirItnsNow.addEventListener('click', function () { updatePDF_ptd(this.value) } ) 
+        BTN_deliber_op.addEventListener('click', function () { updatePDF_ptd(this.value) } ) 
     }
 
     
@@ -298,6 +301,7 @@ function getPDF_ptd() {
         inpAcessNow = document.getElementById(arrInpsAcess[j])
         if(inpAcessNow.checked == true){
             document.getElementById('itnsList_deliber_op_'+arrdir[j]).style.display = 'block'; 
+            document.getElementById('getData_deliber_op_'+arrdir[j]).style.display = 'block'; 
         }
     }
 }

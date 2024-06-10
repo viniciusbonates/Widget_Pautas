@@ -900,6 +900,10 @@ function itnsGabinetes(){
         document.getElementById('itnsList_deliber_op_DIRAF').style.display = 'none'
         document.getElementById('itnsList_deliber_op_DISUP').style.display = 'none'
 
+        document.getElementById('getData_deliber_op_DITEC').style.display = 'none'; 
+        document.getElementById('getData_deliber_op_DIRAF').style.display = 'none'; 
+        document.getElementById('getData_deliber_op_DISUP').style.display = 'none'; 
+
         info_setItns()
         getPDF_ptd()
 
