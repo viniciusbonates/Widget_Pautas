@@ -888,87 +888,7 @@ dataTableConfig.prototype.changeEventTable = function () {
                 //clearInterval(secIntervalOpenItem)
             }
         },
-        statusAsr: async function () {
-            //var secIntervalStatusAsr = setInterval(pushStatusAsr, 20);
-            //console.log(secIntervalStatusAsr)
-            await pushStatusAsr()
-            async function pushStatusAsr(){
-                let col         = TableFluig.getCol('Aprov.Assessoria');
-                let colNumSol   = TableFluig.getCol('Solicitação');
-                console.log(colNumSol[0])
-                for(let i = 0; i < col.length; i++){
-                    if(colNumSol[i].children[0] != undefined){
-                        var numSlct     = colNumSol[i].children[0].innerText;
-                    }//else{ //clearInterval(secIntervalStatusAsr) }
-                    let cntrts          = DatasetFactory.createConstraint("txt_NumProcess", numSlct, numSlct, ConstraintType.MUST); 
-                    let itenPauta       = DatasetFactory.getDataset('Pauta DIREX', null, new Array(cntrts), null).values[0];
-                    if(itenPauta['hdn_aprvAssr'] != null || itenPauta['hdn_aprvAssr'] != undefined){
-                        console.log(itenPauta)
-                        let assrAp = itenPauta['hdn_aprvAssr'];
-                        let resAnalis = itenPauta['txt_resultAnalis'];              // <---- Campo resultado da Analise assessoria defini o Se foi para status 19 devido Deliberação ou devido Reprovação 
-                        console.log(resAnalis)
-                        if(assrAp == wrkflw.RealizaReuniao){
-                            iconThis = objHandleIcons["AprovarAssr"]
-                            iconThis = iconThis.replace('sm', 'md')
-                            let iconChecked     = constructIcon.construct(iconThis);//'flaticon flaticon-file-check icon-md'
-                            col[i].appendChild(iconChecked);
-                            let icn = col[i].innerHTML;                                     //Descrição
-                            icn = icn +' <b>Aprovado</b>';
-                            col[i].innerHTML = icn;
-                        }else if(assrAp == wrkflw.AnaliseAssr){
-                            iconThis = objHandleIcons["ReverterAssr"]
-                            iconThis = iconThis.replace('sm', 'md')
-                            let iconEmpty       = constructIcon.construct(iconThis);//'fluigicon fluigicon-file-bell-empty icon-md'
-                            col[i].appendChild(iconEmpty);
-                            let icn = col[i].innerHTML;                                     //Descrição
-                            icn = icn +' <b>Análise</b>';
-                            col[i].innerHTML = icn;
-                        }else if(assrAp == wrkflw.ItemDescartado){
-                            iconThis = objHandleIcons["ExcluirAssr"]
-                            iconThis = iconThis.replace('sm', 'md')
-                            let iconEmpty       = constructIcon.construct('fluigicon fluigicon-trash icon-md');
-                            col[i].appendChild(iconEmpty);
-                            let icn = col[i].innerHTML;                                     //Descrição
-                            icn = icn +' <b>Excluído</b>';
-                            col[i].innerHTML = icn;
-                        }else if(assrAp == wrkflw.Ajustes){
-                            iconThis = objHandleIcons["AjusteAssr"]
-                            iconThis = iconThis.replace('sm', 'md')
-                            let iconEmpty       = constructIcon.construct(iconThis);//'fluigicon fluigicon-fileedit icon-md'
-                            col[i].appendChild(iconEmpty);    
-                            let icn = col[i].innerHTML;                                     //Descrição
-                            icn = icn +' <b>Ajuste</b>';
-                            col[i].innerHTML = icn;
-                        }
-                        else if(assrAp == wrkflw.DespachoDeliber && resAnalis == 2){
-                            iconThis = objHandleIcons['btn1']
-                            iconThis = iconThis.replace('sm', 'md')
-                            let iconEmpty       = constructIcon.construct(iconThis);//'fluigicon fluigicon-checked icon-md'
-                            col[i].appendChild(iconEmpty);    
-                            let icn = col[i].innerHTML;                                     //Descrição
-                            icn = icn +' <b>Deliberado</b>';
-                            col[i].innerHTML = icn;
-                        }
-                        else if(assrAp == wrkflw.DespachoDeliber && resAnalis == 1){
-                            iconThis = objHandleIcons["ReprovarAssr"]
-                            iconThis = iconThis.replace('sm', 'md')
-                            let iconEmpty       = constructIcon.construct(iconThis);//'flaticon flaticon-file-delete icon-md'
-                            col[i].appendChild(iconEmpty);    
-                            let icn = col[i].innerHTML;                                     //Descrição
-                            icn = icn +' <b>Reprovado</b>';
-                            col[i].innerHTML = icn;
-                        }
-
-                    }else{
-                        let iconEmpty       = constructIcon.construct('fluigicon fluigicon-file-bell-empty icon-md');
-                        col[i].appendChild(iconEmpty);
-                        let icn = col[i].innerHTML;                                     //Descrição
-                        icn = icn +' <b>Análise</b>';
-                    }
-                } 
-                //clearInterval(secIntervalStatusAsr)  
-            }
-        },
+        statusAsr: async function () {  await dataTablemi.statusAsr() },
         enabledButton: function (){
             var iten = itens['btn1'];
             drpDwnIn = itens['btnDrpDwn1']
@@ -1058,6 +978,7 @@ dataTableConfig.prototype.loadEventTable = function () {
                     objHandleIcons[itnHnow.id] = itnHnow.setIcon
                 }
             }
+            console.log('CRIADO objHandleIcons *-**********************************************************************')
             console.log(objHandleIcons)
             console.log('loadEventTable =  ********************************************************************')
             console.log('loadEventTable MOD =   await dataTablemi.statusAsr() ********************************************************************')
@@ -1248,22 +1169,6 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
         },
         moveItem: async function () {
             drpDwn  = itens['btnDrpDwn1'];
-            itensConfigsH   = itensConfigsUpd;
-            objHandleIcons =  {};
-            for(z = 0; z < itensConfigsH.length; z++){
-                itnHnow = itensConfigsH[z]
-                if(itnHnow.id == 'btnDrpDwn1'){
-                    ulsHnow = itnHnow.ul
-                    for(b = 0; b < ulsHnow.length; b++){
-                        id = ulsHnow[b].id
-                        icon = ulsHnow[b].icon
-                        console.log(ulsHnow[b])
-                        objHandleIcons[id] = icon
-                    }
-                }else if(itnHnow.id == 'btn1'){
-                    objHandleIcons[itnHnow.id] = itnHnow.setIcon
-                }
-            }
             document.getElementById('envAjust').addEventListener('click', async function () {
                 JustfDevolv                  = document.getElementById('JustfDevolv')
                 let arrf = [JustfDevolv]
@@ -1302,26 +1207,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
             }
         },moveItemReprov: function () {
             drpDwn  = itens['btnDrpDwn1'];
-            itensConfigsH   = itensConfigsUpd;
-            objHandleIcons =  {};
-            for(z = 0; z < itensConfigsH.length; z++){
-                itnHnow = itensConfigsH[z]
-                if(itnHnow.id == 'btnDrpDwn1'){
-                    ulsHnow = itnHnow.ul
-                    for(b = 0; b < ulsHnow.length; b++){
-                        id = ulsHnow[b].id
-                        icon = ulsHnow[b].icon
-                        console.log(ulsHnow[b])
-                        objHandleIcons[id] = icon
-                    }
-                }else if(itnHnow.id == 'btn1'){
-                    objHandleIcons[itnHnow.id] = itnHnow.setIcon
-                }
-            }
-            console.log(objHandleIcons)
-            drpDwn  = itens['btnDrpDwn1'];
             let lis = drpDwn.getElementsByTagName('li')
-            console.log(lis)
             for(let i = 0; i < lis.length; i++){
                 let liNow = lis[i];
                 console.log(liNow)
@@ -1887,7 +1773,7 @@ dataTableConfig.prototype.statusAsr = async function () {
             col[i].innerHTML = '';
             if(colNumSol[i].children[0] != undefined){
                 var numSlct     = colNumSol[i].children[0].innerText;
-            }//else{ //clearInterval(secIntervalStatusAsr) }
+            }
             let cntrts          = DatasetFactory.createConstraint("txt_NumProcess", numSlct, numSlct, ConstraintType.MUST); 
             let itenPauta       = DatasetFactory.getDataset('Pauta DIREX', null, new Array(cntrts), null).values[0];
             if(itenPauta['hdn_aprvAssr'] != null || itenPauta['hdn_aprvAssr'] != undefined){
@@ -1957,7 +1843,6 @@ dataTableConfig.prototype.statusAsr = async function () {
     }
 }
 dataTableConfig.prototype.opsMoveAssessorias = async function (elem){
-    console.log(objHandleIcons)
     let nameIten        = 'dataSelected'
     inpsPanel           = document.getElementsByClassName('inpDlbr')
     let it              = this.itensBuilt[nameIten];
@@ -1978,7 +1863,6 @@ dataTableConfig.prototype.opsMoveAssessorias = async function (elem){
         await defineStatus()
     }
     async function defineStatus () { 
-        console.log(objHandleIcons)
         let colItens        = dataTablemi.TableFluig().getCol('Aprov.Assessoria');
         let colValue        = dataTablemi.TableFluig().getCol('N° Solicitação');
         let wrkflw          = dataTablemi.statesWorkflow;
