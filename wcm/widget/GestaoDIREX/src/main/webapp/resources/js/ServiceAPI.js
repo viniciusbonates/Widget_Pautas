@@ -477,16 +477,16 @@ orderMethods.prototype.createNewPauta = async function (objBodyreq, objGetReturn
             "subProcessTargetState": 0,
             "comment": "Iniciada pelo painel de Gestão",
             "formFields": {
-                    "cmb_NomeSolicita": "99990006",
-                    "slc_demandante" : "99990006",
-                    "hdn_dir_vinc" : "Pool:Role:DIRAF",
-                    "zm_UnidadeSolicitante" : "Diretoria Administrativa Financeira",
-                    "dataSelected": "17/06/2024",
-                    "txt_titulo": "string",
-                    "txt_Justificativa": "string",
-                    "txt_Deliberacao": "<html><head><title></title></head><body></body></html>",
-                    "txt_resultAnalis": "2",
-                    "dt_DataSolicita": "07/06/2024 T"
+                    "cmb_NomeSolicita": objBodyreq.user,                                                //"99990006",                                                    
+                    "slc_demandante" : objBodyreq.user,                                                 //"99990006",                                                      
+                    "hdn_dir_vinc" : objBodyreq['hdn_dir_vinc'],                                        // "Pool:Role:DIRAF",                                                 
+                    "zm_UnidadeSolicitante" : objBodyreq['zm_UnidadeSolicitante'],                      //"Diretoria Administrativa Financeira",                    
+                    "dataSelected": objBodyreq['dataSelected'],                                         //"17/06/2024",                                                       
+                    "txt_titulo": objBodyreq['txt_titulo'],                                                          
+                    "txt_Justificativa": objBodyreq['txt_Justificativa'],                                                   
+                    "txt_Deliberacao": objBodyreq['txt_Deliberacao'],                                    //"<html><head><title></title></head><body></body></html>",       
+                    "txt_resultAnalis": objBodyreq['txt_resultAnalis'],                                  //"2",                                                           
+                    "dt_DataSolicita": objBodyreq['dt_DataSolicita']                                     //"07/06/2024 T"                                                  
                 }
             }
         ),

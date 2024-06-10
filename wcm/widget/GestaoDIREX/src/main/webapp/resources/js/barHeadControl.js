@@ -254,6 +254,8 @@ async function setDataReg(op, newProcess){
                 dTdesc = regN['dt_dataInicio'];
                 dTdesc = dTdesc.split('-');
                 dTdesc = dTdesc[2] + '/' + dTdesc[1] + '/' + dTdesc[0];
+                objDefineStatus['dataSelectedFormat']   = dTdesc
+                objDefineStatus['dataSelected']         = regN['dt_dataInicio']
                 objTdesc['desc-subTitulo'] = 'Data da Reunião: ' + dTdesc;
                 await objDefinitionBar.miniMapDefine(regN['txt_NumProcess']);
                 objDefinitionBar.stAcess_reg();

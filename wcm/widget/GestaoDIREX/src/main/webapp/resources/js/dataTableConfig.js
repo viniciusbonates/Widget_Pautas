@@ -1244,13 +1244,14 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                 {'fncName': 'novaPauta'}
         ],
         novaPauta: function () {
-            document.getElementById('envPauta').addEventListener('click', async function () {
+            document.getElementById('btn3').children[0].addEventListener('click', async function () {
                 txt_assunto_addPauta                    = document.getElementById('txt_assunto_addPauta')
                 txt_Justificativa_addPauta              = document.getElementById('txt_Justificativa_addPauta')
                 arrInpsEnvPauta = [txt_assunto_addPauta, txt_Justificativa_addPauta]
                 objFieldsNew.cleanValidatefeedback(arrInpsEnvPauta)
             });
             document.getElementById('envPauta').addEventListener('click', async function () {
+                objBodyreq = {}
                 myEditor.setDataInputsParams()
                 txt_assunto_addPauta                    = document.getElementById('txt_assunto_addPauta')
                 txt_Justificativa_addPauta              = document.getElementById('txt_Justificativa_addPauta')
@@ -1265,6 +1266,30 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                     }
                 }
                 if(snlCkenvPauta == 0){
+                    let hdn_dir_vinc = ''
+                    let zm_unidade   = ''
+                    if(matDirIn == 'DIRAF'){ 
+                       hdn_dir_vinc = 'Pool:Role:'+matDirIn;
+                        zm_unidade  = 'Diretoria Administrativa Financeira'
+                    }else if(matDirIn == 'DISUP'){
+                        hdn_dir_vinc = 'Pool:Role:'+matDirIn;
+                        zm_unidade  = 'Diretoria Superintendência'
+                    }else if(matDirIn == 'DITEC'){
+                        hdn_dir_vinc = 'Pool:Role:'+matDirIn;
+                        zm_unidade  = 'Diretoria Técnica'
+                    }
+                    dtIntg = new Date()
+                    objBodyreq['dt_DataSolicita']           = dtIntg.toLocaleDateString() +' '+dtIntg.toLocaleTimeString(); 
+                    objBodyreq['dataSelected']              = objDefineStatus.dataSelectedFormat
+                    objBodyreq['txt_resultAnalis']          = '2'
+                    objBodyreq['hdn_dir_vinc']              = hdn_dir_vinc
+                    objBodyreq['zm_UnidadeSolicitante']     = zm_unidade
+                    objBodyreq['user']                      = objDefineStatus.mat
+                    objBodyreq['user']                      = objDefineStatus.mat
+                    objBodyreq['txt_titulo']                = txt_assunto_addPauta.value;
+                    objBodyreq['txt_Justificativa']         = txt_Justificativa_addPauta.value;
+                    objBodyreq['txt_Deliberacao']           = "<html><head><title></title></head><body></body></html>"
+                    console.log(objBodyreq)
                     /*let AjusteAssr = document.getElementById('AjusteAssr')
                     //await dataTablemi.opsMoveAssessorias(AjusteAssr); await hipotesis2();
                     justfExec                   = document.getElementById('justfExec')
