@@ -470,6 +470,12 @@ orderMethods.prototype.createNewPauta = async function (objBodyreq, objGetReturn
         url: this.host+"/process-management/api/v2/processes/PautaDIREX/start",
         contentType: "application/json",
         async: true,
+        error: async function (e) {
+            console.log(objGetReturn)
+            nameAtt = objGetReturn['name'][0];
+            objGetReturn[nameAtt] = e;
+            await e
+         },
         data:  JSON.stringify(
             {
             "targetState": 0,

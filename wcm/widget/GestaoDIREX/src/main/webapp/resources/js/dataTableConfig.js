@@ -1290,15 +1290,22 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                     objBodyreq['txt_Justificativa']         = txt_Justificativa_addPauta.value;
                     objBodyreq['txt_Deliberacao']           = "<html><head><title></title></head><body></body></html>"
                     console.log(objBodyreq)
-                    /*let AjusteAssr = document.getElementById('AjusteAssr')
-                    //await dataTablemi.opsMoveAssessorias(AjusteAssr); await hipotesis2();
-                    justfExec                   = document.getElementById('justfExec')
-                    justfConcl                  = document.getElementById('justfConcl')
-                    justfExec.style.display     = 'none'
-                    justfConcl.style.display    = 'block'
-                    this.style.display          = 'none'
-                    */
-                    itensTools.myToast('success', 'validado');
+                    objGetReturn            = {}
+                    objGetReturn['name']    = ['a', 'b'];
+                    objGetReturn['a']       = '';
+                    objGetReturn['b']       = '';
+                    await orderMethodsMi.createNewPauta(objBodyreq, objGetReturn);
+                    console.log(objGetReturn)
+                    let stts = ''
+                    if(objGetReturn['b'] != ''){
+                        stts = objGetReturn['a'].status
+                        if(stts != 200 ){
+                            itensTools.myToast('danger', 'Não foi possível inserir o item!');
+                        }
+                    }else{
+                        itensTools.myToast('success', 'Item inserido com sucesso');   
+                        document.getElementById('btn2').getElementsByTagName('button')[0].click() 
+                    }
                 }else{
                     objFieldsNew.setInvalidfeedback(arrValid)
                 }
