@@ -1247,6 +1247,9 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
             document.getElementById('btn3').children[0].addEventListener('click', async function () {
                 txt_assunto_addPauta                    = document.getElementById('txt_assunto_addPauta')
                 txt_Justificativa_addPauta              = document.getElementById('txt_Justificativa_addPauta')
+                txt_assunto_addPauta.value              = ''
+                txt_Justificativa_addPauta.value        = ''
+                myEditor.setDataInput(txt_Justificativa_addPauta)
                 arrInpsEnvPauta = [txt_assunto_addPauta, txt_Justificativa_addPauta]
                 objFieldsNew.cleanValidatefeedback(arrInpsEnvPauta)
             });
