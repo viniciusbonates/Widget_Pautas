@@ -1011,6 +1011,7 @@ dataTableConfig.prototype.loadEventTable = function () {
     let wrkflw              = this.statesWorkflow
     let itensConfigsUpd     = this.itensConfigs
     let tableReference      = this.tableReference
+    let dtConfig            = this                          // Necessário passar o obj dataTableConfig para utilizar statusAsr() no momento em que a tabela carrega. dataTableConfig é carregador depois da tableFluig por isso não é possivel executar a func direto. 
     console.log(itens)
     let objFuncload = {
         fnc: [
@@ -1060,7 +1061,7 @@ dataTableConfig.prototype.loadEventTable = function () {
             console.log(objHandleIcons)
             console.log('loadEventTable =  ********************************************************************')
             console.log('loadEventTable MOD =   await dataTablemi.statusAsr() ********************************************************************')
-            await dataTablemi.statusAsr()
+            await dtConfig.statusAsr()
         },
         enabledRefresh: function (){
             var iten = itens['btn2']
