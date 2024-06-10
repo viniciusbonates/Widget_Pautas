@@ -1040,9 +1040,7 @@ dataTableConfig.prototype.loadEventTable = function () {
                 }
             }
         },
-        statusAsr: function () {
-            let col         = TableFluig.getCol('Aprov.Assessoria');
-            let colNumSol   = TableFluig.getCol('Solicitação');
+        statusAsr: async function () {
             itensConfigsH   = itensConfigsUpd;
             objHandleIcons =  {};
             for(z = 0; z < itensConfigsH.length; z++){
@@ -1060,78 +1058,9 @@ dataTableConfig.prototype.loadEventTable = function () {
                 }
             }
             console.log(objHandleIcons)
-            
-
-            //console.log(colNumSol[3].children[0].innerText)
-            for(let i = 0; i < col.length; i++){
-                let numSlct         = colNumSol[i].children[0].innerText;
-                let cntrts          = DatasetFactory.createConstraint("txt_NumProcess", numSlct, numSlct, ConstraintType.MUST); 
-                let itenPauta       = DatasetFactory.getDataset('Pauta DIREX', null, new Array(cntrts), null).values[0];
-                if(itenPauta['hdn_aprvAssr'] != null || itenPauta['hdn_aprvAssr'] != undefined){
-                    //console.log(itenPauta)
-                    let assrAp = itenPauta['hdn_aprvAssr'];
-                    let resAnalis = itenPauta['txt_resultAnalis'];              // <---- Campo resultado da Analise assessoria defini o Se foi para status 19 devido Deliberação ou devido Reprovação 
-                    console.log(resAnalis)
-                    if(assrAp == wrkflw.RealizaReuniao){
-                        iconThis = objHandleIcons["AprovarAssr"]
-                        iconThis = iconThis.replace('sm', 'md')
-                        let iconChecked     = constructIcon.construct(iconThis);//'flaticon flaticon-file-check icon-md'
-                        col[i].appendChild(iconChecked);
-                        let icn = col[i].innerHTML;                                     //Descrição
-                        icn = icn +' <b>Aprovado</b>';
-                        col[i].innerHTML = icn;
-                    }else if(assrAp == wrkflw.AnaliseAssr){
-                        iconThis = objHandleIcons["ReverterAssr"]
-                        iconThis = iconThis.replace('sm', 'md')
-                        let iconEmpty       = constructIcon.construct(iconThis);//'fluigicon fluigicon-file-bell-empty icon-md'
-                        col[i].appendChild(iconEmpty);
-                        let icn = col[i].innerHTML;                                     //Descrição
-                        icn = icn +' <b>Análise</b>';
-                        col[i].innerHTML = icn;
-                    }else if(assrAp == wrkflw.ItemDescartado){
-                        iconThis = objHandleIcons["ExcluirAssr"]
-                        iconThis = iconThis.replace('sm', 'md')
-                        let iconEmpty       = constructIcon.construct('fluigicon fluigicon-trash icon-md');
-                        col[i].appendChild(iconEmpty);
-                        let icn = col[i].innerHTML;                                     //Descrição
-                        icn = icn +' <b>Excluído</b>';
-                        col[i].innerHTML = icn;
-                    }else if(assrAp == wrkflw.Ajustes){
-                        iconThis = objHandleIcons["AjusteAssr"]
-                        iconThis = iconThis.replace('sm', 'md')
-                        let iconEmpty       = constructIcon.construct(iconThis);//'fluigicon fluigicon-fileedit icon-md'
-                        col[i].appendChild(iconEmpty);    
-                        let icn = col[i].innerHTML;                                     //Descrição
-                        icn = icn +' <b>Ajuste</b>';
-                        col[i].innerHTML = icn;
-                    }
-                    else if(assrAp == wrkflw.DespachoDeliber && resAnalis == 2){
-                        iconThis = objHandleIcons['btn1']
-                        iconThis = iconThis.replace('sm', 'md')
-                        let iconEmpty       = constructIcon.construct(iconThis);//'fluigicon fluigicon-checked icon-md'
-                        col[i].appendChild(iconEmpty);    
-                        let icn = col[i].innerHTML;                                     //Descrição
-                        icn = icn +' <b>Deliberado</b>';
-                        col[i].innerHTML = icn;
-                    }
-                    else if(assrAp == wrkflw.DespachoDeliber && resAnalis == 1){
-                        iconThis = objHandleIcons["ReprovarAssr"]
-                        iconThis = iconThis.replace('sm', 'md')
-                        let iconEmpty       = constructIcon.construct(iconThis);//'flaticon flaticon-file-delete icon-md'
-                        col[i].appendChild(iconEmpty);    
-                        let icn = col[i].innerHTML;                                     //Descrição
-                        icn = icn +' <b>Reprovado</b>';
-                        col[i].innerHTML = icn;
-                    }
-
-                }else{
-                    let iconEmpty       = constructIcon.construct('fluigicon fluigicon-file-bell-empty icon-md');
-                    col[i].appendChild(iconEmpty);
-                    let icn = col[i].innerHTML;                                     //Descrição
-                    icn = icn +' <b>Análise</b>';
-                    col[i].innerHTML = icn;
-                }
-            }   
+            console.log('loadEventTable =  ********************************************************************')
+            console.log('loadEventTable MOD =   await dataTablemi.statusAsr() ********************************************************************')
+            await dataTablemi.statusAsr()
         },
         enabledRefresh: function (){
             var iten = itens['btn2']
