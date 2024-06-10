@@ -464,5 +464,37 @@ orderMethods.prototype.createNewDIREX = async function (objBodyreq, objGetReturn
         await response
     })
 }
+orderMethods.prototype.createNewPauta = async function (objBodyreq, objGetReturn) {
+    await $.ajax({
+        method: "POST",
+        url: this.host+"/process-management/api/v2/processes/PautaDIREX/start",
+        contentType: "application/json",
+        async: true,
+        data:  JSON.stringify(
+            {
+            "targetState": 0,
+            "targetAssignee": objBodyreq.user, //"99990006",
+            "subProcessTargetState": 0,
+            "comment": "Iniciada pelo painel de Gestão",
+            "formFields": {
+                    "cmb_NomeSolicita": "99990006",
+                    "slc_demandante" : "99990006",
+                    "hdn_dir_vinc" : "Pool:Role:DIRAF",
+                    "zm_UnidadeSolicitante" : "Diretoria Administrativa Financeira",
+                    "dataSelected": "17/06/2024",
+                    "txt_titulo": "string",
+                    "txt_Justificativa": "string",
+                    "txt_Deliberacao": "<html><head><title></title></head><body></body></html>",
+                    "txt_resultAnalis": "2",
+                    "dt_DataSolicita": "07/06/2024 T"
+                }
+            }
+        ),
+    }).done(async function (response) { 
+        nameAtt = objGetReturn['name'][0];
+        objGetReturn[nameAtt] = response;
+        await response
+    })
+}
 function orderMethodsInit() { orderMethodsMi = new orderMethods(); }
 window.addEventListener('load', orderMethodsInit)

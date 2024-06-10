@@ -1245,6 +1245,12 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
         ],
         novaPauta: function () {
             document.getElementById('envPauta').addEventListener('click', async function () {
+                txt_assunto_addPauta                    = document.getElementById('txt_assunto_addPauta')
+                txt_Justificativa_addPauta              = document.getElementById('txt_Justificativa_addPauta')
+                arrInpsEnvPauta = [txt_assunto_addPauta, txt_Justificativa_addPauta]
+                objFieldsNew.cleanValidatefeedback(arrInpsEnvPauta)
+            });
+            document.getElementById('envPauta').addEventListener('click', async function () {
                 myEditor.setDataInputsParams()
                 txt_assunto_addPauta                    = document.getElementById('txt_assunto_addPauta')
                 txt_Justificativa_addPauta              = document.getElementById('txt_Justificativa_addPauta')
@@ -1312,6 +1318,8 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                 justfConcl                  = document.getElementById('justfConcl')
                 JustfDevolv                 = document.getElementById('JustfDevolv')
                 envAjust                    = document.getElementById('envAjust')
+                let arrf = [JustfDevolv]
+                objFieldsNew.cleanValidatefeedback(arrf)
                 envAjust.style.display      = 'block'    
                 JustfDevolv.value           = ''
                 justfExec.style.display     = 'block'
