@@ -1292,7 +1292,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                     objBodyreq['user']                      = objDefineStatus.mat
                     objBodyreq['txt_titulo']                = txt_assunto_addPauta.value;
                     objBodyreq['txt_Justificativa']         = txt_Justificativa_addPauta.value;
-                    objBodyreq['txt_Deliberacao']           = "<html><head><title></title></head><body></body></html>"
+                    objBodyreq['txt_Deliberacao']           = txt_Justificativa_addPauta.value
                     console.log(objBodyreq)
                     objGetReturn            = {}
                     objGetReturn['name']    = ['a', 'b'];
