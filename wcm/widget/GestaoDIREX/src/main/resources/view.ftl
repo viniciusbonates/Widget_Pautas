@@ -738,16 +738,18 @@
 				
 					<div class="col-md-6">
 					<ul class="nav nav-tabs clearfix" role="tablist" id="navTabsOpsAssr" style="margin-bottom: 15px;">
-						<li class="active" id="navOpPauta" target-for-id="navOpPauta"><a href="#">Item / Objeto Pauta</a></li>
-						<li target-for-id="navOpATA"><a href="#" id="navOpATA">Item / Objeto ATA</a></li>
+								<!--<li class="active" id="navOpPauta" target-for-id="navOpPauta"><a href="#">Item / Objeto Pauta</a></li>-->
+						<li target-for-id="navOpATA" class="active"><a href="#" id="navOpATA">Item / Objeto</a></li>
 						<li target-for-id="navOpObs"><a href="#" id="navOpObs">Observação Deliberação</a></li>
 					</ul>
 					<div class="col-md-12" id="itnsNavOpsAssr">
+						<!--
 						<div class="col-md-12" style="display: none" id="navOpPauta">
 							<div class="form-group">
 								<textarea class="form-control" rows="22" name="txt_pauta" id="txt_pauta"></textarea>
 							</div>
 						</div>
+						-->
 						<div class="col-md-12" style="display: none" id="navOpATA">
 							<div class="form-group">
 								<textarea class="form-control inpDlbr" rows="22" name="txt_Deliberacao" id="txt_Deliberacao"></textarea>

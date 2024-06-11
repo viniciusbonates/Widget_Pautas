@@ -10,7 +10,7 @@ function determineEditor(){
     arrElemtsTrigger.push(getData);
     arrElemtsTrigger.push(btn1);
     this.buttonReference = arrElemtsTrigger;
-    this.inpIn = ['txt_IniDelibr', 'txt_FinDelibr', 'txt_Deliberacao', 'txt_Justificativa', 'txt_InfoDISUP', 'txt_InfoDIRAF', 'txt_InfoDITEC', 'txt_obsDlbrDISUP', 'txt_obsDlbrDIRAF', 'txt_obsDlbrDITEC', 'txt_Justificativa_addPauta'];
+    this.inpIn = ['txt_IniDelibr', 'txt_FinDelibr', 'txt_Deliberacao', 'txt_Justificativa', 'txt_InfoDISUP', 'txt_InfoDIRAF', 'txt_InfoDITEC', 'txt_obsDlbrDISUP', 'txt_obsDlbrDIRAF', 'txt_obsDlbrDITEC', 'txt_Justificativa_addPauta']; //, 'txt_pauta']
     this.arrEdits = [];
     this.setRichEditor();
     this.setFuncbutton();
@@ -285,7 +285,6 @@ function updatePDF(){
                             '</span>'+
                             '</p>'
                         }
-                        ///dlbr_now = '<div style="margin-left:0.6cm;">'+itnDirNow[j]["txt_Deliberacao"]+'</div>';
                         var txtDlbr = itnDirNow[j]["txt_Deliberacao"];
                         var txtJstf = itnDirNow[j]["txt_Justificativa"];
 
@@ -387,8 +386,6 @@ function updatePDF(){
                             dlbr_now = dlbr_now + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black">Deliberação:</span></span></span></b>'+
                             '<span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black"> <b>'+resultadoDelbr+'</b></span></span></span></span>'+'</div><br></br>';
                         }
-
-                        //dlbr_now = itnDirNow[j]["txt_Deliberacao"];
                         objPdf = objPdf + dlbr_now;       
                     }
                 }else if(primeCheck == 0){
