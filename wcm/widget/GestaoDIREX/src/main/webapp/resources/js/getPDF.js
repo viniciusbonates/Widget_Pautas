@@ -37,7 +37,7 @@ determineEditor.prototype.cleanEditor = function (inp) {
         thisInput.parentElement.getElementsByTagName('iframe')[0].tabIndex = 0;
         divEditor   = thisInput.parentElement.parentElement;
         //divIn       = divEditor.children[1];
-        divEditor.removeChild(divEditor.children[1]);
+        divEditor.removeChild(divEditor.children['shadow']);
     } 
 }
 determineEditor.prototype.setDataInput = function (inp) {

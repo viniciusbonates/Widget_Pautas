@@ -726,7 +726,7 @@
 							</select>
 						</div>
 					</div>
-					
+					<!--
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="txt_Deliberacao">Item / Objeto<span
@@ -734,37 +734,59 @@
 							<textarea class="form-control inpDlbr" rows="22" name="txt_Deliberacao" id="txt_Deliberacao"></textarea>
 						</div>
 					</div>
+				-->
 				
-				<!--
 					<div class="col-md-6">
 					<ul class="nav nav-tabs clearfix" role="tablist" id="navTabsOpsAssr" style="margin-bottom: 15px;">
-						<li class="active" id="navOpPauta" target-for-id="Pauta"><a href="#">Item / Objeto Pauta</a></li>
-						<li target-for-id="ATA"><a href="#" id="navOpATA">Item / Objeto ATA</a></li>
+						<li class="active" id="navOpPauta" target-for-id="navOpPauta"><a href="#">Item / Objeto Pauta</a></li>
+						<li target-for-id="navOpATA"><a href="#" id="navOpATA">Item / Objeto ATA</a></li>
+						<li target-for-id="navOpObs"><a href="#" id="navOpObs">Observação Deliberação</a></li>
 					</ul>
-					<div class="col-md-12" style="display: none" id="navOpPauta">
-						<div class="form-group">
-							<label for="txt_pauta">Item / Objeto Pauta<span
-									class="Obrigatorio"><strong>*</strong></span>:</label>
-							<textarea class="form-control inpDlbr" rows="22" name="txt_pauta" id="txt_pauta"></textarea>
+					<div class="col-md-12" id="itnsNavOpsAssr">
+						<div class="col-md-12" style="display: none" id="navOpPauta">
+							<div class="form-group">
+								<textarea class="form-control" rows="22" name="txt_pauta" id="txt_pauta"></textarea>
+							</div>
+						</div>
+						<div class="col-md-12" style="display: none" id="navOpATA">
+							<div class="form-group">
+								<textarea class="form-control inpDlbr" rows="22" name="txt_Deliberacao" id="txt_Deliberacao"></textarea>
+							</div>
+						</div>
+						<div class="col-md-12" style="display: none" id="navOpObsDISUP">
+							<div class="form-group">
+								<textarea class="form-control inpDlbr" rows="3" name="txt_obsDlbrDISUP"
+									id="txt_obsDlbrDISUP"></textarea>
+							</div>
+						</div>
+						<div class="col-md-12" style="display: none" id="navOpObsDIRAF">
+							<div class="form-group">
+								<textarea class="form-control inpDlbr" rows="3" name="txt_obsDlbrDIRAF"
+									id="txt_obsDlbrDIRAF"></textarea>
+							</div>
+						</div>
+						<div class="col-md-12" style="display: none" id="navOpObsDITEC">
+							<div class="form-group">
+								<textarea class="form-control inpDlbr" rows="3" name="txt_obsDlbrDITEC"
+									id="txt_obsDlbrDITEC"></textarea>
+							</div>
 						</div>
 					</div>
-					<div class="col-md-12" style="display: none" id="ATA">
-						<div class="form-group">
-							<label for="txt_Deliberacao">Item / Objeto ATA<span class="Obrigatorio"><strong>*</strong></span>:</label>
-							<textarea class="form-control inpDlbr" rows="22" name="txt_Deliberacao" id="txt_Deliberacao"></textarea>
-						</div>
 					</div>
-					</div>
-				-->
+				
 					<div class="col-md-6">
+						<ul class="nav nav-tabs clearfix" role="tablist" id="navTabsOpsAssr_justf" style="margin-bottom: 15px;">
+							<li class="active" id="navOpjustf" target-for-id="justf"><a href="#">Justificativa do Demandante / Dotação Orçamentária<span class="Obrigatorio"><strong>*</strong></span>:</a></li>
+						</ul>
 						<div class="form-group">
-							<label for="txt_Justificativa">Justificativa do Demandante / Dotação Orçamentária<span
+							<!--<label for="txt_Justificativa">Justificativa do Demandante / Dotação Orçamentária<span
 								class="Obrigatorio"><strong>*</strong></span>:</label>
-							<textarea class="form-control inpDlbr" rows="22" name="txt_Justificativa"
+							-->
+								<textarea class="form-control inpDlbr" rows="22" name="txt_Justificativa"
 								id="txt_Justificativa" style="color: black;"></textarea>
 						</div>
 					</div>
-
+					<!--
 					<div class="col-md-6" style="display: none">
 						<div class="form-group">
 							<label for="txt_obsDlbrDISUP">Observação Deliberação DISUP<span
@@ -773,6 +795,7 @@
 								id="txt_obsDlbrDISUP"></textarea>
 						</div>
 					</div>
+					
 					<div class="col-md-6" style="display: none">
 						<div class="form-group">
 							<label for="txt_obsDlbrDIRAF">Observação Deliberação DIRAF<span
@@ -781,6 +804,7 @@
 								id="txt_obsDlbrDIRAF"></textarea>
 						</div>
 					</div>
+				
 					<div class="col-md-6" style="display: none">
 						<div class="form-group">
 							<label for="txt_obsDlbrDITEC">Observação Deliberação DITEC<span
@@ -789,7 +813,7 @@
 								id="txt_obsDlbrDITEC"></textarea>
 						</div>
 					</div>
-
+					-->
 				</div>
 
 			</div>

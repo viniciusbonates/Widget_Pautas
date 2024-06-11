@@ -274,6 +274,7 @@ async function setDataReg(op, newProcess){
                 
                 definePainelEnabled()
                 setControlNavTabs()
+                setControlNavTabsOpsAssr()
                 getPDF_ptd();
                 info_setItns()
                 DemandResp();

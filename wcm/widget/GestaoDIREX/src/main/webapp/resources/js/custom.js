@@ -666,6 +666,36 @@ function setControlNavTabs(){
     }
 }
 //window.addEventListener('load', setControlNavTabs)
+function setControlNavTabsOpsAssr(){
+    let navTabs = document.getElementById('navTabsOpsAssr');
+    let navOps  = navTabs.children;
+    let dirImed = objDefineStatus.matDir.split(':')[2];
+    dirImed     = dirImed.split('%')[0];
+    for(let i = 0; i < navOps.length; i++){
+        navOps[i].addEventListener('click', controlNavTabsOpsAssr);
+    }
+    function controlNavTabsOpsAssr(){
+        let navTabs = document.getElementById('navTabsOpsAssr');
+        let navOps  = navTabs.children;
+        for(let i = 0; i < navOps.length; i++){
+             navOps[i].classList.remove('active')
+        }
+        this.classList.add('active')
+        let idTarget = this.attributes['target-for-id'].value
+        if(idTarget == 'navOpObs'){
+            idTarget = idTarget + dirImed
+        }
+        let itnsNavTabs = document.getElementById('itnsNavOpsAssr').children;
+        for(let i = 0; i < itnsNavTabs.length; i++){
+            if(itnsNavTabs[i].id == idTarget){
+                itnsNavTabs[i].style.display = 'block';
+            }else{
+                itnsNavTabs[i].style.display = 'none';    
+            }
+        }
+    }
+}
+
 function setDataset(){
     colleague = DatasetFactory.getDataset("colleague",null,null,null);
     dsc_Unidades = DatasetFactory.getDataset("dsc_Unidades",null,null,null);
