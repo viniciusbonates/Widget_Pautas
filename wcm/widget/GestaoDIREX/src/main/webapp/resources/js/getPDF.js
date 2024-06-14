@@ -353,7 +353,13 @@ function updatePDF(){
 
                         
 
-                        dlbr_now = '<div style="margin-left:0.6cm;"><b>'+ numIten + '.  </b>'+bd+ '<br></br><br></br>';
+                        //dlbr_now = '<div style="margin-left:0.6cm;"><b  style="float: left">'+ numIten + '.  </b>'+bd+ '<br></br><br></br>';
+
+                        dlbr_now = '<div style="margin-left:0.6cm;"><b style="float: left">'+ numIten + '.  '+ '</b>'+
+                        '<div style="margin-left:0.6cm;">'+
+                        bd+'<br></br>';
+                        //objPdf = objPdf + dlbr_now;
+
                         //'<b><u><span style="font-size:12.0pt"><span style="font-family:&quot;Arial&quot;,sans-serif">Justificativa:</span></span></u></b>'+txtJstf+'<br></br>'//<div style="margin-left:0.6cm;">'
 
                         var obsDISUPIsN = itnDirNow[j]["txt_obsDlbrDISUP"];
@@ -370,21 +376,31 @@ function updatePDF(){
                         }*/
                         for(f = 0; f < arrObsDlbrIs.length; f++){
                             vleObsDlbrNow = arrObsDlbrIs[f]
-                            if(vleObsDlbrNow != "<html>\n<head>\n\t<title></title>\n</head>\n<body></body>\n</html>\n" && vleObsDlbrNow != null && vleObsDlbrNow != undefined && vleObsDlbrNow != ''){
-                                obsResultIs = obsResultIs + vleObsDlbrNow + '<br></br>';
+                            let result = vleObsDlbrNow.search("<p>");
+                            if(result != -1 && vleObsDlbrNow != "<html>\n<head>\n\t<title></title>\n</head>\n<body></body>\n</html>\n" && vleObsDlbrNow != null && vleObsDlbrNow != undefined && vleObsDlbrNow != ''){
+                                console.log(vleObsDlbrNow)  
+                                let result2 = vleObsDlbrNow.search("</p>");
+                                    console.log(result)  
+                                    console.log(result2)  
+                                fnl = result2 - 1
+                                inc = result + 3
+                                bd1 = vleObsDlbrNow.substring(inc, fnl)        // Obtem apenas o BODY do HTML salvo no input
+                                obsResultIs = obsResultIs + bd1 + '<br></br>';
+                                console.log('/********************************************************************')
                                 asdx++
                             }
                         }
                         //console.log(obsObjIs)
                         if(asdx != 0){
-                            /*ObsDlbrIs = ObsDlbrIs + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><u><span style="color:black">Observação:</span></u></span></span></b>'+
-                            '<span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black"> <b>'+obsResultIs+'</b></span></span></span></span>';
-                            */
-                            dlbr_now = dlbr_now + ObsDlbrIs + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black">Deliberação:</span></span></span></b>'+
-                            '<span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black"> <b>'+resultadoDelbr+' '+obsResultIs+'</b></span></span></span></span>'+'</div><br></br>';
+                            /*dlbr_now = dlbr_now + ObsDlbrIs + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black">Deliberação:</span></span></span></b>'+
+                            '<span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black"> <b>'+resultadoDelbr+' '+obsResultIs+'</b></span></span></span></span>'+'</div></div>';*/
+                            dlbr_now = dlbr_now + ObsDlbrIs + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><p style="color:black">Deliberação: '+
+                            resultadoDelbr+' '+obsResultIs+'</p>'+'</span></span></span></b>'+'</div></div>';
                         }else{
-                            dlbr_now = dlbr_now + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black">Deliberação:</span></span></span></b>'+
-                            '<span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black"> <b>'+resultadoDelbr+'</b></span></span></span></span>'+'</div><br></br>';
+                            /*dlbr_now = dlbr_now + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black">Deliberação:</span></span></span></b>'+
+                            '<span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black"> <b>'+resultadoDelbr+'</b></span></span></span></span>'+'</div></div>';*/
+                            dlbr_now = dlbr_now + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><p style="color:black">Deliberação: '+
+                            resultadoDelbr+'</p>'+'</span></span></span></b>'+'</div></div>';
                         }
                         objPdf = objPdf + dlbr_now;       
                     }

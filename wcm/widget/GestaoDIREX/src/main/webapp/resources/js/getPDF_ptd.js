@@ -189,7 +189,7 @@ function updatePDF_ptd(dirIndx){
                 }
 
                 var txtDlbr = itnDirNow[j]["txt_Deliberacao"];
-                txtDlbr = txtDlbr.toLowerCase();
+                //txtDlbr = txtDlbr.toLowerCase();
                 var txtJstf = itnDirNow[j]["txt_Justificativa"];
 
                 var resultadoDelbr = ''
@@ -205,7 +205,7 @@ function updatePDF_ptd(dirIndx){
                 '<b><u><span style="font-size:12.0pt"><span style="font-family:&quot;Arial&quot;,sans-serif">Justificativa:</span></span></u></b>'+txtJstf+'<br></br>'+ //<div style="margin-left:0.6cm;">'
                 '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black">Deliberação:</span></span></span></b>'+
                 */
-                dlbr_now = '<div style="margin-left:0.6cm;"><b>'+ numIten + '.   </b>'+
+                dlbr_now = '<div style="margin-left:0.6cm;"><b style="float: left">'+ numIten + '.  '+ '</b>'+
                 '<div style="margin-left:0.6cm;">'+
                 txtDlbr+'<br></br>'+
                 '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black">Deliberação:</span></span></span></b>'+

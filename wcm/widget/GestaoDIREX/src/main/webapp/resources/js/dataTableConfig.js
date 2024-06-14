@@ -1105,7 +1105,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                 arrInpsEnvPauta = [txt_assunto_addPauta, txt_Justificativa_addPauta]
                 objFieldsNew.cleanValidatefeedback(arrInpsEnvPauta)
             });
-            document.getElementById('envPauta').addEventListener('click', async function () {
+            document.getElementById('envPauta').onclick = async function () {
                 objBodyreq = {}
                 myEditor.setDataInputsParams()
                 txt_assunto_addPauta                    = document.getElementById('txt_assunto_addPauta')
@@ -1165,11 +1165,11 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                 }else{
                     objFieldsNew.setInvalidfeedback(arrValid)
                 }
-            })
+            }
         },
         moveItem: async function () {
             drpDwn  = itens['btnDrpDwn1'];
-            document.getElementById('envAjust').addEventListener('click', async function () {
+            document.getElementById('envAjust').onclick = async function () {
                 JustfDevolv                  = document.getElementById('JustfDevolv')
                 let arrf = [JustfDevolv]
                 objFieldsNew.cleanValidatefeedback(JustfDevolv)
@@ -1184,7 +1184,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                 }else{
                     objFieldsNew.setInvalidfeedback(arrf)
                 }
-            })
+            }
             document.getElementById('AjusteAssr').addEventListener('click', async function () {
                 justfExec                   = document.getElementById('justfExec')
                 justfConcl                  = document.getElementById('justfConcl')
