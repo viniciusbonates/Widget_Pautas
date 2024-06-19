@@ -750,7 +750,7 @@
 							</div>
 						</div>
 						-->
-						<div class="col-md-12" style="display: none" id="navOpATA">
+						<div class="col-md-12" style="display: block" id="navOpATA">
 							<div class="form-group">
 								<textarea class="form-control inpDlbr" rows="22" name="txt_Deliberacao" id="txt_Deliberacao"></textarea>
 							</div>
