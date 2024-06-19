@@ -207,6 +207,7 @@ function updatePDF_ptd(dirIndx){
                 */
                 dlbr_now = '<div style="margin-left:0.6cm;"><b style="float: left">'+ numIten + '.  '+ '</b>'+
                 '<div style="margin-left:0.6cm;">'+
+                '<b style="float: left; margin-right:0.1cm;">Justificativa: </b>'+
                 txtDlbr+'<br></br>'+
                 '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black">Deliberação:</span></span></span></b>'+
                 '<span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black"> <b>'+resultadoDelbr+'</b></span></span></span></span>'+
@@ -222,7 +223,13 @@ function updatePDF_ptd(dirIndx){
                     '</span>'+
                     '</p>' 
 
-                    objPdf = objPdf + '<div style="margin-left:0.6cm;">'+ document.getElementById('txt_Info'+dirImed).value +'</div>';
+                    //objPdf = objPdf + '<div style="margin-left:0.6cm;">'+ document.getElementById('txt_Info'+dirImed).value +'</div>';
+
+                    infoValueNow = document.getElementById('txt_Info'+dirImed).value
+                    if(infoValueNow == '<html>\n<head>\n\t<title></title>\n</head>\n<body></body>\n</html>\n'){
+                        infoValueNow = '<ul>\n\t<li>N&atilde;o h&aacute;</li>\n</ul>'
+                    }
+                    objPdf = objPdf + '<div style="margin-left:0.6cm;">'+ infoValueNow +'</div>';
                 }
             }
         }
