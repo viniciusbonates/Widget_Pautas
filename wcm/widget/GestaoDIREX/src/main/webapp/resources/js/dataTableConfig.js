@@ -397,7 +397,8 @@ dataTableConfig.prototype.orderLineSuper = function (objConfig, itensConfigs, or
 }
 dataTableConfig.prototype.changeEventInput = function () {
     let itens       = this.itensBuilt;
-    let wrkflw      = this.statesWorkflow
+    let wrkflw      = this.statesWorkflow;
+    let arrAssr     = ['Diretoria Superintendencia', 'Diretoria Administrativa Financeira', 'Diretoria Técnica'] 
     let objFunc = {
         fnc: ['formatDinamic', 'disabledOptions', 'enabledButton', 'statusAsr'],
         statusAsr: async function(){ await dataTablemi.statusAsr() },
@@ -486,11 +487,18 @@ dataTableConfig.prototype.changeEventInput = function () {
             console.log(itenPauta)
             console.log('-------------------------------------*********************************************************** 451')
             if(itenPauta['hdn_aprvAssr'] != null || itenPauta['hdn_aprvAssr'] != undefined){
-                let assrAp = itenPauta['hdn_aprvAssr'];
-                let resAnalis = itenPauta['txt_resultAnalis'];              // <---- Campo resultado da Analise assessoria defini o Se foi para status 19 devido Deliberação ou devido Reprovação 
-                let inps = document.getElementsByClassName('inpDlbr') // < ------------- OBTEM OS INPUTS NO HTML 
-                arrNamesIt  = ['slc_demandante', 'slc_DISUP_vt', 'slc_UCOF_vt', 'slc_DITEC_vt', 'txt_Deliberacao', 'txt_Justificativa', 'txt_obsDlbrDIRAF', 'txt_obsDlbrDITEC', 'txt_obsDlbrDISUP'] 
-                arrAlt      = ['hdn_DIRAF_vt', 'hdn_DISUP_vt', 'hdn_DITEC_vt', 'slc_demandante']
+                let assrAp          = itenPauta['hdn_aprvAssr'];
+                let resAnalis       = itenPauta['txt_resultAnalis'];                                        // <---- Campo resultado da Analise assessoria defini o Se foi para status 19 devido Deliberação ou devido Reprovação 
+                let inps            = document.getElementsByClassName('inpDlbr')                            // < ------------- OBTEM OS INPUTS NO HTML 
+                arrNamesIt          = ['slc_demandante', 'slc_DISUP_vt', 'slc_UCOF_vt', 'slc_DITEC_vt', 'txt_Deliberacao', 'txt_Justificativa', 'txt_obsDlbrDIRAF', 'txt_obsDlbrDITEC', 'txt_obsDlbrDISUP'] 
+                arrAlt              = ['hdn_DIRAF_vt', 'hdn_DISUP_vt', 'hdn_DITEC_vt', 'slc_demandante']
+                document.getElementById('just_demandante').style.display = 'block'
+                for(x in arrAssr){
+                    console.log(arrAssr[x])
+                    if(itenPauta['zm_UnidadeSolicitante'] == arrAssr[x]){
+                        document.getElementById('just_demandante').style.display = 'none'
+                    }
+                }
                 if(wrkflw.AnaliseAssr == assrAp){
                     document.getElementById('Delibr').style.display = 'block';
                     iten.getElementsByTagName('button')[0].disabled = true;

@@ -16,6 +16,12 @@ function determineEditor(){
     this.setFuncbutton();
 }
 determineEditor.prototype.disabledEditor = function (inp) {
+    for(let i = 0; i < this.arrEdits.length; i++){
+        if(this.arrEdits[i].editor.name == inp.id){
+            this.arrEdits[i].editor.setReadOnly();
+        }
+    }
+    /*
     var thisInput   = document.getElementById(inp.id);
     objCheck        = thisInput.parentElement.parentElement.getElementsByClassName('in');
     if(objCheck.length == 0){
@@ -27,9 +33,15 @@ determineEditor.prototype.disabledEditor = function (inp) {
         thisInput.parentElement.getElementsByTagName('iframe')[0].tabIndex = -1;
         divEditor   = document.getElementById(inp.id).parentElement.parentElement;
         divEditor.append(divDisabled);
-    } 
+    }*/ 
 }
 determineEditor.prototype.cleanEditor = function (inp) {
+    for(let i = 0; i < this.arrEdits.length; i++){
+        if(this.arrEdits[i].editor.name == inp.id){
+            this.arrEdits[i].editor.setReadOnly(false);
+        }
+    }
+    /*
     var thisInput   = document.getElementById(inp.id);
     objCheck        = thisInput.parentElement.parentElement.getElementsByClassName('in');
     if(objCheck.length != 0){
@@ -39,6 +51,7 @@ determineEditor.prototype.cleanEditor = function (inp) {
         //divIn       = divEditor.children[1];
         divEditor.removeChild(divEditor.children['shadow']);
     } 
+    */
 }
 determineEditor.prototype.setDataInput = function (inp) {
     for(i = 0; i < this.arrEdits.length; i++){

@@ -776,7 +776,7 @@
 					</div>
 					</div>
 				
-					<div class="col-md-6">
+					<div class="col-md-6" id="just_demandante">
 						<ul class="nav nav-tabs clearfix" role="tablist" id="navTabsOpsAssr_justf" style="margin-bottom: 15px;">
 							<li class="active" id="navOpjustf" target-for-id="justf"><a href="#">Justificativa do Demandante / Dotação Orçamentária<span class="Obrigatorio"><strong>*</strong></span>:</a></li>
 						</ul>
