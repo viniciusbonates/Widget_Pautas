@@ -547,7 +547,8 @@ dataTableConfig.prototype.changeEventInput = function () {
                     myEditor.setDataInput(document.getElementById('txt_Justificativa'))
                     myEditor.cleanEditor(document.getElementById('txt_Deliberacao'))
                     myEditor.setDataInput(document.getElementById('txt_Deliberacao'))
-                    //myEditor.disabledEditor(document.getElementById('txt_Deliberacao'))
+                    myEditor.cleanEditor(document.getElementById('txt_Justf_itn'))
+                    myEditor.setDataInput(document.getElementById('txt_Justf_itn'))
 
 
                     myEditor.setDataInput(document.getElementById('txt_obsDlbrDIRAF'))
@@ -603,6 +604,8 @@ dataTableConfig.prototype.changeEventInput = function () {
                     myEditor.disabledEditor(document.getElementById('txt_Justificativa'))
                     myEditor.setDataInput(document.getElementById('txt_Deliberacao'))
                     myEditor.disabledEditor(document.getElementById('txt_Deliberacao'))
+                    myEditor.setDataInput(document.getElementById('txt_Justf_itn'))
+                    myEditor.disabledEditor(document.getElementById('txt_Justf_itn'))
                     
                     myEditor.setDataInput(document.getElementById('txt_obsDlbrDIRAF'))
                     myEditor.disabledEditor(document.getElementById('txt_obsDlbrDIRAF'))
@@ -670,6 +673,8 @@ dataTableConfig.prototype.changeEventInput = function () {
                     myEditor.setDataInput(document.getElementById('txt_Justificativa'))
                     myEditor.cleanEditor(document.getElementById('txt_Deliberacao'))
                     myEditor.setDataInput(document.getElementById('txt_Deliberacao'))
+                    myEditor.cleanEditor(document.getElementById('txt_Justf_itn'))
+                    myEditor.setDataInput(document.getElementById('txt_Justf_itn'))
 
                     myEditor.cleanEditor(document.getElementById('txt_obsDlbrDIRAF'))
                     myEditor.setDataInput(document.getElementById('txt_obsDlbrDIRAF'))
@@ -727,6 +732,8 @@ dataTableConfig.prototype.changeEventInput = function () {
                     myEditor.disabledEditor(document.getElementById('txt_Justificativa'))
                     myEditor.setDataInput(document.getElementById('txt_Deliberacao'))
                     myEditor.disabledEditor(document.getElementById('txt_Deliberacao'))
+                    myEditor.setDataInput(document.getElementById('txt_Justf_itn'))
+                    myEditor.disabledEditor(document.getElementById('txt_Justf_itn'))
                     
                     myEditor.setDataInput(document.getElementById('txt_obsDlbrDIRAF'))
                     myEditor.disabledEditor(document.getElementById('txt_obsDlbrDIRAF'))
@@ -789,6 +796,8 @@ dataTableConfig.prototype.changeEventInput = function () {
                     myEditor.disabledEditor(document.getElementById('txt_Justificativa'))
                     myEditor.setDataInput(document.getElementById('txt_Deliberacao'))
                     myEditor.disabledEditor(document.getElementById('txt_Deliberacao'))
+                    myEditor.setDataInput(document.getElementById('txt_Justf_itn'))
+                    myEditor.disabledEditor(document.getElementById('txt_Justf_itn'))
                     
                     myEditor.setDataInput(document.getElementById('txt_obsDlbrDIRAF'))
                     myEditor.disabledEditor(document.getElementById('txt_obsDlbrDIRAF'))

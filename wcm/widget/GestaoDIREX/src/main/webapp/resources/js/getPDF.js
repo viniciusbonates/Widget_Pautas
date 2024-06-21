@@ -299,7 +299,7 @@ function updatePDF(){
                             '</p>'
                         }
                         var txtDlbr = itnDirNow[j]["txt_Deliberacao"];
-                        var txtJstf = itnDirNow[j]["txt_Justificativa"];
+                        var txtJstf = itnDirNow[j]["txt_Justf_itn"];
 
                         var resultadoDelbr = ''
                         var DIRAF = itnDirNow[j]["hdn_DIRAF_vt"];
@@ -370,8 +370,9 @@ function updatePDF(){
 
                         dlbr_now = '<div style="margin-left:0.6cm;"><b style="float: left">'+ numIten + '.  '+ '</b>'+
                         '<div style="margin-left:0.6cm;">'+
+                        bd+
                         '<b style="float: left; margin-right:0.1cm;"><u><span style="font-size:12.0pt"><span style="font-family:&quot;Arial&quot;,sans-serif">Justificativa:</span></span></u></b>'+
-                        bd+'<br></br>';
+                        txtJstf//+'<br></br>';
                         //objPdf = objPdf + dlbr_now;
 
                         //'<b><u><span style="font-size:12.0pt"><span style="font-family:&quot;Arial&quot;,sans-serif">Justificativa:</span></span></u></b>'+txtJstf+'<br></br>'//<div style="margin-left:0.6cm;">'
@@ -409,12 +410,12 @@ function updatePDF(){
                             /*dlbr_now = dlbr_now + ObsDlbrIs + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black">Deliberação:</span></span></span></b>'+
                             '<span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black"> <b>'+resultadoDelbr+' '+obsResultIs+'</b></span></span></span></span>'+'</div></div>';*/
                             dlbr_now = dlbr_now + ObsDlbrIs + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><p style="color:black">Deliberação: '+
-                            resultadoDelbr+' '+obsResultIs+'</p>'+'</span></span></span></b>'+'</div></div>';
+                            resultadoDelbr+' '+obsResultIs+'</p>'+'</span></span></span></b>'+'</div></div><br>';
                         }else{
                             /*dlbr_now = dlbr_now + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black">Deliberação:</span></span></span></b>'+
                             '<span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black"> <b>'+resultadoDelbr+'</b></span></span></span></span>'+'</div></div>';*/
                             dlbr_now = dlbr_now + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><p style="color:black">Deliberação: '+
-                            resultadoDelbr+'</p>'+'</span></span></span></b>'+'</div></div>';
+                            resultadoDelbr+'</p>'+'</span></span></span></b>'+'</div></div><br>';
                         }
                         objPdf = objPdf + dlbr_now;       
                     }
