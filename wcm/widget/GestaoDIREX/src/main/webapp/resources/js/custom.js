@@ -388,20 +388,23 @@
 			let determineLenght = 5;
             if(this.objData.pageAtual == -1){ this.objData.pageAtual = 0 };
 			  if(this.objData.indItenB == -1){ this.objData.indItenB = 0 };
-            if(dirr){ // < ---- dirr = 1 forward, dirr = 0 backward
+            if(dirr){ // < ---- dirr = 1 forward, dirr = 2 backward
                 if(dirr == 1){
                     this.objData.pageAtual++
                     this.objData.arrItens           = []
-                    console.log(indxItemRef)
+                    console.log(indxItemRef) 
                     indxItemRef                     = this.objData.indIten + 1	
                     this.objData.indItenB           = this.objData.indIten + 1	
-					     console.log(this.objData.arrItens )
+                    console.log(this.objData.arrItens )
                     console.log(indxItemRef)
                     console.log(this.objData)
-                }else if(dirr == 0){
+                }else if(dirr == 2){
                     this.objData.pageAtual--
                     this.objData.arrItens           = []    
                     indxItemRef                     = this.objData.indItenB - determineLenght 	
+                    this.objData.indItenB           = this.objData.indItenB - determineLenght 
+					if(this.objData.indItenB == 0){ this.objData.indIten = -1 } 
+					else{ this.objData.indIten = this.objData.indItenB - 1 }	
                 }
             }
 			let countLength = 0
@@ -587,7 +590,7 @@
 		},
 		backward: function (myTable, thisObjDataTable, objFunc) {
 			myTable.on('fluig.datatable.backward', async function () {
-				let dirr = 0
+				let dirr = 2
 				await thisObjDataTable.opsNav(dirr, myTable, objFunc)
 			});
 		},

@@ -189,7 +189,8 @@
 
 		<div class="fluig-style-guide" id="bar-header-n">
 			<div
-				style="border: solid;border-color: black;border-width: 2px;padding-top: 0x;position: fixed;display: block;background-attachment: fixed; z-index: 10; background-color: white; box-sizing: border-box;width: 100%; opacity: 0.97;">
+				style="border: solid;border-color: black;border-width: 2px;padding-top: 0x;position: fixed;display: block;background-attachment: fixed; z-index: 10; background-color: white; box-sizing: border-box;width: 100%; 
+				background: rgba(255, 255, 255, .8); backdrop-filter: blur(5.3px);">
 				<div class="panel-body">
 						
                     <div id="icon-R" style="float: left; padding-top: 20px; display: none;">

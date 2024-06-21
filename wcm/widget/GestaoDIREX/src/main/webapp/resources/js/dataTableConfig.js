@@ -1123,6 +1123,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                 objFieldsNew.cleanValidatefeedback(arrInpsEnvPauta)
             });
             document.getElementById('envPauta').onclick = async function () {
+                document.getElementById('envPauta').disabled = true
                 objBodyreq = {}
                 myEditor.setDataInputsParams()
                 txt_assunto_addPauta                    = document.getElementById('txt_assunto_addPauta')
@@ -1181,6 +1182,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                     }
                 }else{
                     objFieldsNew.setInvalidfeedback(arrValid)
+                    document.getElementById('envPauta').disabled = false
                 }
             }
         },
@@ -1707,6 +1709,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
             console.log(btn)
             btn.getElementsByTagName('button')[0].disabled = false
             btn.getElementsByTagName('button')[0].addEventListener('click', function() { 
+                this.disabled = true
                 console.log(dataTablemi)
                 let myTable     = dataTablemi.tableReference.myTable;
                 let c1          = DatasetFactory.createConstraint("hdn_dir_vinc", objDefineStatus.matDir, objDefineStatus.matDir, ConstraintType.MUST, true);
@@ -1725,7 +1728,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                 */
                 dataTablemi.tableReference.defineItensValid(dtIn)
                 dataTablemi.tableReference.opsNav(null, myTable, objFuncIn);
-
+                this.disabled = false
                 //myAlertAll.fixedMoviment(myAlertAll.validate())  
                 
             }); 
