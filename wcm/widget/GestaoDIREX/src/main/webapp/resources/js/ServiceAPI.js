@@ -18,7 +18,7 @@ function orderMethods(){
     this.targetAssignee         = window.WCMAPI.userCode //document.getElementById('cmb_NomeSolicita').value
     resMethods();
 }
-orderMethods.prototype.movePOST = async function (NumSolicitacao, acao, dlbr, justf, votes, obsThis, resultAnalis, demandRsp, usersForEmail, devolv) { // < ------- mod
+orderMethods.prototype.movePOST = async function (NumSolicitacao, acao, dlbr, justf, votes, obsThis, resultAnalis, demandRsp, usersForEmail, devolv, txt_Justf_itn) { // < ------- mod
     var Nsolicitacao                = NumSolicitacao;           // Para este escopo
     orderMethodsMi.Nsolicitacao     = NumSolicitacao;           // Para o .done do ajax
     var acao                        = acao
@@ -59,7 +59,8 @@ orderMethods.prototype.movePOST = async function (NumSolicitacao, acao, dlbr, ju
                         "txt_resultAnalis": resultAnalis,
                         "slc_demandante": demandRsp,
                         "zm_emailsCopia": usersForEmail,                 // < ------- mod
-                        "txt_devolv": devolv
+                        "txt_devolv": devolv,
+                        "txt_Justf_itn": txt_Justf_itn
                     }
                 }else if(justf != undefined || justf != ''){
                         console.log('  /* * /* / * / */ * * / */ * / */ * /* /* //* / * / /* / * /* / * / * /')    
@@ -69,7 +70,8 @@ orderMethods.prototype.movePOST = async function (NumSolicitacao, acao, dlbr, ju
                             "txt_resultAnalis": resultAnalis,
                             "slc_demandante": demandRsp,
                             "txt_Deliberacao":  dlbr,
-                            "txt_devolv": devolv
+                            "txt_devolv": devolv,
+                            "txt_Justf_itn": txt_Justf_itn
                         }
                 }else{
                         var setFields = { 

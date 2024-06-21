@@ -1262,7 +1262,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                     //if(inpNow != undefined){
                         //if(inpNow.value != '' && inpNow.value != 0){
                             if(ckY == 0 && statusNext != statusAssr){          
-                                await dataTablemi.APImethods.movePOST(inpValue, statusNext, Delibr, Justf, '', '', resultAnalis, demandRsp,'', '');  // < -------------------- modificado
+                                await dataTablemi.APImethods.movePOST(inpValue, statusNext, Delibr, Justf, '', '', resultAnalis, demandRsp,'', '', '');  // < -------------------- modificado
                                 //var intervmoveItemReprov = setInterval(defineStatusReprovAssessor, 100); 
                                 await defineStatusReprovAssessor()
                             }else{ itensTools.myToast('info', 'É necessário preencher os campos obrigatórios!'); }
@@ -1367,6 +1367,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                 demandRsp = inpsPanel['slc_demandante'].value; 
                 //arrNamesInp = ['txt_Justificativa'];
                 Delibr  = inpsPanel['txt_Deliberacao'].value;
+                txt_Justf_itn  = inpsPanel['txt_Justf_itn'].value;
                 
                 arrNamesInp = ['txt_Deliberacao', 'txt_Justificativa', 'slc_demandante'];
                 ckY = 0
@@ -1387,7 +1388,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                     //if(inpNow != undefined){
                         //if(inpNow.value != '' && inpNow.value != 0){
                             if(ckY == 0 &&statusNext != statusAssr){           
-                                await dataTablemi.APImethods.movePOST(inpValue, statusNext, Delibr, Justf, '', '', resultAnalis, demandRsp, '', '');  // < -------------------- modificado
+                                await dataTablemi.APImethods.movePOST(inpValue, statusNext, Delibr, Justf, '', '', resultAnalis, demandRsp, '', '', txt_Justf_itn);  // < -------------------- modificado
                                 //var intervmoveItemAprov = setInterval(defineStatusDelibrAprov, 100); 
                                 await defineStatusDelibrAprov()
                             }else{ itensTools.myToast('info', 'É necessário preencher os campos obrigatórios!'); }
@@ -1555,6 +1556,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                 obsDISUP = inpsPanel['txt_obsDlbrDISUP'].value;
                 obsDIRAF = inpsPanel['txt_obsDlbrDIRAF'].value;
                 obsDITEC = inpsPanel['txt_obsDlbrDITEC'].value;
+                txt_Justf_itn  = inpsPanel['txt_Justf_itn'].value;
                 obsThisItnNow = {
                     DISUP: obsDISUP,
                     DIRAF: obsDIRAF,
@@ -1569,7 +1571,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                     else{ usersForEmail += ',' + arrUserEmails[forE];}
                 }
                 console.log(usersForEmail)
-                arrNamesInp = ['slc_demandante', 'slc_DISUP_vt', 'slc_UCOF_vt', 'slc_DITEC_vt', 'txt_Deliberacao', 'txt_Justificativa'];
+                arrNamesInp = ['slc_demandante', 'slc_DISUP_vt', 'slc_UCOF_vt', 'slc_DITEC_vt', 'txt_Deliberacao', 'txt_Justificativa', 'txt_Justf_itn'];
                 ckY = 0
                 for(y = 0; y < inpsPanel.length; y++){
                     inpNow = inpsPanel[y];
@@ -1600,7 +1602,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                         inpNow = inpsPanel[arrNamesInp[i]]
                         if(inpNow != undefined){
                             if(ckY == 0 && statusDelibr != statusAssr){    
-                                await dataTablemi.APImethods.movePOST(inpValue, statusDelibr, Delibr, Justf, votesThisItnNow, obsThisItnNow, resultAnalis, demandRsp, usersForEmail, '');  // < -------------------- modificado 
+                                await dataTablemi.APImethods.movePOST(inpValue, statusDelibr, Delibr, Justf, votesThisItnNow, obsThisItnNow, resultAnalis, demandRsp, usersForEmail, '', txt_Justf_itn);  // < -------------------- modificado 
                                 for(emailIn = 0; emailIn < arrUserEmails.length; emailIn++){                                                                                            // < -------------------- modificado 
                                     dataTablemi.APImethods.emailSend(arrUserEmails[emailIn], Delibr, tituloRN, dtRN, resultadoDelbr, obsDISUP, obsDIRAF, obsDITEC) 
                                     login = arrUserEmails[emailIn]
@@ -1865,9 +1867,10 @@ dataTableConfig.prototype.opsMoveAssessorias = async function (elem){
     Justf               = inpsPanel['txt_Justificativa'].value; 
     Delibr              = inpsPanel['txt_Deliberacao'].value;
     JustfDevolv         = document.getElementById('JustfDevolv').value
+    txt_Justf_itn       = inpsPanel['txt_Justf_itn'].value;
 
     if(elem.value != statusAssr){     
-        await this.APImethods.movePOST(inpValue, elem.value, Delibr, Justf, '', '', resultAnalis, demandRsp, '', JustfDevolv); /******** */ // < -------------------- modificado
+        await this.APImethods.movePOST(inpValue, elem.value, Delibr, Justf, '', '', resultAnalis, demandRsp, '', JustfDevolv, txt_Justf_itn); /******** */ // < -------------------- modificado
         await defineStatus()
     }
     async function defineStatus () { 
