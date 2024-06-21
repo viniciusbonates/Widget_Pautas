@@ -10,7 +10,7 @@ function determineEditor(){
     arrElemtsTrigger.push(getData);
     arrElemtsTrigger.push(btn1);
     this.buttonReference = arrElemtsTrigger;
-    this.inpIn = ['txt_IniDelibr', 'txt_FinDelibr', 'txt_Deliberacao', 'txt_Justificativa', 'txt_InfoDISUP', 'txt_InfoDIRAF', 'txt_InfoDITEC', 'txt_obsDlbrDISUP', 'txt_obsDlbrDIRAF', 'txt_obsDlbrDITEC', 'txt_Justificativa_addPauta']; //, 'txt_pauta']
+    this.inpIn = ['txt_IniDelibr', 'txt_FinDelibr', 'txt_Deliberacao', 'txt_Justificativa', 'txt_InfoDISUP', 'txt_InfoDIRAF', 'txt_InfoDITEC', 'txt_obsDlbrDISUP', 'txt_obsDlbrDIRAF', 'txt_obsDlbrDITEC', 'txt_Justificativa_addPauta', 'txt_Justf_itn']; //, 'txt_pauta']
     this.arrEdits = [];
     this.setRichEditor();
     this.setFuncbutton();

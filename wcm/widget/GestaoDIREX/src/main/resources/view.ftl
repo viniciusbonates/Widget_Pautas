@@ -696,36 +696,7 @@
 				}" />
 						</div>
 					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="slc_DISUP_vt">DISUP</label>
-							<select class="form-control inpDlbr" name="slc_DISUP_vt" id="slc_DISUP_vt">
-								<option value="0"></option>
-								<option value="1">Aprovado</option>
-								<option value="2">Reprovado</option>
-							</select>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="slc_UCOF_vt">DIRAF</label>
-							<select class="form-control inpDlbr" name="slc_UCOF_vt" id="slc_UCOF_vt"><!--slc_DIRAF_vt-->
-								<option value="0"></option>
-								<option value="1">Aprovado</option>
-								<option value="2">Reprovado</option>
-							</select>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="slc_DITEC_vt">DITEC</label>
-							<select class="form-control inpDlbr" name="slc_DITEC_vt" id="slc_DITEC_vt">
-								<option value="0"></option>
-								<option value="1">Aprovado</option>
-								<option value="2">Reprovado</option>
-							</select>
-						</div>
-					</div>
+					
 					<!--
 					<div class="col-md-6">
 						<div class="form-group">
@@ -736,10 +707,13 @@
 					</div>
 				-->
 				
-					<div class="col-md-6">
+					<div class="col-md-6" style="border: solid; border-width: 3px; border-color: #45a56a; border-radius: 3px">
+					<h3 style="color:black">Assessoria</h3>
 					<ul class="nav nav-tabs clearfix" role="tablist" id="navTabsOpsAssr" style="margin-bottom: 15px;">
 								<!--<li class="active" id="navOpPauta" target-for-id="navOpPauta"><a href="#">Item / Objeto Pauta</a></li>-->
 						<li target-for-id="navOpATA" class="active"><a href="#" id="navOpATA">Item / Objeto</a></li>
+						<li target-for-id="navOpJus"><a href="#" id="navOpJus">Justificativa</a></li>
+						<li target-for-id="navOpResDelbr"><a href="#" id="navOpResDelbr">Resultado Deliberação</a></li>
 						<li target-for-id="navOpObs"><a href="#" id="navOpObs">Observação Deliberação</a></li>
 					</ul>
 					<div class="col-md-12" id="itnsNavOpsAssr">
@@ -753,6 +727,43 @@
 						<div class="col-md-12" style="display: block" id="navOpATA">
 							<div class="form-group">
 								<textarea class="form-control inpDlbr" rows="22" name="txt_Deliberacao" id="txt_Deliberacao"></textarea>
+							</div>
+						</div>
+						<div class="col-md-12" style="display: none" id="navOpJus">
+							<div class="form-group">
+								<textarea class="form-control inpDlbr" rows="22" name="txt_Justf_itn" id="txt_Justf_itn"></textarea>
+							</div>
+						</div>
+						<div class="col-md-12" style="display: none" id="navOpResDelbr">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="slc_DISUP_vt">DISUP</label>
+									<select class="form-control inpDlbr" name="slc_DISUP_vt" id="slc_DISUP_vt">
+										<option value="0"></option>
+										<option value="1">Aprovado</option>
+										<option value="2">Reprovado</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="slc_UCOF_vt">DIRAF</label>
+									<select class="form-control inpDlbr" name="slc_UCOF_vt" id="slc_UCOF_vt"><!--slc_DIRAF_vt-->
+										<option value="0"></option>
+										<option value="1">Aprovado</option>
+										<option value="2">Reprovado</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="slc_DITEC_vt">DITEC</label>
+									<select class="form-control inpDlbr" name="slc_DITEC_vt" id="slc_DITEC_vt">
+										<option value="0"></option>
+										<option value="1">Aprovado</option>
+										<option value="2">Reprovado</option>
+									</select>
+								</div>
 							</div>
 						</div>
 						<div class="col-md-12" style="display: none" id="navOpObsDISUP">
@@ -776,7 +787,8 @@
 					</div>
 					</div>
 				
-					<div class="col-md-6" id="just_demandante">
+					<div class="col-md-6" id="just_demandante" style="border: solid; border-width: 3px; border-color: #d21e2b; border-radius: 3px;display: block;">
+						<h3 style="color:black">Demandante</h3>
 						<ul class="nav nav-tabs clearfix" role="tablist" id="navTabsOpsAssr_justf" style="margin-bottom: 15px;">
 							<li class="active" id="navOpjustf" target-for-id="justf"><a href="#">Justificativa do Demandante / Dotação Orçamentária<span class="Obrigatorio"><strong>*</strong></span>:</a></li>
 						</ul>

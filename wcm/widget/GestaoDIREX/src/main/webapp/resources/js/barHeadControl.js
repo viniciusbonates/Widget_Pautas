@@ -343,7 +343,9 @@ function slcReuniao() {
             let dtItnOpt =  arrayOption[i]['dt_dataInicio'].split('-')
             let dtFormat = dtItnOpt[2]+'/'+dtItnOpt[1]+'/'+dtItnOpt[0]
             voption.innerText = dtFormat
-            vdatalist.appendChild(voption)
+            if(dtItnOpt[0] == '2024' && dtItnOpt[1] != '05'){
+                vdatalist.appendChild(voption)
+            }
         }
         elemSelc.parentElement.appendChild(vdatalist);
 
