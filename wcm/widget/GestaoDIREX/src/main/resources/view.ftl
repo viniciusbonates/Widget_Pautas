@@ -190,7 +190,7 @@
 		<div class="fluig-style-guide" id="bar-header-n">
 			<div
 				style="border: solid;border-color: black;border-width: 2px;padding-top: 0x;position: fixed;display: block;background-attachment: fixed; z-index: 10; background-color: white; box-sizing: border-box;width: 100%; 
-				background: rgba(255, 255, 255, .8); backdrop-filter: blur(5.3px);">
+				background: rgba(255, 255, 255, .65); backdrop-filter: blur(5.3px);">
 				<div class="panel-body">
 						
                     <div id="icon-R" style="float: left; padding-top: 20px; display: none;">
@@ -204,20 +204,23 @@
 					</div>
 
 					<div style="float: left; padding-left: 100px; padding-right: 60px; padding-top: 5px; display: none; cursor: pointer" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-toggle="tooltip" data-placement="bottom" data-original-title="Movimentar" id="min-fluxo">
-						<div style="border: solid;border-width: 4px;border-color: #777;padding-left: 20px;padding-right: 20px;padding-bottom: 35px;padding-top: 35px; float: left; margin: 0px; border-radius: 5px;" id="13n">Definição de Reunião</div>
+						<div style="color: black;border: solid;border-width: 4px;border-color: #777;padding-left: 20px;padding-right: 20px;padding-bottom: 35px;padding-top: 35px; float: left; margin: 0px; border-radius: 5px;" id="13n"><b>Definição de Reunião</b></div>
 						<svg height="100" width="50" xmlns="http://www.w3.org/2000/svg" style="float: left;">
 							<line x1="-20" y1="60" x2="50" y2="60" style="stroke:red;stroke-width:2"></line>
 						</svg>
-						<div style="border: solid;border-width: 4px;border-color: #777;padding-left: 20px;padding-right: 20px;padding-bottom: 35px;padding-top: 35px; float: left; margin: 0px; border-radius: 5px;" id="8n">Analise / Deliberação</div>
+						<div style="color: black;border: solid;border-width: 4px;border-color: #777;padding-left: 20px;padding-right: 20px;padding-bottom: 35px;padding-top: 35px; float: left; margin: 0px; border-radius: 5px;" id="8n"><b>Analise / Deliberação</b></div>
 						<svg height="100" width="50" xmlns="http://www.w3.org/2000/svg" style="float: left;">
 							<line x1="-20" y1="60" x2="50" y2="60" style="stroke:red;stroke-width:2"></line>
 						</svg>
-						<div style="border: solid;border-width: 4px;border-color: #777;padding-left: 60px;padding-right: 60px;padding-bottom: 35px;padding-top: 35px; float: left; margin: 0px; border-radius: 5px;" id="10n">Arquivo</div>
+						<div style="color: black;border: solid;border-width: 4px;border-color: #777;padding-left: 60px;padding-right: 60px;padding-bottom: 35px;padding-top: 35px; float: left; margin: 0px; border-radius: 5px;" id="10n"><b>Arquivo</b></div>
 					</div>
 					<div id="icon-P" style="float: left; padding-top: 30px; padding-left: 10px; padding-right: 10px; display: none;"  data-toggle="tooltip" data-placement="bottom" data-original-title="Página Principal">
-						<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" fill="currentColor" class="bi bi-files" viewBox="0 0 16 16" style="cursor: pointer" id="init-op">
+						<!--<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" fill="currentColor" class="bi bi-files" viewBox="0 0 16 16" style="cursor: pointer" id="init-op">
 							<path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2m0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1M3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"></path>
-						</svg>
+						</svg>-->
+						<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16" style="cursor: pointer" id="init-op">
+							<path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"></path>
+						  </svg>
 					</div>
 					<div id="icon-T" style="float: left; padding-top: 30px; padding-left: 10px; padding-right: 10px; display: none;" data-toggle="tooltip" data-placement="bottom" data-original-title="Pautas de Gabinetes">
 						<svg xmlns="http://www.w3.org/2000/svg" width="100" height="60" fill="currentColor" class="bi bi-toggles" viewBox="0 0 16 16" style="cursor: pointer" id="deliber-op">

@@ -375,7 +375,9 @@ function slcReuniao_reload(){
         let dtItnOpt =  arrayOption[i]['dt_dataInicio'].split('-')
         let dtFormat = dtItnOpt[2]+'/'+dtItnOpt[1]+'/'+dtItnOpt[0]
         voption.innerText = dtFormat
-        brs.appendChild(voption)
+        if(dtItnOpt[0] == '2024' && dtItnOpt[1] != '05'){
+            brs.appendChild(voption)
+        }
     }
     document.getElementById('slc_reuniao').value = ''
 }
