@@ -398,7 +398,7 @@ dataTableConfig.prototype.orderLineSuper = function (objConfig, itensConfigs, or
 dataTableConfig.prototype.changeEventInput = function () {
     let itens       = this.itensBuilt;
     let wrkflw      = this.statesWorkflow;
-    let arrAssr     = ['Diretoria Superintendencia', 'Diretoria Administrativa Financeira', 'Diretoria Técnica'] 
+    let arrAssr     = ['Diretoria Superintendência', 'Diretoria Administrativa Financeira', 'Diretoria Técnica'] 
     let objFunc = {
         fnc: ['formatDinamic', 'disabledOptions', 'enabledButton', 'statusAsr', 'textDlbr'], //'textDlbr'
         statusAsr: async function(){ await dataTablemi.statusAsr() },
@@ -543,7 +543,7 @@ dataTableConfig.prototype.changeEventInput = function () {
                         }
                     } 
                     console.log(itenPauta)
-                    inps['txt_Justificativa'].disabled = false
+                    inps['txt_Justificativa'].disabled = true
                     inps['txt_Deliberacao'].disabled = false
                     inps['txt_Justificativa'].value = itenPauta['txt_Justificativa']; inps['txt_Justificativa'].style.color = 'black';
                     inps['txt_Deliberacao'].value = itenPauta['txt_Deliberacao']; inps['txt_Deliberacao'].style.color = 'black';
