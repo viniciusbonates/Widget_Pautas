@@ -343,7 +343,7 @@ function slcReuniao() {
             let dtItnOpt =  arrayOption[i]['dt_dataInicio'].split('-')
             let dtFormat = dtItnOpt[2]+'/'+dtItnOpt[1]+'/'+dtItnOpt[0]
             voption.innerText = dtFormat
-            if(dtItnOpt[0] == '2024' && dtItnOpt[1] != '05'){
+            if(dtItnOpt[0] == '2024' && dtItnOpt[1] > 5){
                 vdatalist.appendChild(voption)
             }
         }
@@ -375,7 +375,7 @@ function slcReuniao_reload(){
         let dtItnOpt =  arrayOption[i]['dt_dataInicio'].split('-')
         let dtFormat = dtItnOpt[2]+'/'+dtItnOpt[1]+'/'+dtItnOpt[0]
         voption.innerText = dtFormat
-        if(dtItnOpt[0] == '2024' && dtItnOpt[1] != '05'){
+        if(dtItnOpt[0] == '2024' && dtItnOpt[1] > 5){
             brs.appendChild(voption)
         }
     }

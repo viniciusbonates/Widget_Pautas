@@ -400,8 +400,13 @@ dataTableConfig.prototype.changeEventInput = function () {
     let wrkflw      = this.statesWorkflow;
     let arrAssr     = ['Diretoria Superintendencia', 'Diretoria Administrativa Financeira', 'Diretoria Técnica'] 
     let objFunc = {
-        fnc: ['formatDinamic', 'disabledOptions', 'enabledButton', 'statusAsr'],
+        fnc: ['formatDinamic', 'disabledOptions', 'enabledButton', 'statusAsr', 'textDlbr'], //'textDlbr'
         statusAsr: async function(){ await dataTablemi.statusAsr() },
+        textDlbr: async function () { 
+            let strTXT = await dataTablemi.resultVotesDeliber()
+            document.getElementById('textDlbr').innerHTML = ''
+            document.getElementById('textDlbr').innerHTML = strTXT
+        },
         formatDinamic: function () {
             var configFormat = {
                 inputId: 'dataSelected',
@@ -2029,6 +2034,75 @@ dataTableConfig.prototype.opsMoveAssessorias = async function (elem){
             }
         }
     }
+}
+dataTableConfig.prototype.resultVotesDeliber = async function () {
+    let DISUP           = document.getElementById('slc_DISUP_vt').value;
+    let DIRAF           = document.getElementById('slc_UCOF_vt').value;
+    let DITEC           = document.getElementById('slc_DITEC_vt').value;
+    let resultadoDelbr  = ''
+    let arrVts          = [DIRAF, DISUP, DITEC]
+    let vt1             = 0;
+    let vt2             = 0;
+    let arrDefnDirAprv      = []
+    let arrDefnDirReprov    = []
+    let snlVts              = 0
+    for(let y = 0; y < arrVts.length; y++){
+        let voteNow = arrVts[y]
+        if(voteNow == '' || voteNow == null || voteNow == undefined || voteNow == 0){
+            snlVts++
+            console.log(snlVts)
+        }
+    }
+    if(snlVts != 0){
+        return '<h3><b>Não deliberado<\/b><\/h3>'
+    }
+    if(DIRAF == 1 && DISUP == 1 && DITEC == 1){ resultadoDelbr = 'Aprovado por unanimidade.' }
+    else if(DIRAF == 2 && DISUP == 2 && DITEC == 2){ resultadoDelbr = 'Reprovado por unanimidade.' }
+    else{
+        for(let t = 0; t < arrVts.length; t++){
+            ckVt = arrVts[t]
+            if(ckVt == 1){
+                vt1++
+                arrDefnDirAprv.push(t)
+            }else{ 
+                vt2++ 
+                arrDefnDirReprov.push(t)
+            }
+        }
+        if(vt1 > vt2){ 
+            var arrDefDirN = [];
+            reprovDefDir = arrDefnDirAprv[0]
+            for(let t = 0; t < arrDefnDirAprv.length; t++){
+
+                if(arrDefnDirReprov[t] == 0){ reprovDefDir = 'DIRAF' };
+                if(arrDefnDirReprov[t] == 1){ reprovDefDir = 'DISUP' };
+                if(arrDefnDirReprov[t] == 2){ reprovDefDir = 'DITEC' };
+
+                if(arrDefnDirAprv[t] == 0) {        arrDefDirN.push('DIRAF') }
+                else if(arrDefnDirAprv[t] == 1) {   arrDefDirN.push('DISUP') }
+                if(arrDefnDirAprv[t] == 2 ){        arrDefDirN.push('DITEC') }
+                        
+            }
+            resultadoDelbr = 'Aprovado por '+arrDefDirN[0]+' e '+arrDefDirN[1]+' e reprovado por '+reprovDefDir;
+        }
+        else if (vt1 < vt2) { 
+            var arrDefDirN = [];
+            aprvDefDir = ''
+            for(let t = 0; t < arrDefnDirReprov.length; t++){
+
+                if(arrDefnDirAprv[t] == 0){ aprvDefDir = 'DIRAF' };
+                if(arrDefnDirAprv[t] == 1){ aprvDefDir = 'DISUP' };
+                if(arrDefnDirAprv[t] == 2){ aprvDefDir = 'DITEC' };
+
+                if(arrDefnDirReprov[t] == 0) {        arrDefDirN.push('DIRAF') }
+                else if(arrDefnDirReprov[t] == 1) {   arrDefDirN.push('DISUP') }
+                if(arrDefnDirReprov[t] == 2 ){        arrDefDirN.push('DITEC') }
+                        
+            }
+            resultadoDelbr = 'Reprovado por '+arrDefDirN[0]+' e '+arrDefDirN[1]+' e aprovado por '+aprvDefDir;
+        }
+    }
+    return  '<h3><b>'+resultadoDelbr+'<\/b><\/h3>'
 }
 function dataTableinit() { dataTablemi = new dataTableConfig(); }
 //window.addEventListener('load', dataTableinit)

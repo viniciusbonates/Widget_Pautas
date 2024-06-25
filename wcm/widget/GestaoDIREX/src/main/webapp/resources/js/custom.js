@@ -580,7 +580,7 @@
 					document.getElementById('dataSelected').value = dataReuniao
 					var funNow = 0;
 					if (objFunc != '' && objFunc != null && objFunc != undefined) {
-						for (t = 0; t < objFunc.fnc.length; t++) {
+						for (let t = 0; t < objFunc.fnc.length; t++) {
 							let name = objFunc.fnc[t]
 							let funNow = objFunc[name]()
 						}
