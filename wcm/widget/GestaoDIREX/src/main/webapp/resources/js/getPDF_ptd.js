@@ -54,8 +54,11 @@ function info_setItns(){
 
                 vli.appendChild(va)
                 vli2.appendChild(va2)
+                let intsLst = document.getElementById('itnsList_deliber_op_'+dirNow)
                 document.getElementById('itnsList_ptd_'+dirNow).children[0].appendChild(vli)
-                document.getElementById('itnsList_deliber_op_'+dirNow).children[0].appendChild(vli2)
+                intsLst.children[0].appendChild(vli2)
+                intsLst.style.display = 'block'
+                document.getElementById('getData_deliber_op_'+dirNow).style.display = 'block'
             }    
         }
     }
