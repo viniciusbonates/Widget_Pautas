@@ -543,10 +543,12 @@ dataTableConfig.prototype.changeEventInput = function () {
                         }
                     } 
                     console.log(itenPauta)
-                    inps['txt_Justificativa'].disabled = true
-                    inps['txt_Deliberacao'].disabled = false
-                    inps['txt_Justificativa'].value = itenPauta['txt_Justificativa']; inps['txt_Justificativa'].style.color = 'black';
-                    inps['txt_Deliberacao'].value = itenPauta['txt_Deliberacao']; inps['txt_Deliberacao'].style.color = 'black';
+                    inps['txt_Justificativa'].disabled  = true
+                    inps['txt_Deliberacao'].disabled    = false
+                    inps['txt_Justf_itn'].disabled      = false    
+                    inps['txt_Justificativa'].value     = itenPauta['txt_Justificativa']; inps['txt_Justificativa'].style.color = 'black';
+                    inps['txt_Deliberacao'].value       = itenPauta['txt_Deliberacao']; inps['txt_Deliberacao'].style.color = 'black';
+                    inps['txt_Justf_itn'].value         = itenPauta['txt_Justf_itn']; inps['txt_Justf_itn'].style.color = 'black';
                     console.log(myEditor)
                     myEditor.cleanEditor(document.getElementById('txt_Justificativa'))
                     myEditor.setDataInput(document.getElementById('txt_Justificativa'))
@@ -1167,6 +1169,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                     objBodyreq['txt_titulo']                = txt_assunto_addPauta.value;
                     objBodyreq['txt_Justificativa']         = txt_Justificativa_addPauta.value;
                     objBodyreq['txt_Deliberacao']           = txt_Justificativa_addPauta.value
+                    objBodyreq['txt_Justf_itn']             = txt_Justificativa_addPauta.value
                     console.log(objBodyreq)
                     objGetReturn            = {}
                     objGetReturn['name']    = ['a', 'b'];
@@ -1694,6 +1697,8 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                             myEditor.disabledEditor(document.getElementById('txt_Justificativa'))
                             myEditor.setDataInput(document.getElementById('txt_Deliberacao'))
                             myEditor.disabledEditor(document.getElementById('txt_Deliberacao'))
+                            myEditor.setDataInput(document.getElementById('txt_Justf_itn'))
+                            myEditor.disabledEditor(document.getElementById('txt_Justf_itn'))
 
                             myEditor.setDataInput(document.getElementById('txt_obsDlbrDIRAF'))
                             myEditor.disabledEditor(document.getElementById('txt_obsDlbrDIRAF'))

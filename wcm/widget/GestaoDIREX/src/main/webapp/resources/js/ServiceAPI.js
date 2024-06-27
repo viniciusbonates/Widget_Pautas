@@ -491,7 +491,8 @@ orderMethods.prototype.createNewPauta = async function (objBodyreq, objGetReturn
                     "zm_UnidadeSolicitante" : objBodyreq['zm_UnidadeSolicitante'],                      //"Diretoria Administrativa Financeira",                    
                     "dataSelected": objBodyreq['dataSelected'],                                         //"17/06/2024",                                                       
                     "txt_titulo": objBodyreq['txt_titulo'],                                                          
-                    "txt_Justificativa": objBodyreq['txt_Justificativa'],                                                   
+                    "txt_Justificativa": objBodyreq['txt_Justificativa'],
+                    "txt_Justf_itn": objBodyreq['txt_Justf_itn'],                                                   
                     "txt_Deliberacao": objBodyreq['txt_Deliberacao'],                                    //"<html><head><title></title></head><body></body></html>",       
                     "txt_resultAnalis": objBodyreq['txt_resultAnalis'],                                  //"2",                                                           
                     "dt_DataSolicita": objBodyreq['dt_DataSolicita']                                     //"07/06/2024 T"                                                  
