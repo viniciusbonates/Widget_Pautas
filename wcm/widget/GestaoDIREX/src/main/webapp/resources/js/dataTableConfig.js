@@ -1790,6 +1790,21 @@ dataTableConfig.prototype.statusAsr = async function () {
     var TableFluig          = this.TableFluig();
     var constructIcon       = this.constructIcon(); 
     let wrkflw              = this.statesWorkflow
+    itensConfigsH           = this.itensConfigs;
+    objHandleIcons          =  {};
+    for(z = 0; z < itensConfigsH.length; z++){
+        itnHnow = itensConfigsH[z]
+        if(itnHnow.id == 'btnDrpDwn1'){
+            ulsHnow = itnHnow.ul
+            for(b = 0; b < ulsHnow.length; b++){
+                id                  = ulsHnow[b].id
+                icon                = ulsHnow[b].icon
+                objHandleIcons[id]  = icon
+            }
+        }else if(itnHnow.id == 'btn1'){
+            objHandleIcons[itnHnow.id] = itnHnow.setIcon
+        }
+    }
     console.log('dataTableConfig.prototype.statusAsr = async function () { *******-----------------------------------------------------------------------------^^')
     await pushStatusAsr()
     async function pushStatusAsr(){
