@@ -155,7 +155,7 @@
 	  <div class="modal-content">
 		<div class="modal-header">
 		  <h1 class="modal-title fs-5" id="novaPautaLabel">Inserção de Nova Pauta</h1>
-		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close_novaPautaLabel"></button>
 		</div>
 		<div class="modal-body">
 			<div id="justfExec">

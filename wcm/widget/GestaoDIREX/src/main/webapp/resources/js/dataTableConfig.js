@@ -1121,6 +1121,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
         novaPauta: function () {
             document.getElementById('btn3').children[0].addEventListener('click', async function () {
                 document.getElementById('envPauta').disabled = false
+                document.getElementById('envPauta').style.display = 'block'
                 txt_assunto_addPauta                    = document.getElementById('txt_assunto_addPauta')
                 txt_Justificativa_addPauta              = document.getElementById('txt_Justificativa_addPauta')
                 txt_assunto_addPauta.value              = ''
@@ -1131,6 +1132,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
             });
             document.getElementById('envPauta').onclick = async function () {
                 document.getElementById('envPauta').disabled = true
+                document.getElementById('envPauta').style.display = 'none'
                 objBodyreq = {}
                 myEditor.setDataInputsParams()
                 txt_assunto_addPauta                    = document.getElementById('txt_assunto_addPauta')
@@ -1178,6 +1180,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                     await orderMethodsMi.createNewPauta(objBodyreq, objGetReturn);
                     console.log(objGetReturn)
                     let stts = ''
+                    document.getElementById('close_novaPautaLabel').click()
                     if(objGetReturn['b'] != ''){
                         stts = objGetReturn['a'].status
                         if(stts != 200 ){
@@ -1191,6 +1194,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                 }else{
                     objFieldsNew.setInvalidfeedback(arrValid)
                     document.getElementById('envPauta').disabled = false
+                    document.getElementById('envPauta').style.display = 'block'
                 }
             }
         },
@@ -1718,9 +1722,19 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
             btn             = itens['btn2'];
             console.log(btn)
             btn.getElementsByTagName('button')[0].disabled = false
-            btn.getElementsByTagName('button')[0].addEventListener('click', function() { 
-                this.disabled = true
-                console.log(dataTablemi)
+            btn.getElementsByTagName('button')[0].addEventListener('click', async function () { 
+                console.log(this);
+                await dsbBTN(this)
+                await rfshTB(this) 
+            }); 
+            async function dsbBTN(elem){
+                console.log(elem)
+                myLoading.show();
+                elem.disabled = true
+            }
+            async function rfshTB(elem) { 
+                //elem.disabled = true
+                //console.log(dataTablemi)
                 let myTable     = dataTablemi.tableReference.myTable;
                 let c1          = DatasetFactory.createConstraint("hdn_dir_vinc", objDefineStatus.matDir, objDefineStatus.matDir, ConstraintType.MUST, true);
                 let dtIn        = DatasetFactory.getDataset('Pauta DIREX', null, new Array(c1), null).values //dataTablemi.tableReference.dataInit;
@@ -1738,10 +1752,14 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                 */
                 dataTablemi.tableReference.defineItensValid(dtIn)
                 dataTablemi.tableReference.opsNav(null, myTable, objFuncIn);
-                this.disabled = false
+                var intElem = elem 
+                setTimeout(function(){
+                    myLoading.hide();
+                    intElem.disabled = false; 
+                }, 5000)
                 //myAlertAll.fixedMoviment(myAlertAll.validate())  
                 
-            }); 
+            }
         }
     }
     if(itenBuitFunc != '' && itenBuitFunc != null && itenBuitFunc != undefined){
