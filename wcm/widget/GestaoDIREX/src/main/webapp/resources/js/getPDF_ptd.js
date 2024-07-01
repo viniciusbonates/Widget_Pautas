@@ -18,7 +18,7 @@ function info_setItns(){
     c4 = DatasetFactory.createConstraint("txt_resultAnalis", null, null,  ConstraintType.MUST_NOT);
 
     arrdir = ['DISUP', 'DIRAF', 'DITEC']
-    for(i = 0; i < arrdir.length; i++){
+    for(let i = 0; i < arrdir.length; i++){
         dirNow      = arrdir[i]
         let switchC  = 'switch_'+dirNow
         if(dataDtIn.values[0][switchC] == 'on'){             // << ------------------------- Verifica se toogle está habilitado para mostrar itens de diretoria.
@@ -29,7 +29,9 @@ function info_setItns(){
             itns = DatasetFactory.getDataset('Pauta DIREX', null, cnst, null).values;
             console.log(itns)
             //<a href="https://myweb.am.sebrae.com.br/portal/p/1/pageworkflowview?app_ecm_workflowview_detailsProcessInstanceID=26559" class="cad-link" target="_blank" style="color:blue" ml="true"><i class="flaticon flaticon-link icon-md"></i>26559</a>
-
+            document.getElementById(switchC).value = 'on'
+            document.getElementById(switchC).checked = true
+            formData_obj['formData_origin'][switchC] = 'on'
             for(j = 0; j < itns.length; j++){
                 NumSolict = itns[j]['txt_NumProcess']
                 itnLink = window.origin+'/portal/p/1/pageworkflowview?app_ecm_workflowview_detailsProcessInstanceID='+NumSolict
@@ -59,7 +61,12 @@ function info_setItns(){
                 intsLst.children[0].appendChild(vli2)
                 intsLst.style.display = 'block'
                 document.getElementById('getData_deliber_op_'+dirNow).style.display = 'block'
+            
             }    
+        }else{
+            document.getElementById(switchC).value = ''
+            document.getElementById(switchC).checked = false
+            formData_obj['formData_origin'][switchC] = ''
         }
     }
 }
@@ -273,7 +280,7 @@ function getPDF_ptd() {
     var ds_und_ger_pdf  = dsc_Unidades;
     und = ''
     matDir = ''
-    for(var i = 0; i <ds_mat_ger_pdf.values.length; i++){
+    for(let i = 0; i <ds_mat_ger_pdf.values.length; i++){
         if(objDefineStatus.mat == ds_mat_ger_pdf.values[i]['colleaguePK.colleagueId']){
             und = ds_mat_ger_pdf.values[i]['groupId'];
             for(var j=0;j<ds_und_ger_pdf.values.length;j++){
@@ -291,7 +298,7 @@ function getPDF_ptd() {
     arrins = ['getData_ptd', 'getData_ptd_1', 'getData_ptd_2']
     arrInpsAcess = ['switch_DISUP', 'switch_DIRAF', 'switch_DITEC']
     arrdir = ['DISUP', 'DIRAF', 'DITEC']
-    for(i = 0; i < arrins.length; i++){
+    for(let i = 0; i < arrins.length; i++){
         dirIn = arrdir[i];
         btnDirItnsNow =  document.getElementById(arrins[i])
         BTN_deliber_op =  document.getElementById('getData_deliber_op_'+dirIn)
@@ -307,7 +314,7 @@ function getPDF_ptd() {
     }
 
     
-    for(j = 0; j < arrInpsAcess.length; j++){
+    for(let j = 0; j < arrInpsAcess.length; j++){
         inpAcessNow = document.getElementById(arrInpsAcess[j])
         if(inpAcessNow.checked == true){
             document.getElementById('itnsList_deliber_op_'+arrdir[j]).style.display = 'block'; 
