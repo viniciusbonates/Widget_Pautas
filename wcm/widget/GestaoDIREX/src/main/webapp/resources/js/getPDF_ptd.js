@@ -32,6 +32,7 @@ function info_setItns(){
             document.getElementById(switchC).value = 'on'
             document.getElementById(switchC).checked = true
             formData_obj['formData_origin'][switchC] = 'on'
+            formData_obj['formData_modified'][switchC] = 'on'
             for(j = 0; j < itns.length; j++){
                 NumSolict = itns[j]['txt_NumProcess']
                 itnLink = window.origin+'/portal/p/1/pageworkflowview?app_ecm_workflowview_detailsProcessInstanceID='+NumSolict
@@ -67,6 +68,7 @@ function info_setItns(){
             document.getElementById(switchC).value = ''
             document.getElementById(switchC).checked = false
             formData_obj['formData_origin'][switchC] = ''
+            formData_obj['formData_modified'][switchC] = ''
         }
     }
 }

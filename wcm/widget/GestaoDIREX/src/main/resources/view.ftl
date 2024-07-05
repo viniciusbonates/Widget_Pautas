@@ -591,6 +591,7 @@
 							<div class="input-group">
 								<button type="button" class="btn btn-primary" id="getData_deliber_op_DISUP" value="DISUP">Obter PDF</button>
 							</div>
+							<br>
 							<div id="itnsList_deliber_op_DISUP" style="display: none">
 								<ul></ul>
 							</div>
@@ -624,6 +625,7 @@
 							<div class="input-group">
 								<button type="button" class="btn btn-primary" id="getData_deliber_op_DITEC" value="DITEC">Obter PDF</button>
 							</div>
+							<br>
 							<div id="itnsList_deliber_op_DITEC" style="display: none">
 								<ul></ul>
 							</div>
