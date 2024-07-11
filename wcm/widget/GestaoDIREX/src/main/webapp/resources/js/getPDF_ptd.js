@@ -110,7 +110,7 @@ function updatePDF_ptd(dirIndx){
         c3 = DatasetFactory.createConstraint("txt_resultAnalis", 2, 2,  ConstraintType.MUST);
         c4 = DatasetFactory.createConstraint("txt_resultAnalis", null, null,  ConstraintType.MUST_NOT);
 
-        if(state == 8 && matDir == 0){
+        if(matDir == 0){ // state == 8 && 
             for(var i = 0;i<ds_mat_ger_pdf.values.length;i++){
                 if(mat == ds_mat_ger_pdf.values[i]['colleaguePK.colleagueId']){
                     und = ds_mat_ger_pdf.values[i]['groupId'];
@@ -136,7 +136,7 @@ function updatePDF_ptd(dirIndx){
             itns = DatasetFactory.getDataset('Pauta DIREX', null, cnst, null).values;
             arrItns_Dir.push(itns)
         }
-        else if(state == 8 && matDir != 0){
+        else if(matDir != 0){ //state == 8 && 
             matDir = "%Pool:Role:"+matDir+"%";
             c1 = DatasetFactory.createConstraint("hdn_dir_vinc", matDir, matDir,  ConstraintType.MUST, true); 
             cnst = new Array(c1, c2, c3, c4);

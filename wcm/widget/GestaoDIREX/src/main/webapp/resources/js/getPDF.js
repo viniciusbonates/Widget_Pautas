@@ -216,7 +216,7 @@ function updatePDF(){
         MonthIn     = new Date().getMonth() 
         MonthStr    = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'] 
             
-        var objPdf  = '<div style="border: solid; border-color: black; border-width: 1px; padding: 15px">' 
+        var objPdf  = '<div style="padding: 15px">' 
         objPdf      = objPdf + '<div style="border:solid windowtext 1.0pt;  margin-left:0px; margin-top:20px" >'+
             '<p align="center" style="border:none; border-bottom:.5pt solid windowtext; margin-bottom:0cm; text-align:center; padding:0cm; padding-bottom:1.0pt">'+
             '<span style="">'+

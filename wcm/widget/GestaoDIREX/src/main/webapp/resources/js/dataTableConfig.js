@@ -1589,6 +1589,8 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                 console.log(window["zm_emailsCopia"])
                 arrUserEmails = window["zm_emailsCopia"].getSelectedItems()              // < ------------------- adicionado
                 console.log(arrUserEmails)
+                arrUserEmails.push(window.WCMAPI.userEmail)
+                console.log(arrUserEmails)
                 for(forE = 0; forE <  arrUserEmails.length; forE++){
                     if(forE == 0){ usersForEmail += arrUserEmails[forE]; }
                     else{ usersForEmail += ',' + arrUserEmails[forE];}
