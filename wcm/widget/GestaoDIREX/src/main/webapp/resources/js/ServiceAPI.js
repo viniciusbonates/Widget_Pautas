@@ -456,7 +456,9 @@ orderMethods.prototype.createNewDIREX = async function (objBodyreq, objGetReturn
                 {
                   "dt_dataInicio": objBodyreq.dataInit,
                   "dt_datalimit": objBodyreq.dataLimit,
-                  "txt_tituloReuniao": objBodyreq.title
+                  "txt_tituloReuniao": objBodyreq.title,
+                  'txt_IniDelibr': 'Aos ___ dias do mês de ___ de ___, às ___, reuniu-se a Diretoria Executiva do SEBRAE Amazonas, de forma presencial, com a participação das Diretoras Ananda Carvalho Normando Pessôa – Diretora-Superintendente, Lamisse Said da Silva Cavalcanti - Diretora Técnica e Adrianne Antony Gonçalves - Diretora Administrativa e Financeira para deliberarem os seguintes assuntos:',
+                  'txt_FinDelibr': 'A reunião foi encerrada às ___, ficando acordado entre as Diretoras a realização da ___ Reunião Ordinária DIREX ___ no dia ___, conforme previsto em calendário.'
                 }
               }
         ),
