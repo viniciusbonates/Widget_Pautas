@@ -276,7 +276,7 @@ orderMethods.prototype.requestsActivitiesGETall = async function (NumSolicit, ob
         await response
     })
 }
-orderMethods.prototype.emailSend = async function (email, Delibr, tituloRN, dtRN, resultadoDelbr, obsDISUP, obsDIRAF, obsDITEC) {            // < ---------------------------------------- novo metodo para enviode email        
+orderMethods.prototype.emailSend = async function (email, Delibr, tituloRN, dtRN, resultadoDelbr, obsDISUP, obsDIRAF, obsDITEC, txt_Justf_itn) {            // < ---------------------------------------- novo metodo para enviode email        
     await $.ajax({
         method: "POST",
         url: this.host   + "/api/public/alert/customEmailSender",
@@ -293,6 +293,7 @@ orderMethods.prototype.emailSend = async function (email, Delibr, tituloRN, dtRN
                     "Nreuniao": tituloRN,
                     "dtR": dtRN,
                     "Delibr": Delibr,
+                    "txt_Justf_itn": txt_Justf_itn,
                     "resultadoDelbr": resultadoDelbr, 
                     "obsDISUP": obsDISUP,
                     "obsDIRAF": obsDIRAF,

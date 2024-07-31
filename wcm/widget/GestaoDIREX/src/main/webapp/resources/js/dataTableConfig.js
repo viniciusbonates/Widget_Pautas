@@ -1629,7 +1629,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                             if(ckY == 0 && statusDelibr != statusAssr){    
                                 await dataTablemi.APImethods.movePOST(inpValue, statusDelibr, Delibr, Justf, votesThisItnNow, obsThisItnNow, resultAnalis, demandRsp, usersForEmail, '', txt_Justf_itn);  // < -------------------- modificado 
                                 for(emailIn = 0; emailIn < arrUserEmails.length; emailIn++){                                                                                            // < -------------------- modificado 
-                                    dataTablemi.APImethods.emailSend(arrUserEmails[emailIn], Delibr, tituloRN, dtRN, resultadoDelbr, obsDISUP, obsDIRAF, obsDITEC) 
+                                    dataTablemi.APImethods.emailSend(arrUserEmails[emailIn], Delibr, tituloRN, dtRN, resultadoDelbr, obsDISUP, obsDIRAF, obsDITEC, txt_Justf_itn) 
                                     login = arrUserEmails[emailIn]
                                     login = login.split('@')[0]
                                     console.log(login)
