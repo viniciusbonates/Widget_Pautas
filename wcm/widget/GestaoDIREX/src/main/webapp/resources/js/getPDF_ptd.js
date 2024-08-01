@@ -219,7 +219,7 @@ function updatePDF_ptd(dirIndx){
                 
                 objDivTemp.innerHTML = bd
                 objDivTemp.lastElementChild.style.cssText = ''
-                txtDlbrFINAL = objDivTemp.innerHTML
+                let txtDlbrFINAL = objDivTemp.innerHTML
                 console.log(objDivTemp.lastElementChild.style.cssText)
                 console.log(objDivTemp.lastElementChild)
                 console.log(objDivTemp.innerHTML)
@@ -233,10 +233,10 @@ function updatePDF_ptd(dirIndx){
                 '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black">Deliberação:</span></span></span></b>'+
                 */
                 dlbr_now = '<div style="margin-left:0.6cm;"><b style="float: left">'+ numIten + '.  '+ '</b>'+
-                '<div style="margin-left:0.6cm;">'+
+                '<div style="margin-left:0.6cm; text-align: justify;">'+
                 txtDlbrFINAL+
                 '<b style="float: left; margin-right:0.1cm;"><u><span style="font-size:12.0pt"><span style="font-family:&quot;Arial&quot;,sans-serif">Justificativa:</span></span></u></b>'+
-                txtJstf+'<br></br>'+
+                txtJstf+//'<br></br>'+
                 '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black">Deliberação:</span></span></span></b>'+
                 '<span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black"> <b>'+resultadoDelbr+'</b></span></span></span></span>'+
                 '</div></div><br></br>';

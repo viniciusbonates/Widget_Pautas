@@ -372,20 +372,27 @@ function updatePDF(){
                             }
                         }
 
+                        let objDivTemp = document.createElement('div');
+                        
                         let result = txtDlbr.search("body");
                         let result2 = txtDlbr.search("/body");
                         fnl = result2 - 1
                         inc = result + 5
                         bd = txtDlbr.substring(inc, fnl)        // Obtem apenas o BODY do HTML salvo no input
                         console.log(bd)
-
+                        objDivTemp.innerHTML = bd
+                        objDivTemp.lastElementChild.style.cssText = ''
+                        let txtDlbrFINAL = objDivTemp.innerHTML
+                        console.log(objDivTemp.lastElementChild.style.cssText)
+                        console.log(objDivTemp.lastElementChild)
+                        console.log(objDivTemp.innerHTML)
                         
 
                         //dlbr_now = '<div style="margin-left:0.6cm;"><b  style="float: left">'+ numIten + '.  </b>'+bd+ '<br></br><br></br>';
 
                         dlbr_now = '<div style="margin-left:0.6cm;"><b style="float: left">'+ numIten + '.  '+ '</b>'+
                         '<div style="margin-left:0.6cm;">'+
-                        bd+
+                        txtDlbrFINAL+
                         '<b style="float: left; margin-right:0.1cm;"><u><span style="font-size:12.0pt"><span style="font-family:&quot;Arial&quot;,sans-serif">Justificativa:</span></span></u></b>'+
                         txtJstf//+'<br></br>';
                         //objPdf = objPdf + dlbr_now;
