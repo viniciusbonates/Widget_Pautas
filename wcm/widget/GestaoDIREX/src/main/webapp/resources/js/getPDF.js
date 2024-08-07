@@ -325,8 +325,8 @@ function updatePDF(){
                         vt2 = 0;
                         arrDefnDirAprv = []
                         arrDefnDirReprov = []
-                        if(DIRAF == 1 && DISUP == 1 && DITEC == 1){ resultadoDelbr = 'Aprovado por unanimidade.' }
-                        else if(DIRAF == 2 && DISUP == 2 && DITEC == 2){ resultadoDelbr = 'Reprovado por unanimidade.' }
+                        if(DIRAF == 1 && DISUP == 1 && DITEC == 1){ resultadoDelbr = 'Aprovado por unanimidade' }
+                        else if(DIRAF == 2 && DISUP == 2 && DITEC == 2){ resultadoDelbr = 'Reprovado por unanimidade' }
                         else{
                             for(t = 0; t < arrVts.length; t++){
                                 ckVt = arrVts[t]
@@ -419,7 +419,7 @@ function updatePDF(){
                                 let result2 = vleObsDlbrNow.search("</p>");
                                     console.log(result)  
                                     console.log(result2)  
-                                fnl = result2 - 1
+                                fnl = result2
                                 inc = result + 3
                                 bd1 = vleObsDlbrNow.substring(inc, fnl)        // Obtem apenas o BODY do HTML salvo no input
                                 obsResultIs = obsResultIs + bd1 + '<br></br>';
@@ -432,7 +432,7 @@ function updatePDF(){
                             /*dlbr_now = dlbr_now + ObsDlbrIs + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black">Deliberação:</span></span></span></b>'+
                             '<span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black"> <b>'+resultadoDelbr+' '+obsResultIs+'</b></span></span></span></span>'+'</div></div>';*/
                             dlbr_now = dlbr_now + ObsDlbrIs + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><p style="color:black">Deliberação: '+
-                            resultadoDelbr+' '+obsResultIs+'</p>'+'</span></span></span></b>'+'</div></div><br>';
+                            resultadoDelbr+obsResultIs+'</p>'+'</span></span></span></b>'+'</div></div><br>';
                         }else{
                             /*dlbr_now = dlbr_now + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black">Deliberação:</span></span></span></b>'+
                             '<span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black"> <b>'+resultadoDelbr+'</b></span></span></span></span>'+'</div></div>';*/
