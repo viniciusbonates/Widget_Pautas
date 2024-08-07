@@ -255,6 +255,7 @@ function updatePDF(){
                 lmtN.style.marginRight      = '0cm'
                 lmtN.style.marginTop        = '0cm'
                 lmtN.style.marginBottom     = '0cm'    
+                lmtN.style.textAlign        = 'justify';
             }
             console.log(lmtN.outerHTML)
             var objPdf = objPdf + lmtN.outerHTML
@@ -391,7 +392,7 @@ function updatePDF(){
                         //dlbr_now = '<div style="margin-left:0.6cm;"><b  style="float: left">'+ numIten + '.  </b>'+bd+ '<br></br><br></br>';
 
                         dlbr_now = '<div style="margin-left:0.6cm;"><b style="float: left">'+ numIten + '.  '+ '</b>'+
-                        '<div style="margin-left:0.6cm;">'+
+                        '<div style="margin-left:0.6cm; text-align: justify;">'+
                         txtDlbrFINAL+
                         '<b style="float: left; margin-right:0.1cm;"><u><span style="font-size:12.0pt"><span style="font-family:&quot;Arial&quot;,sans-serif">Justificativa:</span></span></u></b>'+
                         txtJstf//+'<br></br>';
