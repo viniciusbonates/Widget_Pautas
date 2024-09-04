@@ -1589,6 +1589,11 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                 console.log(window["zm_emailsCopia"])
                 arrUserEmails = window["zm_emailsCopia"].getSelectedItems()              // < ------------------- adicionado
                 console.log(arrUserEmails)
+
+                let constN = DatasetFactory.createConstraint('colleaguePK.colleagueId', itenPauta['cmb_NomeSolicita'], itenPauta['cmb_NomeSolicita'], ConstraintType.MUST) 
+                let mailDemandante = DatasetFactory.getDataset('colleague', null, new Array(constN), null).values[0]['mail'];
+
+                arrUserEmails.push(mailDemandante)
                 arrUserEmails.push(window.WCMAPI.userEmail)
                 console.log(arrUserEmails)
                 for(forE = 0; forE <  arrUserEmails.length; forE++){
