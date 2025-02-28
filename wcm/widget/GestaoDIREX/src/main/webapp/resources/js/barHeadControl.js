@@ -1,6 +1,14 @@
 myLoading = FLUIGC.loading('#wcm-content');
 function initRegistData(){
-    dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
+    dsReg = function () { 
+        let ano = new Date().getFullYear()
+        c1 = DatasetFactory.createConstraint("dt_dataInicio", "%"+ano+"%", "%"+ano+"%", ConstraintType.MUST, true);
+        c2 = DatasetFactory.createConstraint("txt_NumProcess", "", "", ConstraintType.MUST_NOT);
+        c3 = DatasetFactory.createConstraint("txt_NumProcess", null, null, ConstraintType.MUST_NOT);
+        c4 = DatasetFactory.createConstraint("txt_tituloReuniao", "", "", ConstraintType.MUST_NOT);
+        c5 = DatasetFactory.createConstraint("txt_tituloReuniao", null, null, ConstraintType.MUST_NOT);
+        return DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, new Array(c1, c2, c3, c4, c5), null);
+    }
     formData_obj = {
         fieldsNecessary: [  'cmb_NomeSolicita',
                             'hd_numSuperior',
@@ -93,6 +101,7 @@ function initRegistData(){
         }
     }
     formData_obj.defineInitObjs() 
+    definePositionBarHeader()
 }
 window.addEventListener('load', initRegistData)
 function formFieldsDefine(){
@@ -239,51 +248,48 @@ async function setDataReg(op, newProcess){
     }
     if(vldt == true){
         myLoading.show();
-        dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null).values
-        console.log(dsReg)
-        for(let i = 0; i < dsReg.length; i++){
-            regN = dsReg[i]
-            if(slcAcess == regN['txt_NumProcess']){
-                console.log(regN);
-                console.log(regN['txt_NumProcess']);
-                objFieldsData['numSolN'] = regN['txt_NumProcess']
-                objFieldsData['version'] = regN['version']
-                objTdesc = {};
-                objTdesc['desc-titulo'] = regN['txt_tituloReuniao']
-                dTdesc = regN['dt_dataInicio'];
-                dTdesc = dTdesc.split('-');
-                dTdesc = dTdesc[2] + '/' + dTdesc[1] + '/' + dTdesc[0];
-                objDefineStatus['dataSelectedFormat']   = dTdesc
-                objDefineStatus['dataSelected']         = regN['dt_dataInicio']
-                objTdesc['desc-subTitulo'] = 'Data da Reunião: ' + dTdesc;
-                await objDefinitionBar.miniMapDefine(regN['txt_NumProcess']);
-                objDefinitionBar.stAcess_reg();
-                objDefinitionBar.descDefine(objTdesc);
 
-                objFieldsData.stAcess_reg(regN);
-                getDirVinc()
+        c1 = DatasetFactory.createConstraint("txt_NumProcess", slcAcess, slcAcess, ConstraintType.MUST);
+        cnst = new Array(c1)
+        let reuniaoSelecionada = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, cnst, null).values[0]
+        console.log(reuniaoSelecionada)
 
-                await objDataTable.paramsInit(objMain);
-                dataTablemi = new dataTableConfig();
-                if(objDefinitionBar.initTrue == false){
-                    myEditor = new determineEditor();
-                    objDefinitionBar.initTrue = true
-                }else{
-                    myEditor.setValueInputsInEditors()
-                }
-                
-                definePainelEnabled()
-                setControlNavTabs()
-                setControlNavTabsOpsAssr()
-                getPDF_ptd();
-                info_setItns()
-                DemandResp();
-                valueToggle();
+        objFieldsData['numSolN'] = reuniaoSelecionada['txt_NumProcess']
+        objFieldsData['version'] = reuniaoSelecionada['version']
+        objTdesc = {};
+        objTdesc['desc-titulo'] = reuniaoSelecionada['txt_tituloReuniao']
+        dTdesc = reuniaoSelecionada['dt_dataInicio'];
+        dTdesc = dTdesc.split('-');
+        dTdesc = dTdesc[2] + '/' + dTdesc[1] + '/' + dTdesc[0];
+        objDefineStatus['dataSelectedFormat']   = dTdesc
+        objDefineStatus['dataSelected']         = reuniaoSelecionada['dt_dataInicio']
+        objTdesc['desc-subTitulo'] = 'Data da Reunião: ' + dTdesc;
+        await objDefinitionBar.miniMapDefine(reuniaoSelecionada['txt_NumProcess']);
+        objDefinitionBar.stAcess_reg();
+        objDefinitionBar.descDefine(objTdesc);
 
-                formData_obj.defineFormDataValues('formData_origin', regN);
-            
-            }
+        objFieldsData.stAcess_reg(reuniaoSelecionada);
+        getDirVinc()
+
+        await objDataTable.paramsInit(objMain);
+        dataTablemi = new dataTableConfig();
+        if(objDefinitionBar.initTrue == false){
+            myEditor = new determineEditor();
+            objDefinitionBar.initTrue = true
+        }else{
+            myEditor.setValueInputsInEditors()
         }
+        
+        definePainelEnabled()
+        setControlNavTabs()
+        setControlNavTabsOpsAssr()
+        getPDF_ptd();
+        info_setItns()
+        DemandResp();
+        valueToggle();
+
+        formData_obj.defineFormDataValues('formData_origin', reuniaoSelecionada);
+            
         myLoading.hide();
     }
 }
@@ -296,21 +302,20 @@ function definePositionBarHeader(){
     let b = document.getElementsByClassName('wcm-all-content')[0]
     b.insertBefore(a, b.children[0]);
 }
-window.addEventListener('load', definePositionBarHeader)
+
 function setOptionsSelectObj(datasetObjUser, objForSet, elemSelc){
-    for(z = 0; z <  datasetObjUser.values.length; z++){
-        nameCll     = datasetObjUser.values[z]['txt_tituloReuniao']
-        idCll       = datasetObjUser.values[z]['txt_NumProcess']
-        if(nameCll != '' && nameCll != null && idCll != '' && idCll != null){
-            objForSet.values.push(datasetObjUser.values[z])
-    
-            var nodeOP = document.createElement("option");
-            var attOP = document.createAttribute("value");
-            attOP.value = idCll
+    for(let i = 0; i <  datasetObjUser.values.length; i++){
+        let DIREX = datasetObjUser.values[i]
+        
+        objForSet.values.push(DIREX)
+
+        var nodeOP = document.createElement("option");
+        var attOP = document.createAttribute("value");
+            attOP.value = DIREX['txt_NumProcess']
             nodeOP.setAttributeNode(attOP)
-            nodeOP.innerText = nameCll
-            elemSelc.appendChild(nodeOP);
-        }
+            nodeOP.innerText = DIREX['txt_tituloReuniao']
+        
+        elemSelc.appendChild(nodeOP);
     }
 }
 function slcReuniao() {
@@ -318,34 +323,36 @@ function slcReuniao() {
     elemSelc.style.display = 'none'
     objOptions  = { values: [] };
     
-    setOptionsSelectObj(dsReg, objOptions, elemSelc)
+    let dsRegReuniao = dsReg()
+    console.log(dsRegReuniao)
+    setOptionsSelectObj(dsRegReuniao, objOptions, elemSelc)
     
     function searchInpTemp(){
         var inpTemp = document.createElement('input');
-        inpTemp.setAttribute('list', 'browsersR');
-        inpTemp.setAttribute('class','form-control');
-        inpTemp.setAttribute('name','slc_temp_RNO');
-        inpTemp.setAttribute('id','slc_temp_RNO');
-        inpTemp.setAttribute('autocomplete','off');
-        inpTemp.setAttribute('placeholder','Selecione a reunião para acessar as informações');
-        inpTemp.setAttribute('style','color: black;');
-        elemSelc.parentElement.appendChild(inpTemp);
+            inpTemp.setAttribute('list', 'browsersR');
+            inpTemp.setAttribute('class','form-control');
+            inpTemp.setAttribute('name','slc_temp_RNO');
+            inpTemp.setAttribute('id','slc_temp_RNO');
+            inpTemp.setAttribute('autocomplete','off');
+            inpTemp.setAttribute('placeholder','Selecione a reunião para acessar as informações');
+            inpTemp.setAttribute('style','color: black;');
+            elemSelc.parentElement.appendChild(inpTemp);
 
         var vdatalist = document.createElement('datalist');
-        vdatalist.setAttribute('id','browsersR');
+            vdatalist.setAttribute('id','browsersR');
 
         arrayOption = objOptions.values  
         for(i = 0; i < arrayOption.length; i++){
+            let DIREX = arrayOption[i]
             var voption = document.createElement('option')
-            att = document.createAttribute('value')
-            att.value =  arrayOption[i]['txt_NumProcess'] + ' - ' + arrayOption[i]['txt_tituloReuniao'];
-            voption.setAttributeNode(att)
-            let dtItnOpt =  arrayOption[i]['dt_dataInicio'].split('-')
-            let dtFormat = dtItnOpt[2]+'/'+dtItnOpt[1]+'/'+dtItnOpt[0]
-            voption.innerText = dtFormat
-            if(dtItnOpt[0] == '2025'){ //&& dtItnOpt[1] > 5
+                att = document.createAttribute('value')
+                att.value =  DIREX['txt_NumProcess'] + ' - ' + DIREX['txt_tituloReuniao'];
+                voption.setAttributeNode(att)
+
+            let dataReuniaoDIREX =  DIREX['dt_dataInicio'].split('-')
+            let dataFormatada = dataReuniaoDIREX[2]+'/'+dataReuniaoDIREX[1]+'/'+dataReuniaoDIREX[0]
+                voption.innerText = dataFormatada
                 vdatalist.appendChild(voption)
-            }
         }
         elemSelc.parentElement.appendChild(vdatalist);
 
@@ -358,26 +365,29 @@ function slcReuniao() {
 }
 function slcReuniao_reload(){
     let brs = document.getElementById('browsersR');
+        brs.innerHTML = ''
     let elemSelc    = document.getElementById('slc_reuniao')
+        elemSelc.innerHTML = ''
     objOptions  = { values: [] };
-    elemSelc.innerHTML = ''
-    brs.innerHTML = ''
-
-    dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
-    setOptionsSelectObj(dsReg, objOptions, elemSelc)
+    
+    let dsRegReuniao = dsReg()
+    console.log(dsRegReuniao)
+    setOptionsSelectObj(dsRegReuniao, objOptions, elemSelc)
 
     arrayOption = objOptions.values  
-    for(i = 0; i < arrayOption.length; i++){
+    for(let i = 0; i < arrayOption.length; i++){
+        let DIREX = arrayOption[i]
+        console.log(DIREX)
         var voption = document.createElement('option')
-        att = document.createAttribute('value')
-        att.value =  arrayOption[i]['txt_NumProcess'] + ' - ' + arrayOption[i]['txt_tituloReuniao'];
-        voption.setAttributeNode(att)
-        let dtItnOpt =  arrayOption[i]['dt_dataInicio'].split('-')
-        let dtFormat = dtItnOpt[2]+'/'+dtItnOpt[1]+'/'+dtItnOpt[0]
-        voption.innerText = dtFormat
-        if(dtItnOpt[0] == '2025'){ //&& dtItnOpt[1] > 5
+            att = document.createAttribute('value')
+            att.value =  DIREX['txt_NumProcess'] + ' - ' + DIREX['txt_tituloReuniao'];
+            voption.setAttributeNode(att)
+            
+        let dataReuniaoDIREX =  DIREX['dt_dataInicio'].split('-')
+        let dataFormatada = dataReuniaoDIREX[2]+'/'+dataReuniaoDIREX[1]+'/'+dataReuniaoDIREX[0]
+            voption.innerText = dataFormatada
+       
             brs.appendChild(voption)
-        }
     }
     document.getElementById('slc_reuniao').value = ''
 }
@@ -433,7 +443,7 @@ async function conditionTypeSave(move){
             3° - Apresenta no modal os campos que podem ser sobrepostos caso o usuário escolha continuar com o processo de salvamento das alterações
         */
         slcAcess = document.getElementById('slc_reuniao');
-        dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
+        let dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
         dsRegs = dsReg.values;
         ckModBase = false;
         regN = 0;
@@ -597,7 +607,7 @@ async function saveFormData(){
 }
 function getLastVersionForm(){
     slcAcess = document.getElementById('slc_reuniao');
-    dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
+    let dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
     dsRegs = dsReg.values;
     for(let i = 0; i < dsRegs.length; i++){
         regN = dsRegs[i]

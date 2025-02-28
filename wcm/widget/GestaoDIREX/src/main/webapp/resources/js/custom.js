@@ -35,7 +35,9 @@
 	            indIten             : -1,        // Valor igual ao ultimo Index do 'this.objCollection' do item que foi validado e incluso no array 'arrItens' 
                 indItenB            : -1
 	        }
+            
         })
+        objDefineStatus = {}
     }
     window.addEventListener('load', initPageConfig)
 
@@ -105,7 +107,7 @@
     window.addEventListener('load', setCheckChanges)
     
     function getDirVinc(){
-        objDefineStatus = {}
+        //objDefineStatus = {}
         objDefineStatus.stts = 14
         objDefineStatus.mat = window.parent.WCMAPI.userCode;
     
@@ -260,7 +262,7 @@
             }
         }
     }
-    window.addEventListener('load', getDirVinc)
+    //window.addEventListener('load', getDirVinc)
 	
 	var objDataTable = {
 		myTable             : null,
@@ -323,7 +325,7 @@
 			}
 			var objsFunc = [];
 			var count = 0;
-			for (let i = 0; this.objData.arrItens.length <= itens.length; i++) {
+			for (let i = 0; this.objData.arrItens.length < itens.length; i++) {
 				item = itens[i]
 				lgnt = this.objData.arrItens.length
 				if (item != undefined) { //&& item[attIten] != null && item[attIten] != ''
