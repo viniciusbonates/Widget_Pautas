@@ -98,7 +98,7 @@ window.addEventListener('load', initRegistData)
 function formFieldsDefine(){
     objFieldsData = {
         numSolN: '',
-        stAcess_reg: function (ds){
+        stAcess_reg: async function (ds){
             for(let i = 0; i < formData_obj['fieldsNecessary'].length; i++){
                 let fieldInpNow =  document.getElementById(formData_obj['fieldsNecessary'][i]);
                 if(fieldInpNow.type == 'checkbox'){
@@ -111,7 +111,6 @@ function formFieldsDefine(){
                     }
                 }else{
                     document.getElementById(formData_obj['fieldsNecessary'][i]).value = ds[formData_obj['fieldsNecessary'][i]];
-            
                 }
             }
         }
@@ -262,6 +261,7 @@ async function setDataReg(op, newProcess){
                 objDefinitionBar.descDefine(objTdesc);
 
                 objFieldsData.stAcess_reg(regN);
+                getDirVinc()
 
                 await objDataTable.paramsInit(objMain);
                 dataTablemi = new dataTableConfig();
@@ -343,7 +343,7 @@ function slcReuniao() {
             let dtItnOpt =  arrayOption[i]['dt_dataInicio'].split('-')
             let dtFormat = dtItnOpt[2]+'/'+dtItnOpt[1]+'/'+dtItnOpt[0]
             voption.innerText = dtFormat
-            if(dtItnOpt[0] == '2024' && dtItnOpt[1] > 5){
+            if(dtItnOpt[0] == '2025'){ //&& dtItnOpt[1] > 5
                 vdatalist.appendChild(voption)
             }
         }
@@ -375,7 +375,7 @@ function slcReuniao_reload(){
         let dtItnOpt =  arrayOption[i]['dt_dataInicio'].split('-')
         let dtFormat = dtItnOpt[2]+'/'+dtItnOpt[1]+'/'+dtItnOpt[0]
         voption.innerText = dtFormat
-        if(dtItnOpt[0] == '2024' && dtItnOpt[1] > 5){
+        if(dtItnOpt[0] == '2025'){ //&& dtItnOpt[1] > 5
             brs.appendChild(voption)
         }
     }

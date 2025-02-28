@@ -1744,7 +1744,15 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                 //console.log(dataTablemi)
                 let myTable     = dataTablemi.tableReference.myTable;
                 let c1          = DatasetFactory.createConstraint("hdn_dir_vinc", objDefineStatus.matDir, objDefineStatus.matDir, ConstraintType.MUST, true);
-                let dtIn        = DatasetFactory.getDataset('Pauta DIREX', null, new Array(c1), null).values //dataTablemi.tableReference.dataInit;
+                let ano = new Date().getFullYear()
+                c2 = DatasetFactory.createConstraint("dataSelected", "%"+ano+"%", "%"+ano+"%", ConstraintType.MUST, true);
+                c3 = DatasetFactory.createConstraint("txt_NumProcess", "", "", ConstraintType.MUST_NOT);
+                c4 = DatasetFactory.createConstraint("txt_NumProcess", null, null, ConstraintType.MUST_NOT);
+                let dtDeterm = document.getElementById('dt_dataInicio').value
+                dtDeterm = dtDeterm.split('-')
+                dtSelecionada = dtDeterm[2]+'/'+dtDeterm[1]+'/'+dtDeterm[0]
+                c5 = DatasetFactory.createConstraint("dataSelected", dtSelecionada, dtSelecionada, ConstraintType.MUST);
+                let dtIn        = DatasetFactory.getDataset('Pauta DIREX', null, new Array(c1, c2, c3, c4, c5), null).values //dataTablemi.tableReference.dataInit;
                 let objFuncIn   = dataTablemi.tableReference.objFunc;
                 dataTablemi.tableReference.objData.objItnsDef  = {    
                     arrItens        : [],
@@ -1848,7 +1856,7 @@ dataTableConfig.prototype.statusAsr = async function () {
             }
             let cntrts          = DatasetFactory.createConstraint("txt_NumProcess", numSlct, numSlct, ConstraintType.MUST); 
             let itenPauta       = DatasetFactory.getDataset('Pauta DIREX', null, new Array(cntrts), null).values[0];
-            if(itenPauta['hdn_aprvAssr'] != null || itenPauta['hdn_aprvAssr'] != undefined){
+            if(itenPauta != undefined && itenPauta['hdn_aprvAssr'] != null || itenPauta['hdn_aprvAssr'] != undefined){
                 console.log(itenPauta)
                 let assrAp = itenPauta['hdn_aprvAssr'];
                 let resAnalis = itenPauta['txt_resultAnalis'];              // <---- Campo resultado da Analise assessoria defini o Se foi para status 19 devido Deliberação ou devido Reprovação 

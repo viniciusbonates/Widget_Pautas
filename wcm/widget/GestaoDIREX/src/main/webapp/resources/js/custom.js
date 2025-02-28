@@ -110,32 +110,47 @@
         objDefineStatus.mat = window.parent.WCMAPI.userCode;
     
         var atvd = 8
-        var ds_mat = DatasetFactory.getDataset("colleague", null, null, null);
         var ds_und = DatasetFactory.getDataset("dsc_Unidades", null, null, null);
         var matDir = 0
         var mat = objDefineStatus.mat;
         if (atvd == 8) {
-            for (var i = 0; i < ds_mat.values.length; i++) {
-                if (mat == ds_mat.values[i]['colleaguePK.colleagueId']) {
-                    var und = ds_mat.values[i]['groupId'];
-                    console.log(und)
-                    for (var j = 0; j < ds_und.values.length; j++) {
-                        if (und == ds_und.values[j]['AntigaSigla']) {
-                            console.log("%Pool:Role:" + ds_und.values[j]['Sigla'] + "%")
-                            if (ds_und.values[j]['Sigla'] == 'NTIC') {
-                                matDir = "%Pool:Role:DIRAF%";
-                            } else {
-                                matDir = "%Pool:Role:" + ds_und.values[j]['Sigla'] + "%";
-                            }
-                        }
+            let matriculaUsuario = objDefineStatus.mat;;
+            cnt1 = DatasetFactory.createConstraint("colleaguePK.colleagueId", matriculaUsuario, matriculaUsuario, ConstraintType.MUST);
+            infoColleagueUsuario = DatasetFactory.getDataset("colleague", null, new Array(cnt1), null);
+            var und = infoColleagueUsuario.values[0]['groupId'];
+            for (var j = 0; j < ds_und.values.length; j++) {
+                if (und == ds_und.values[j]['AntigaSigla']) {
+                    console.log("%Pool:Role:" + ds_und.values[j]['Sigla'] + "%")
+                    if (ds_und.values[j]['Sigla'] == 'NTIC') {
+                        matDir = "%Pool:Role:DIRAF%";
+                    } else {
+                        matDir = "%Pool:Role:" + ds_und.values[j]['Sigla'] + "%";
                     }
                 }
             }
             c1 = DatasetFactory.createConstraint("hdn_dir_vinc", matDir, matDir, ConstraintType.MUST, true);
-            cnst = new Array(c1)
+            let ano = new Date().getFullYear()
+            c2 = DatasetFactory.createConstraint("dataSelected", "%"+ano+"%", "%"+ano+"%", ConstraintType.MUST, true);
+            c3 = DatasetFactory.createConstraint("txt_NumProcess", "", "", ConstraintType.MUST_NOT);
+            c4 = DatasetFactory.createConstraint("txt_NumProcess", null, null, ConstraintType.MUST_NOT);
+            let dtDeterm = document.getElementById('dt_dataInicio').value
+            console.log(document.getElementById('dt_dataInicio'))
+            dtDeterm = dtDeterm.split('-')
+            dtSelecionada = dtDeterm[2]+'/'+dtDeterm[1]+'/'+dtDeterm[0]
+            c5 = DatasetFactory.createConstraint("dataSelected", dtSelecionada, dtSelecionada, ConstraintType.MUST);
+            cnst = new Array(c1, c2, c3, c4, c5)
         } else {
             c1 = DatasetFactory.createConstraint("hdn_dir_vinc", "%Pool:Role:%", "%Pool:Role:%", ConstraintType.MUST, true);
-            cnst = new Array(c1)
+            let ano = new Date().getFullYear()
+            c2 = DatasetFactory.createConstraint("dataSelected", "%"+ano+"%", "%"+ano+"%", ConstraintType.MUST, true);
+            c3 = DatasetFactory.createConstraint("txt_NumProcess", "", "", ConstraintType.MUST_NOT);
+            c4 = DatasetFactory.createConstraint("txt_NumProcess", null, null, ConstraintType.MUST_NOT);
+            let dtDeterm = document.getElementById('dt_dataInicio').value
+            console.log(document.getElementById('dt_dataInicio'))
+            dtDeterm = dtDeterm.split('-')
+            dtSelecionada = dtDeterm[2]+'/'+dtDeterm[1]+'/'+dtDeterm[0]
+            c5 = DatasetFactory.createConstraint("dataSelected", dtSelecionada, dtSelecionada, ConstraintType.MUST);
+            cnst = new Array(c1, c2, c3, c4, c5)
         }
         objDefineStatus.matDir = matDir
         objMain = {
@@ -162,49 +177,56 @@
                 { 'fncName': 'validation', 'fncParam': 'dt_DataSolicita' }
             ],
             validation: function () {
-                let dataItm = item['dt_DataSolicita'];
-                let numItm = item['txt_NumProcess'];
-                var dtRn = item['dataSelected'];
-                var statusForValidate = item['hdn_aprvAssr'];
-                let dtDeterm = document.getElementById('dt_dataInicio').value //"2024-03-18"
-                var arrResult = [];
-                let dataNow = new Date()
-                let anoNow = dataNow.getFullYear();
-                dataItm = dataItm.split(' ')[0];
-                dataItm = dataItm.split('/');
-    
-                cnst1 = DatasetFactory.createConstraint("workflowProcessPK.processInstanceId", numItm, numItm, ConstraintType.MUST);
-                cnstVld1 = new Array(cnst1)
-                resultVldProcess = DatasetFactory.getDataset('workflowProcess ', null, cnstVld1, null).values
-                console.log(resultVldProcess)
-                if (resultVldProcess.length != 0) {
-                    if (resultVldProcess[0]['status'] == 1) {
-                        arrResult.push(true);
+                if(item['dt_DataSolicita']){    
+                    let dataItm = item['dt_DataSolicita'];
+                    let numItm = item['txt_NumProcess'];
+                    var dtRn = item['dataSelected'];
+                    var statusForValidate = item['hdn_aprvAssr'];
+                    let dtDeterm = document.getElementById('dt_dataInicio').value //"2024-03-18"
+                    var arrResult = [];
+                    let dataNow = new Date()
+                    let anoNow = dataNow.getFullYear();
+                    dataItm = dataItm.split(' ')[0];
+                    dataItm = dataItm.split('/');
+
+                    cnst1 = DatasetFactory.createConstraint("workflowProcessPK.processInstanceId", numItm, numItm, ConstraintType.MUST);
+                    cnstVld1 = new Array(cnst1)
+                    resultVldProcess = DatasetFactory.getDataset('workflowProcess', null, cnstVld1, null).values
+                    
+                    if (resultVldProcess.length != 0) {
+                        if (resultVldProcess[0]['status'] == 1) {                                           // 1 - Cancelado
+                            arrResult.push(true);
+                            return true
+                        }
                     }
-                }
-                if (dataItm[2] != anoNow) {																// Se o ano é o mesmo que o atual
-                    arrResult.push(true);
-                }
-                if (statusForValidate == 35) {															// Se o ano é o mesmo que o atual
-                    arrResult.push(true);
-                }
-                if (numItm == '' || numItm == null || numItm == undefined) {
-                    arrResult.push(true);
-                }
-                if (dtRn != null && dtRn != undefined && dtRn != '') {									//Se a data selecionada pelo demandante é referente a data da reunião em questão
-                    dtRn = dtRn.split('/');
-                    dtRn = dtRn[2] + '-' + dtRn[1] + '-' + dtRn[0];
-                    if (dtRn != dtDeterm) {
+                    /*if (dataItm[2] != anoNow) {																// Se o ano é o mesmo que o atual
                         arrResult.push(true);
+                        return true
+                    }*/
+                    if (statusForValidate == 35) {															// Se em Status de Assessoria
+                        arrResult.push(true);
+                        return true
                     }
-                } else { arrResult.push(true); }
-                ckii = 0;
-                for (ii = 0; ii < arrResult.length; ii++) {
-                    if (arrResult[ii] == true) { return true; }
-                    else { ckii = false }
-                }
-                if (ckii == false) { return false }
-    
+                    if (numItm == '' || numItm == null || numItm == undefined) {
+                        arrResult.push(true);
+                        return true
+                    }
+                    if (dtRn != null && dtRn != undefined && dtRn != '') {									//Se a data selecionada pelo demandante é referente a data da reunião em questão
+                        dtRn = dtRn.split('/');
+                        dtRn = dtRn[2] + '-' + dtRn[1] + '-' + dtRn[0];
+                        if (dtRn != dtDeterm) {
+                            arrResult.push(true);
+                            return true
+                        }
+                    } else { arrResult.push(true); return true }
+                    
+                    ckii = 0;
+                    for (let ii = 0; ii < arrResult.length; ii++) {
+                        if (arrResult[ii] == true) { return true; }
+                        else { ckii = false }
+                    }
+                    if (ckii == false) { return false }
+                } else { return true }
             },
             fnc: [
                 { 'fncName': 'a', 'fncParam': 'cmb_NomeSolicita' },
@@ -304,7 +326,7 @@
 			for (let i = 0; this.objData.arrItens.length <= itens.length; i++) {
 				item = itens[i]
 				lgnt = this.objData.arrItens.length
-				if (item != undefined && item[attIten] != null && item[attIten] != '') {
+				if (item != undefined) { //&& item[attIten] != null && item[attIten] != ''
 					/*********************** Validação ***********************************/
 					if (condValidation.length == 0 || condValidation != '') {
 						console.log(condValidation)
