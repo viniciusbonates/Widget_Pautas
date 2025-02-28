@@ -242,9 +242,7 @@ async function setDataReg(op, newProcess){
     }else if(op == 1){
         slcAcessInp = document.getElementById('slc_reuniao');
         vldt = validateAcessReg(slcAcessInp)
-        if(vldt == true){
-            slcAcess = slcAcessInp.value
-        }
+        slcAcess = (vldt == true) ? slcAcessInp.value : '';
     }
     if(vldt == true){
         myLoading.show();
@@ -254,16 +252,16 @@ async function setDataReg(op, newProcess){
         let reuniaoSelecionada = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, cnst, null).values[0]
         console.log(reuniaoSelecionada)
 
-        objFieldsData['numSolN'] = reuniaoSelecionada['txt_NumProcess']
-        objFieldsData['version'] = reuniaoSelecionada['version']
+        objFieldsData['numSolN']    = reuniaoSelecionada['txt_NumProcess']
+        objFieldsData['version']    = reuniaoSelecionada['version']
         objTdesc = {};
-        objTdesc['desc-titulo'] = reuniaoSelecionada['txt_tituloReuniao']
-        dTdesc = reuniaoSelecionada['dt_dataInicio'];
-        dTdesc = dTdesc.split('-');
-        dTdesc = dTdesc[2] + '/' + dTdesc[1] + '/' + dTdesc[0];
+        objTdesc['desc-titulo']     = reuniaoSelecionada['txt_tituloReuniao']
+        dTdesc                      = reuniaoSelecionada['dt_dataInicio'];
+        dTdesc                      = dTdesc.split('-');
+        dTdesc                      = dTdesc[2] + '/' + dTdesc[1] + '/' + dTdesc[0];
         objDefineStatus['dataSelectedFormat']   = dTdesc
         objDefineStatus['dataSelected']         = reuniaoSelecionada['dt_dataInicio']
-        objTdesc['desc-subTitulo'] = 'Data da Reunião: ' + dTdesc;
+        objTdesc['desc-subTitulo']              = 'Data da Reunião: ' + dTdesc;
         await objDefinitionBar.miniMapDefine(reuniaoSelecionada['txt_NumProcess']);
         objDefinitionBar.stAcess_reg();
         objDefinitionBar.descDefine(objTdesc);
@@ -289,7 +287,7 @@ async function setDataReg(op, newProcess){
         valueToggle();
 
         formData_obj.defineFormDataValues('formData_origin', reuniaoSelecionada);
-            
+
         myLoading.hide();
     }
 }
@@ -319,77 +317,67 @@ function setOptionsSelectObj(datasetObjUser, objForSet, elemSelc){
     }
 }
 function slcReuniao() {
-    elemSelc    = document.getElementById('slc_reuniao')
-    elemSelc.style.display = 'none'
-    objOptions  = { values: [] };
-    
-    let dsRegReuniao = dsReg()
-    console.log(dsRegReuniao)
-    setOptionsSelectObj(dsRegReuniao, objOptions, elemSelc)
-    
-    function searchInpTemp(){
-        var inpTemp = document.createElement('input');
-            inpTemp.setAttribute('list', 'browsersR');
-            inpTemp.setAttribute('class','form-control');
-            inpTemp.setAttribute('name','slc_temp_RNO');
-            inpTemp.setAttribute('id','slc_temp_RNO');
-            inpTemp.setAttribute('autocomplete','off');
-            inpTemp.setAttribute('placeholder','Selecione a reunião para acessar as informações');
-            inpTemp.setAttribute('style','color: black;');
-            elemSelc.parentElement.appendChild(inpTemp);
-
-        var vdatalist = document.createElement('datalist');
-            vdatalist.setAttribute('id','browsersR');
-
-        arrayOption = objOptions.values  
-        for(i = 0; i < arrayOption.length; i++){
-            let DIREX = arrayOption[i]
-            var voption = document.createElement('option')
-                att = document.createAttribute('value')
-                att.value =  DIREX['txt_NumProcess'] + ' - ' + DIREX['txt_tituloReuniao'];
-                voption.setAttributeNode(att)
-
-            let dataReuniaoDIREX =  DIREX['dt_dataInicio'].split('-')
-            let dataFormatada = dataReuniaoDIREX[2]+'/'+dataReuniaoDIREX[1]+'/'+dataReuniaoDIREX[0]
-                voption.innerText = dataFormatada
-                vdatalist.appendChild(voption)
-        }
-        elemSelc.parentElement.appendChild(vdatalist);
-
-        document.getElementById("slc_temp_RNO").addEventListener("change", function(){
-                    document.getElementById("slc_reuniao").value = this.value.split(' -')[0];
-        })
-    }
-    searchInpTemp()
-    document.getElementById('slc_reuniao').value = ''
-}
-function slcReuniao_reload(){
-    let brs = document.getElementById('browsersR');
-        brs.innerHTML = ''
-    let elemSelc    = document.getElementById('slc_reuniao')
-        elemSelc.innerHTML = ''
-    objOptions  = { values: [] };
-    
-    let dsRegReuniao = dsReg()
-    console.log(dsRegReuniao)
-    setOptionsSelectObj(dsRegReuniao, objOptions, elemSelc)
-
-    arrayOption = objOptions.values  
-    for(let i = 0; i < arrayOption.length; i++){
-        let DIREX = arrayOption[i]
-        console.log(DIREX)
-        var voption = document.createElement('option')
-            att = document.createAttribute('value')
-            att.value =  DIREX['txt_NumProcess'] + ' - ' + DIREX['txt_tituloReuniao'];
-            voption.setAttributeNode(att)
+    slcReuniaoComponent = {
+        init: function () {
+            elemSelc    = document.getElementById('slc_reuniao')
+            elemSelc.style.display = 'none'
+            objOptions  = { values: [] };
             
-        let dataReuniaoDIREX =  DIREX['dt_dataInicio'].split('-')
-        let dataFormatada = dataReuniaoDIREX[2]+'/'+dataReuniaoDIREX[1]+'/'+dataReuniaoDIREX[0]
-            voption.innerText = dataFormatada
-       
-            brs.appendChild(voption)
+            let dsRegReuniao = dsReg()
+            console.log(dsRegReuniao)
+            setOptionsSelectObj(dsRegReuniao, objOptions, elemSelc)
+        },setSearchInpTemp(){
+            var inpTemp = document.createElement('input');
+                inpTemp.setAttribute('list', 'browsersR');
+                inpTemp.setAttribute('class','form-control');
+                inpTemp.setAttribute('name','slc_temp_RNO');
+                inpTemp.setAttribute('id','slc_temp_RNO');
+                inpTemp.setAttribute('autocomplete','off');
+                inpTemp.setAttribute('placeholder','Selecione a reunião para acessar as informações');
+                inpTemp.setAttribute('style','color: black;');
+                elemSelc.parentElement.appendChild(inpTemp);
+
+            var vdatalist = document.createElement('datalist');
+                vdatalist.setAttribute('id','browsersR');
+            console.log(this)
+            this.setValues(vdatalist)
+            elemSelc.parentElement.appendChild(vdatalist);
+            document.getElementById('slc_reuniao').value = ''
+        },setValues(vdatalist){
+            arrayOption = objOptions.values  
+            for(i = 0; i < arrayOption.length; i++){
+                let DIREX = arrayOption[i]
+                var voption = document.createElement('option')
+                    att = document.createAttribute('value')
+                    att.value =  DIREX['txt_NumProcess'] + ' - ' + DIREX['txt_tituloReuniao'];
+                    voption.setAttributeNode(att)
+    
+                let dataReuniaoDIREX =  DIREX['dt_dataInicio'].split('-')
+                let dataFormatada = dataReuniaoDIREX[2]+'/'+dataReuniaoDIREX[1]+'/'+dataReuniaoDIREX[0]
+                    voption.innerText = dataFormatada
+                    vdatalist.appendChild(voption)
+            }
+        },reload(){
+            let vdatalist = document.getElementById('browsersR');
+            vdatalist.innerHTML = ''
+            let elemSelc    = document.getElementById('slc_reuniao')
+                elemSelc.innerHTML = ''
+            objOptions  = { values: [] };
+            
+            let dsRegReuniao = dsReg()
+            console.log(dsRegReuniao)
+            setOptionsSelectObj(dsRegReuniao, objOptions, elemSelc)
+            this.setValues(vdatalist)
+            document.getElementById('slc_reuniao').value = ''
+        }
     }
-    document.getElementById('slc_reuniao').value = ''
+    slcReuniaoComponent.init()
+    slcReuniaoComponent.setSearchInpTemp()
+    
+    document.getElementById("slc_temp_RNO").addEventListener("change", function(){
+        document.getElementById("slc_reuniao").value = this.value.split(' -')[0];
+    })
+    
 }
 function saveFormDataButtonSet(){
     document.getElementById('save-op').addEventListener('click',  async function (){ await conditionTypeSave() });
@@ -607,14 +595,11 @@ async function saveFormData(){
 }
 function getLastVersionForm(){
     slcAcess = document.getElementById('slc_reuniao');
-    let dsReg = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, null, null);
-    dsRegs = dsReg.values;
-    for(let i = 0; i < dsRegs.length; i++){
-        regN = dsRegs[i]
-        if(slcAcess.value == regN['txt_NumProcess']){
-            return regN['version']
-        }
-    }
+    c1 = DatasetFactory.createConstraint("txt_NumProcess", slcAcess.value, slcAcess.value, ConstraintType.MUST);
+    cnst = new Array(c1)
+    let reuniaoSelecionada = DatasetFactory.getDataset('Cadastro de Reunião DIREX', null, cnst, null).values[0]
+    console.log(reuniaoSelecionada)
+    return reuniaoSelecionada['version']
 }
 function closePainel(){
     document.getElementById('cancelSave').addEventListener('click', function (){
@@ -977,7 +962,6 @@ function startNewProcess(){
                 objFieldsNew.setValidfeedback(arrTemp)
             }
         }
-
         if(ckAttObj){
             myLoading.show();
 
@@ -987,14 +971,7 @@ function startNewProcess(){
             if(objRespStart['processInstanceId']){
                 setDataReg(2, objRespStart['processInstanceId']) 
             }else{
-                /*rowMSN = document.getElementById('msnConfirm')
-                rowMSN.children[0].innerText = "Um erro ocorreu no processo de salvamento !";
-                rowMSN.children[0].style.color = 'red'
-                document.getElementById('initSave').style.display = "none"
-                document.getElementById('getNewData').style.display = "none"
-                document.getElementById('slcMove').style.display = "none" 
-                document.getElementById('initMove').style.display = "none" 
-                */
+                console.log('error startNewProcess() < < < --------------------------------------------------')
             }
             myLoading.hide();
         }else{

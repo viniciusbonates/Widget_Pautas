@@ -2,7 +2,8 @@
         let linkIdx = document.getElementById('desc-link')
         linkIdx.addEventListener('click', function () {
             let elemGet = document.getElementById('dataSelected')
-            slcReuniao_reload()
+            //slcReuniao_reload()
+            slcReuniaoComponent.reload()
             document.getElementById('slc_reuniao').value = ''
             document.getElementById('slc_temp').outerHTML = ''
             document.getElementById('infoAnaliseDelbr').style.display = 'none'
