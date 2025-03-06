@@ -142,7 +142,7 @@ function defineElementsbar(){
             }
         },
         miniMapDefine: async function (num){
-            console.log(orderMethodsMi)
+            //console.log(orderMethodsMi)
             obTemp = {
                 name: ['a'],
                 a: '',
@@ -172,7 +172,7 @@ function defineElementsbar(){
             for(let i = 0; i < obTemp.states.length; i++){
                 if(obTemp.states[i] != objDefineStatus.sequnce){
                    let numProc = obTemp.states[i] + 'n';
-                   console.log(numProc)
+                   //console.log(numProc)
                    divAtN = mnWk.children[numProc];
                    if(divAtN != undefined){
                        mnWk.children[numProc].classList.remove('rainbow')    
@@ -206,7 +206,7 @@ window.addEventListener('load', defineElementsbar)
 
 function acessRegist(){
     let btnAcess = document.getElementById('btnAcessar');
-    console.log(btnAcess)
+    //console.log(btnAcess)
     btnAcess.addEventListener('click', async function (){ 
         let slcreuniao = document.getElementById('slc_reuniao');
         let slcTempRNO = document.getElementById('slc_temp_RNO');
@@ -227,11 +227,6 @@ function acessRegist(){
         }
     })
 }
-function validateAcessReg(elem){
-    if(elem.value != '' && elem.value != undefined && elem.value != null){
-        return true
-    }else{ return false}
-}
 async function setDataReg(op, newProcess){
     let vldt = 0
     let slcAcess = 0
@@ -241,7 +236,7 @@ async function setDataReg(op, newProcess){
         vldt = true
     }else if(op == 1){
         slcAcessInp = document.getElementById('slc_reuniao');
-        vldt = validateAcessReg(slcAcessInp)
+        vldt = (slcAcessInp.value != '' && slcAcessInp.value != undefined && slcAcessInp.value != null) ? true : false;
         slcAcess = (vldt == true) ? slcAcessInp.value : '';
     }
     if(vldt == true){
@@ -295,7 +290,6 @@ window.addEventListener('load', acessRegist)
 
 function definePositionBarHeader(){
     slcReuniao()
-
     let a = document.getElementById('bar-header-n')
     let b = document.getElementsByClassName('wcm-all-content')[0]
     b.insertBefore(a, b.children[0]);
