@@ -751,26 +751,22 @@ function getUsersForRole (papel) {
 }
 
 function usersGet () {                   // Cria objeto com os dados dos usuários 
-    cll     = colleague;
-    c8      = DatasetFactory.createConstraint("colleagueGroupPK.groupId", "UsuarioInc", "UsuarioInc",  ConstraintType.MUST); 
-    cnst    = new Array(c8);
-    dsCllGroup = DatasetFactory.getDataset("colleagueGroup",null,cnst,null);           // Obtem as matriculas vinculadas ao grupo "UsuarioInc" que contem os usuários inativados
+    let cnst        = DatasetFactory.createConstraint("colleagueGroupPK.groupId", "UsuarioInc", "UsuarioInc", ConstraintType.MUST); 
+    let dsCllGroup  = DatasetFactory.getDataset("colleagueGroup", null, new Array(cnst), null);           // Obtem as matriculas vinculadas ao grupo "UsuarioInc" que contem os usuários inativados
     objOptionsGroup = { values: [] };
-    console.log(dsCllGroup)
-    for(z = 0; z < cll.values.length; z++){
-        colleagueNowIn = cll.values[z]['colleaguePK.colleagueId']
-        checkColleague = 0;
-        for(i = 0; i < dsCllGroup.values.length; i++){
-            if(dsCllGroup.values[i]['colleagueGroupPK.colleagueId'] == colleagueNowIn){                
-                checkColleague++
-            }
-        }
-        if(checkColleague == 0){
-            dsCllFinal = cll.values[z];
-            objOptionsGroup.values.push(dsCllFinal)
-        }
+    let arrConstraint = []
+	for(let z = 0; z < dsCllGroup.values.length; z++){
+        let valueNow        = dsCllGroup.values[z]
+        let colleagueNow    = valueNow['colleaguePK.colleagueId']
+		let newConstraint   = DatasetFactory.createConstraint("colleaguePK.colleagueId", colleagueNow, colleagueNow, ConstraintType.MUST_NOT); 
+		arrConstraint.push(newConstraint)
     }
-    return objOptionsGroup
+	//console.log(arrConstraint)
+	let newConstraint = DatasetFactory.createConstraint("active", "false", "false",  ConstraintType.MUST_NOT); 
+	arrConstraint.push(newConstraint)
+	let dsColleague = DatasetFactory.getDataset("colleague" ,null, arrConstraint, null);
+	//console.log(dsColleague)
+    return dsColleague
 }window.addEventListener('load', usersGet)
 
 function DemandResp() {
@@ -836,18 +832,22 @@ function DemandResp() {
                 }
             }
         })
-        dataTablemi.funcsChange.Name = 'a'
+        dataTablemi.funcsChange.Name = ['a']
         dataTablemi.funcsChange['a'] = function (st) {          // Insere a colleague do usuário demandante ou escolhido para receber a deliberação com relação a informação salva na solicitação selecionada. 
-            dsCllGrou = usersGet();
-            cllNw = document.getElementById('slc_demandante').value
-            inpTemp = document.getElementById('slc_temp')
+            //dsCllGrou = usersGet();
+            let cllNw = document.getElementById('slc_demandante').value
+            let inpTemp = document.getElementById('slc_temp')
             console.log(cllNw)
-            for(i = 0; i < dsCllGrou.values.length; i++){
+			let newConstraint = DatasetFactory.createConstraint("colleaguePK.colleagueId", cllNw, cllNw,  ConstraintType.MUST);
+			let dsColleague = DatasetFactory.getDataset("colleague" ,null, new Array(newConstraint), null);
+			console.log(dsColleague)
+            inpTemp.value = dsColleague.values[0]['colleagueName']
+            /*for(i = 0; i < dsCllGrou.values.length; i++){
                 if(cllNw == dsCllGrou.values[i]['colleaguePK.colleagueId']){
                     inpTemp.value = dsCllGrou.values[i]['colleagueName']
                     break;
                 }
-            }  
+            } */ 
             if(st == 1){
                 inpTemp.disabled = true
             }
