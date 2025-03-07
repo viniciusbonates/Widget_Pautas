@@ -285,7 +285,7 @@ orderMethods.prototype.emailSend = async function (email, Delibr, tituloRN, dtRN
         data:  JSON.stringify(
             { 
                 "to": email,
-                "from": "intranet.am@am.sebrae.com.br",
+                "from": "no-reply@am.sebrae.com.br",
                 "subject": "Deliberação "+tituloRN+" - MYWEB",
                 "templateId": "direx",
                 "dialectId": "pt_BR",

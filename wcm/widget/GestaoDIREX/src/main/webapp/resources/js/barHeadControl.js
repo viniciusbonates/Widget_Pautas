@@ -942,18 +942,26 @@ function startNewProcess(){
         objBodyreq.dataInit     = document.getElementById('dt_dataInicio_reg').value
         objBodyreq.dataLimit    = document.getElementById('dt_datalimi_reg').value
         objBodyreq.title        = document.getElementById('txt_tituloReuniao_reg').value
-        let arrNamesAttObj = ['dataInit', 'dataLimit', 'title']
+
         let ckAttObj = true;
-        for(let y = 0; y < arrNamesAttObj.length; y++){
-            if(objBodyreq[arrNamesAttObj[y]] == undefined || objBodyreq[arrNamesAttObj[y]] == null || objBodyreq[arrNamesAttObj[y]] == ''){
+        let arrNew = []
+        arrNew.push(document.getElementById('dt_dataInicio_reg'))
+        arrNew.push(document.getElementById('dt_datalimi_reg'))
+        arrNew.push(document.getElementById('txt_tituloReuniao_reg'))
+        for(let x of arrNew){
+            if(x.value == undefined || x.value == null ||  x.value == ''){
                 ckAttObj = false;
-                let arrTemp = []
-                arrTemp.push(objFieldsNew.fieldsFilter[y])
-                objFieldsNew.setInvalidfeedback(arrTemp)
+                objFieldsNew.setInvalidfeedback(new Array(x))
             }else{
-                let arrTemp = []
-                arrTemp.push(objFieldsNew.fieldsFilter[y])
-                objFieldsNew.setValidfeedback(arrTemp)
+                if(x.type == 'date'){                                    console.log(' Validação de datas < < < --------------------------------------------------')
+                    let dateInput   = new Date(x.value+'T00:00:00')
+                    let dateNow     = new Date()
+                    if (dateInput.toLocaleDateString() == dateNow.toLocaleDateString()) { objFieldsNew.setValidfeedback(new Array(x)); }
+                    else if (new Number(dateInput).valueOf() < new Number(dateNow).valueOf()) { objFieldsNew.setInvalidfeedback(new Array(x)); ckAttObj = false;; alert('Data inserida não pode ser anteriror a data atual') }
+                    else { objFieldsNew.setValidfeedback(new Array(x)); }
+                } else {
+                    objFieldsNew.setValidfeedback(new Array(x))    
+                }
             }
         }
         if(ckAttObj){

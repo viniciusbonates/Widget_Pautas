@@ -713,15 +713,7 @@ dataTableConfig.prototype.changeEventInput = function () {
                                         /*this.funcsChange        = {
                                         Name: []
                                         }*/
-                                        for(let i = 0; i < dataTablemi.funcsChange.Name.length; i++){
-                                            let name 		= dataTablemi.funcsChange.Name[i];
-                                            //dataTablemi.funcsChange[name]();
-                                            if(dataTablemi.funcsChange.Name[i] == 'a'){
-                                                dataTablemi.funcsChange[name](1);
-                                            }else{
-                                                dataTablemi.funcsChange[name]();
-                                            }
-                                        }
+                                        
                                         break;
                                     }
                                 }
@@ -730,6 +722,15 @@ dataTableConfig.prototype.changeEventInput = function () {
                             nowInp.style.color = 'black';
                             nowInp.disabled = 'disabled';
                         }else{  inps[arrNamesIt[i]].value = itenPauta[arrNamesIt[i]]; nowInp.style.color = 'black'; nowInp.disabled = 'disabled'; }
+                    }
+                    for(let i = 0; i < dataTablemi.funcsChange.Name.length; i++){
+                        let name 		= dataTablemi.funcsChange.Name[i];
+                        //dataTablemi.funcsChange[name]();
+                        if(dataTablemi.funcsChange.Name[i] == 'a'){
+                            dataTablemi.funcsChange[name](1);
+                        }else{
+                            dataTablemi.funcsChange[name]();
+                        }
                     }
                     document.getElementById('Delibr').style.display = 'block'
                     iten.getElementsByTagName('button')[0].disabled = true 
@@ -749,7 +750,7 @@ dataTableConfig.prototype.changeEventInput = function () {
                     myEditor.setDataInput(document.getElementById('txt_obsDlbrDISUP'))
                     myEditor.disabledEditor(document.getElementById('txt_obsDlbrDISUP'))
 
-                    emails = itenPauta["zm_emailsCopia"].split(',');
+                    emails = itenPauta["zm_emailsCopia"].split(';');
                     console.log(emails)
                     arrE = [];
                     for(forE = 0; forE < emails.length; forE++){
@@ -1598,7 +1599,7 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                 console.log(arrUserEmails)
                 for(forE = 0; forE <  arrUserEmails.length; forE++){
                     if(forE == 0){ usersForEmail += arrUserEmails[forE]; }
-                    else{ usersForEmail += ',' + arrUserEmails[forE];}
+                    else{ usersForEmail += ';' + arrUserEmails[forE];}
                 }
                 console.log(usersForEmail)
                 arrNamesInp = ['slc_demandante', 'slc_DISUP_vt', 'slc_UCOF_vt', 'slc_DITEC_vt', 'txt_Deliberacao', 'txt_Justificativa', 'txt_Justf_itn'];
@@ -1633,8 +1634,8 @@ dataTableConfig.prototype.itensBuiltFunctions = function () {
                         if(inpNow != undefined){
                             if(ckY == 0 && statusDelibr != statusAssr){    
                                 await dataTablemi.APImethods.movePOST(inpValue, statusDelibr, Delibr, Justf, votesThisItnNow, obsThisItnNow, resultAnalis, demandRsp, usersForEmail, '', txt_Justf_itn);  // < -------------------- modificado 
+                                dataTablemi.APImethods.emailSend(usersForEmail, Delibr, tituloRN, dtRN, resultadoDelbr, obsDISUP, obsDIRAF, obsDITEC, txt_Justf_itn) 
                                 for(emailIn = 0; emailIn < arrUserEmails.length; emailIn++){                                                                                            // < -------------------- modificado 
-                                    dataTablemi.APImethods.emailSend(arrUserEmails[emailIn], Delibr, tituloRN, dtRN, resultadoDelbr, obsDISUP, obsDIRAF, obsDITEC, txt_Justf_itn) 
                                     login = arrUserEmails[emailIn]
                                     login = login.split('@')[0]
                                     console.log(login)
