@@ -224,14 +224,14 @@ function updatePDF_ptd(dirIndx){
                     let objDivTemp = document.createElement('div');
 
                     var resultadoDelbr = ''
-                    let result = txtDlbr.search("body");
+                    /*let result = txtDlbr.search("body");
                     let result2 = txtDlbr.search("/body");
                     fnl = result2 - 1
                     inc = result + 5
                     bd = txtDlbr.substring(inc, fnl)        // Obtem apenas o BODY do HTML salvo no input
                     console.log(bd)
-                    
-                    objDivTemp.innerHTML = bd
+                    */
+                    objDivTemp.innerHTML = txtDlbr
                     objDivTemp.lastElementChild.style.cssText = ''
                     let txtDlbrFINAL = objDivTemp.innerHTML
                     console.log(objDivTemp.lastElementChild.style.cssText)

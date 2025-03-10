@@ -388,14 +388,13 @@ function updatePDF(){
                             }
 
                             let objDivTemp = document.createElement('div');
-                            
-                            let result = txtDlbr.search("body");
+                            /*let result = txtDlbr.search("body");
                             let result2 = txtDlbr.search("/body");
                             fnl = result2 - 1
                             inc = result + 5
                             bd = txtDlbr.substring(inc, fnl)        // Obtem apenas o BODY do HTML salvo no input
-                            console.log(bd)
-                            objDivTemp.innerHTML = bd
+                            console.log(bd)*/
+                            objDivTemp.innerHTML = txtDlbr
                             objDivTemp.lastElementChild.style.cssText = ''
                             let txtDlbrFINAL = objDivTemp.innerHTML
                             console.log(objDivTemp.lastElementChild.style.cssText)
