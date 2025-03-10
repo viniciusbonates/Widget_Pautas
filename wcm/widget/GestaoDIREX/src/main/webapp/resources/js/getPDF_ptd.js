@@ -34,35 +34,48 @@ function info_setItns(){
             formData_obj['formData_origin'][switchC] = 'on'
             formData_obj['formData_modified'][switchC] = 'on'
             for(j = 0; j < itns.length; j++){
-                NumSolict = itns[j]['txt_NumProcess']
-                itnLink = window.origin+'/portal/p/1/pageworkflowview?app_ecm_workflowview_detailsProcessInstanceID='+NumSolict
-                console.log(itnLink)
-                vli = document.createElement('li')
-                va = document.createElement('a')
-                va.setAttribute('href', itnLink);
-                va.setAttribute('class', 'cad-link');
-                va.setAttribute('target', '_blank');
-                va.setAttribute('style', 'color: blue');
-                va.setAttribute('ml', 'true');
-                va.textContent = NumSolict
+                 /**
+                 *      Verifica se processo está cancelado
+                 */
+                 let cnst1 = DatasetFactory.createConstraint("workflowProcessPK.processInstanceId", itns[j]['txt_NumProcess'], itns[j]['txt_NumProcess'], ConstraintType.MUST);
+                 let cnstVld1 = new Array(cnst1)
+                 let resultVldProcess = DatasetFactory.getDataset('workflowProcess', null, cnstVld1, null).values
+                 let checkProcessCancel = 0
+                 if (resultVldProcess.length != 0) {
+                     if (resultVldProcess[0]['status'] == 1) {                                           // 1 - Cancelado
+                         checkProcessCancel++;
+                     }
+                 }
+                if(checkProcessCancel == 0){
+                    NumSolict = itns[j]['txt_NumProcess']
+                    itnLink = window.origin+'/portal/p/1/pageworkflowview?app_ecm_workflowview_detailsProcessInstanceID='+NumSolict
+                    console.log(itnLink)
+                    vli = document.createElement('li')
+                    va = document.createElement('a')
+                    va.setAttribute('href', itnLink);
+                    va.setAttribute('class', 'cad-link');
+                    va.setAttribute('target', '_blank');
+                    va.setAttribute('style', 'color: blue');
+                    va.setAttribute('ml', 'true');
+                    va.textContent = NumSolict
 
-                vli2 = document.createElement('li')
-                va2 = document.createElement('a')
-                va2.setAttribute('href', itnLink);
-                va2.setAttribute('class', 'cad-link');
-                va2.setAttribute('target', '_blank');
-                va2.setAttribute('style', 'color: blue');
-                va2.setAttribute('ml', 'true');
-                va2.textContent = NumSolict
+                    vli2 = document.createElement('li')
+                    va2 = document.createElement('a')
+                    va2.setAttribute('href', itnLink);
+                    va2.setAttribute('class', 'cad-link');
+                    va2.setAttribute('target', '_blank');
+                    va2.setAttribute('style', 'color: blue');
+                    va2.setAttribute('ml', 'true');
+                    va2.textContent = NumSolict
 
-                vli.appendChild(va)
-                vli2.appendChild(va2)
-                let intsLst = document.getElementById('itnsList_deliber_op_'+dirNow)
-                document.getElementById('itnsList_ptd_'+dirNow).children[0].appendChild(vli)
-                intsLst.children[0].appendChild(vli2)
-                intsLst.style.display = 'block'
-                document.getElementById('getData_deliber_op_'+dirNow).style.display = 'block'
-            
+                    vli.appendChild(va)
+                    vli2.appendChild(va2)
+                    let intsLst = document.getElementById('itnsList_deliber_op_'+dirNow)
+                    document.getElementById('itnsList_ptd_'+dirNow).children[0].appendChild(vli)
+                    intsLst.children[0].appendChild(vli2)
+                    intsLst.style.display = 'block'
+                    document.getElementById('getData_deliber_op_'+dirNow).style.display = 'block'
+                }
             }    
         }else{
             document.getElementById(switchC).value = ''
