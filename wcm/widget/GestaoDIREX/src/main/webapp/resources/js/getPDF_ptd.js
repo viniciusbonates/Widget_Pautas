@@ -186,62 +186,76 @@ function updatePDF_ptd(dirIndx){
         for(i = 0; i < arrItns_Dir.length; i++){
             itnDirNow = arrItns_Dir[i];
             dirImed = 0;
+            numIten = 0
             for(j = 0; j < itnDirNow.length; j++){
-                numIten = j + 1
-                dirImedVinc = itnDirNow[j]["hdn_dir_vinc"].split(':')[2]
-                if(dirImed != dirImedVinc){
-                    dirImed = dirImedVinc;
-                    objPdf = objPdf + '<p style="margin-top:0.6cm; margin-bottom:0.6cm; text-align:center">'+
-                    '<span style="line-height:normal">'+
-                        '<span >'+
-                            '<b><u><span style="font-size:100%">PAUTA '+dirImed+': </span></u></b>'+
+                 /**
+                 *      Verifica se processo está cancelado
+                 */
+                 let cnst1 = DatasetFactory.createConstraint("workflowProcessPK.processInstanceId", itnDirNow[j]['txt_NumProcess'], itnDirNow[j]['txt_NumProcess'], ConstraintType.MUST);
+                 let cnstVld1 = new Array(cnst1)
+                 let resultVldProcess = DatasetFactory.getDataset('workflowProcess', null, cnstVld1, null).values
+                 let checkProcessCancel = 0
+                 if (resultVldProcess.length != 0) {
+                     if (resultVldProcess[0]['status'] == 1) {                                           // 1 - Cancelado
+                         checkProcessCancel++;
+                     }
+                 }
+                if(checkProcessCancel == 0){
+                    numIten = numIten + 1
+                    dirImedVinc = itnDirNow[j]["hdn_dir_vinc"].split(':')[2]
+                    if(dirImed != dirImedVinc){
+                        dirImed = dirImedVinc;
+                        objPdf = objPdf + '<p style="margin-top:0.6cm; margin-bottom:0.6cm; text-align:center">'+
+                        '<span style="line-height:normal">'+
+                            '<span >'+
+                                '<b><u><span style="font-size:100%">PAUTA '+dirImed+': </span></u></b>'+
+                            '</span>'+
                         '</span>'+
-                    '</span>'+
-                    '</p>'+'<br></br>'
+                        '</p>'+'<br></br>'
+                    }
+
+                    var txtDlbr = itnDirNow[j]["txt_Deliberacao"];
+                    //txtDlbr = txtDlbr.toLowerCase();
+                    var txtJstf = itnDirNow[j]["txt_Justf_itn"];
+                    
+                    /**
+                     *  Elemto div criado para manipular texto de campo editorRich e retirar o style do ultimo elemento do HTML vindo do campo editorRich < ---
+                     */
+                    let objDivTemp = document.createElement('div');
+
+                    var resultadoDelbr = ''
+                    let result = txtDlbr.search("body");
+                    let result2 = txtDlbr.search("/body");
+                    fnl = result2 - 1
+                    inc = result + 5
+                    bd = txtDlbr.substring(inc, fnl)        // Obtem apenas o BODY do HTML salvo no input
+                    console.log(bd)
+                    
+                    objDivTemp.innerHTML = bd
+                    objDivTemp.lastElementChild.style.cssText = ''
+                    let txtDlbrFINAL = objDivTemp.innerHTML
+                    console.log(objDivTemp.lastElementChild.style.cssText)
+                    console.log(objDivTemp.lastElementChild)
+                    console.log(objDivTemp.innerHTML)
+                    /**
+                     *  Elemto div criado para manipular texto de campo editorRich e retirar o style do ultimo elemento do HTML vindo do campo editorRich < ---
+                     */
+
+                    /*dlbr_now = '<div style="margin-left:0.6cm;"><b>'+ numIten + '.  </b>Deliberação acerca  '+txtDlbr+ '<br></br>'+
+                    '<div style="margin-left:0.6cm;">'+
+                    '<b><u><span style="font-size:12.0pt"><span style="font-family:&quot;Arial&quot;,sans-serif">Justificativa:</span></span></u></b>'+txtJstf+'<br></br>'+ //<div style="margin-left:0.6cm;">'
+                    '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black">Deliberação:</span></span></span></b>'+
+                    */
+                    dlbr_now = '<div style="margin-left:0.6cm;"><b style="float: left">'+ numIten + '.  '+ '</b>'+
+                    '<div style="margin-left:0.6cm; text-align: justify;">'+
+                    txtDlbrFINAL+
+                    '<b style="float: left; margin-right:0.1cm;"><u><span style="font-size:12.0pt"><span style="font-family:&quot;Arial&quot;,sans-serif">Justificativa:</span></span></u></b>'+
+                    txtJstf+//'<br></br>'+
+                    '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black">Deliberação:</span></span></span></b>'+
+                    '<span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black"> <b>'+resultadoDelbr+'</b></span></span></span></span>'+
+                    '</div></div><br></br>';
+                    objPdf = objPdf + dlbr_now;
                 }
-
-                var txtDlbr = itnDirNow[j]["txt_Deliberacao"];
-                //txtDlbr = txtDlbr.toLowerCase();
-                var txtJstf = itnDirNow[j]["txt_Justf_itn"];
-                
-                /**
-                 *  Elemto div criado para manipular texto de campo editorRich e retirar o style do ultimo elemento do HTML vindo do campo editorRich < ---
-                 */
-                let objDivTemp = document.createElement('div');
-
-                var resultadoDelbr = ''
-                let result = txtDlbr.search("body");
-                let result2 = txtDlbr.search("/body");
-                fnl = result2 - 1
-                inc = result + 5
-                bd = txtDlbr.substring(inc, fnl)        // Obtem apenas o BODY do HTML salvo no input
-                console.log(bd)
-                
-                objDivTemp.innerHTML = bd
-                objDivTemp.lastElementChild.style.cssText = ''
-                let txtDlbrFINAL = objDivTemp.innerHTML
-                console.log(objDivTemp.lastElementChild.style.cssText)
-                console.log(objDivTemp.lastElementChild)
-                console.log(objDivTemp.innerHTML)
-                /**
-                 *  Elemto div criado para manipular texto de campo editorRich e retirar o style do ultimo elemento do HTML vindo do campo editorRich < ---
-                 */
-
-                /*dlbr_now = '<div style="margin-left:0.6cm;"><b>'+ numIten + '.  </b>Deliberação acerca  '+txtDlbr+ '<br></br>'+
-                '<div style="margin-left:0.6cm;">'+
-                '<b><u><span style="font-size:12.0pt"><span style="font-family:&quot;Arial&quot;,sans-serif">Justificativa:</span></span></u></b>'+txtJstf+'<br></br>'+ //<div style="margin-left:0.6cm;">'
-                '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black">Deliberação:</span></span></span></b>'+
-                */
-                dlbr_now = '<div style="margin-left:0.6cm;"><b style="float: left">'+ numIten + '.  '+ '</b>'+
-                '<div style="margin-left:0.6cm; text-align: justify;">'+
-                txtDlbrFINAL+
-                '<b style="float: left; margin-right:0.1cm;"><u><span style="font-size:12.0pt"><span style="font-family:&quot;Arial&quot;,sans-serif">Justificativa:</span></span></u></b>'+
-                txtJstf+//'<br></br>'+
-                '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black">Deliberação:</span></span></span></b>'+
-                '<span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black"> <b>'+resultadoDelbr+'</b></span></span></span></span>'+
-                '</div></div><br></br>';
-                objPdf = objPdf + dlbr_now;
-
                 if(j == itnDirNow.length - 1){
                     objPdf = objPdf + '<p style="margin-left:0.6cm; font-size:11.0pt">'+
                     '<span style="line-height:normal">'+

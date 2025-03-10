@@ -300,147 +300,162 @@ function updatePDF(){
             for(i = 0; i < arrItns_Dir.length; i++){
                 itnDirNow = arrItns_Dir[i];
                 dirImed = 0;
+                numIten = 0
                 if(itnDirNow.length != 0){
                     for(j = 0; j < itnDirNow.length; j++){
-                        numIten = j + 1
-                        dirImedVinc = itnDirNow[j]["hdn_dir_vinc"].split(':')[2]
-                        if(dirImed != dirImedVinc){
-                            dirImed = dirImedVinc;
-                            objPdf = objPdf + '<p style="margin-top:0.6cm; margin-bottom:0.6cm; text-align:justify">'+
-                            '<span style="line-height:normal">'+
-                                '<span >'+//style="text-autospace:none"
-                                    '<b><u><span style="font-size:100%">PAUTA '+dirImed+': </span></u></b>'+
+                        /**
+                         *      Verifica se processo está cancelado
+                         */
+                        let cnst1 = DatasetFactory.createConstraint("workflowProcessPK.processInstanceId", itnDirNow[j]['txt_NumProcess'], itnDirNow[j]['txt_NumProcess'], ConstraintType.MUST);
+                        let cnstVld1 = new Array(cnst1)
+                        let resultVldProcess = DatasetFactory.getDataset('workflowProcess', null, cnstVld1, null).values
+                        let checkProcessCancel = 0
+                        if (resultVldProcess.length != 0) {
+                            if (resultVldProcess[0]['status'] == 1) {                                           // 1 - Cancelado
+                                checkProcessCancel++;
+                            }
+                        }
+                        if(checkProcessCancel == 0){
+                            numIten = numIten + 1
+                            dirImedVinc = itnDirNow[j]["hdn_dir_vinc"].split(':')[2]
+                            if(dirImed != dirImedVinc){
+                                dirImed = dirImedVinc;
+                                objPdf = objPdf + '<p style="margin-top:0.6cm; margin-bottom:0.6cm; text-align:justify">'+
+                                '<span style="line-height:normal">'+
+                                    '<span >'+//style="text-autospace:none"
+                                        '<b><u><span style="font-size:100%">PAUTA '+dirImed+': </span></u></b>'+
+                                    '</span>'+
                                 '</span>'+
-                            '</span>'+
-                            '</p>'
-                        }
-                        var txtDlbr = itnDirNow[j]["txt_Deliberacao"];
-                        var txtJstf = itnDirNow[j]["txt_Justf_itn"];
+                                '</p>'
+                            }
+                            var txtDlbr = itnDirNow[j]["txt_Deliberacao"];
+                            var txtJstf = itnDirNow[j]["txt_Justf_itn"];
 
-                        var resultadoDelbr = ''
-                        var DIRAF = itnDirNow[j]["hdn_DIRAF_vt"];
-                        var DISUP = itnDirNow[j]["hdn_DISUP_vt"];
-                        var DITEC = itnDirNow[j]["hdn_DITEC_vt"];
-                        arrVts = [DIRAF, DISUP, DITEC]
-                        vt1 = 0;
-                        vt2 = 0;
-                        arrDefnDirAprv = []
-                        arrDefnDirReprov = []
-                        if(DIRAF == 1 && DISUP == 1 && DITEC == 1){ resultadoDelbr = 'Aprovado por unanimidade' }
-                        else if(DIRAF == 2 && DISUP == 2 && DITEC == 2){ resultadoDelbr = 'Reprovado por unanimidade' }
-                        else{
-                            for(t = 0; t < arrVts.length; t++){
-                                ckVt = arrVts[t]
-                                if(ckVt == 1){
-                                    vt1++
-                                    arrDefnDirAprv.push(t)
-                                }else{ 
-                                    vt2++ 
-                                    arrDefnDirReprov.push(t)
+                            var resultadoDelbr = ''
+                            var DIRAF = itnDirNow[j]["hdn_DIRAF_vt"];
+                            var DISUP = itnDirNow[j]["hdn_DISUP_vt"];
+                            var DITEC = itnDirNow[j]["hdn_DITEC_vt"];
+                            arrVts = [DIRAF, DISUP, DITEC]
+                            vt1 = 0;
+                            vt2 = 0;
+                            arrDefnDirAprv = []
+                            arrDefnDirReprov = []
+                            if(DIRAF == 1 && DISUP == 1 && DITEC == 1){ resultadoDelbr = 'Aprovado por unanimidade' }
+                            else if(DIRAF == 2 && DISUP == 2 && DITEC == 2){ resultadoDelbr = 'Reprovado por unanimidade' }
+                            else{
+                                for(t = 0; t < arrVts.length; t++){
+                                    ckVt = arrVts[t]
+                                    if(ckVt == 1){
+                                        vt1++
+                                        arrDefnDirAprv.push(t)
+                                    }else{ 
+                                        vt2++ 
+                                        arrDefnDirReprov.push(t)
+                                    }
+                                }
+                                if(vt1 > vt2){ 
+                                    var arrDefDirN = [];
+                                    reprovDefDir = arrDefnDirAprv[0]
+                                    for(t = 0; t < arrDefnDirAprv.length; t++){
+
+                                        if(arrDefnDirReprov[t] == 0){ reprovDefDir = 'DIRAF' };
+                                        if(arrDefnDirReprov[t] == 1){ reprovDefDir = 'DISUP' };
+                                        if(arrDefnDirReprov[t] == 2){ reprovDefDir = 'DITEC' };
+
+                                        if(arrDefnDirAprv[t] == 0) {        arrDefDirN.push('DIRAF') }
+                                        else if(arrDefnDirAprv[t] == 1) {   arrDefDirN.push('DISUP') }
+                                        if(arrDefnDirAprv[t] == 2 ){        arrDefDirN.push('DITEC') }
+                                                
+                                    }
+                                    resultadoDelbr = 'Aprovado por '+arrDefDirN[0]+' e '+arrDefDirN[1]+' e reprovado por '+reprovDefDir;
+                                }
+                                else if (vt1 < vt2) { 
+                                    var arrDefDirN = [];
+                                    aprvDefDir = ''
+                                    for(t = 0; t < arrDefnDirReprov.length; t++){
+
+                                        if(arrDefnDirAprv[t] == 0){ aprvDefDir = 'DIRAF' };
+                                        if(arrDefnDirAprv[t] == 1){ aprvDefDir = 'DISUP' };
+                                        if(arrDefnDirAprv[t] == 2){ aprvDefDir = 'DITEC' };
+
+                                        if(arrDefnDirReprov[t] == 0) {        arrDefDirN.push('DIRAF') }
+                                        else if(arrDefnDirReprov[t] == 1) {   arrDefDirN.push('DISUP') }
+                                        if(arrDefnDirReprov[t] == 2 ){        arrDefDirN.push('DITEC') }
+                                                
+                                    }
+                                    resultadoDelbr = 'Reprovado por '+arrDefDirN[0]+' e '+arrDefDirN[1]+' e aprovado por '+aprvDefDir;
                                 }
                             }
-                            if(vt1 > vt2){ 
-                                var arrDefDirN = [];
-                                reprovDefDir = arrDefnDirAprv[0]
-                                for(t = 0; t < arrDefnDirAprv.length; t++){
 
-                                    if(arrDefnDirReprov[t] == 0){ reprovDefDir = 'DIRAF' };
-                                    if(arrDefnDirReprov[t] == 1){ reprovDefDir = 'DISUP' };
-                                    if(arrDefnDirReprov[t] == 2){ reprovDefDir = 'DITEC' };
+                            let objDivTemp = document.createElement('div');
+                            
+                            let result = txtDlbr.search("body");
+                            let result2 = txtDlbr.search("/body");
+                            fnl = result2 - 1
+                            inc = result + 5
+                            bd = txtDlbr.substring(inc, fnl)        // Obtem apenas o BODY do HTML salvo no input
+                            console.log(bd)
+                            objDivTemp.innerHTML = bd
+                            objDivTemp.lastElementChild.style.cssText = ''
+                            let txtDlbrFINAL = objDivTemp.innerHTML
+                            console.log(objDivTemp.lastElementChild.style.cssText)
+                            console.log(objDivTemp.lastElementChild)
+                            console.log(objDivTemp.innerHTML)
+                            
 
-                                    if(arrDefnDirAprv[t] == 0) {        arrDefDirN.push('DIRAF') }
-                                    else if(arrDefnDirAprv[t] == 1) {   arrDefDirN.push('DISUP') }
-                                    if(arrDefnDirAprv[t] == 2 ){        arrDefDirN.push('DITEC') }
-                                            
+                            //dlbr_now = '<div style="margin-left:0.6cm;"><b  style="float: left">'+ numIten + '.  </b>'+bd+ '<br></br><br></br>';
+
+                            dlbr_now = '<div style="margin-left:0.6cm;"><b style="float: left">'+ numIten + '.  '+ '</b>'+
+                            '<div style="margin-left:0.6cm; text-align: justify;">'+
+                            txtDlbrFINAL+
+                            '<b style="float: left; margin-right:0.1cm;"><u><span style="font-size:12.0pt"><span style="font-family:&quot;Arial&quot;,sans-serif">Justificativa:</span></span></u></b>'+
+                            txtJstf//+'<br></br>';
+                            //objPdf = objPdf + dlbr_now;
+
+                            //'<b><u><span style="font-size:12.0pt"><span style="font-family:&quot;Arial&quot;,sans-serif">Justificativa:</span></span></u></b>'+txtJstf+'<br></br>'//<div style="margin-left:0.6cm;">'
+
+                            var obsDISUPIsN = itnDirNow[j]["txt_obsDlbrDISUP"];
+                            var obsDIRAFIsN = itnDirNow[j]["txt_obsDlbrDIRAF"];
+                            var obsDITECIsN = itnDirNow[j]["txt_obsDlbrDITEC"];
+                            asdx = 0;
+                            ObsDlbrIs = '';
+                            obsResultIs = '';
+                            arrObsDlbrIs = [obsDISUPIsN, obsDIRAFIsN, obsDITECIsN]
+                            /*obsObjIs    = {
+                                txt_obsDlbrDISUP: '',
+                                txt_obsDlbrDIRAF: '',
+                                txt_obsDlbrDITEC: ''
+                            }*/
+                            for(f = 0; f < arrObsDlbrIs.length; f++){
+                                vleObsDlbrNow = arrObsDlbrIs[f]
+                                let result = vleObsDlbrNow.search("<p>");
+                                if(result != -1 && vleObsDlbrNow != "<html>\n<head>\n\t<title></title>\n</head>\n<body></body>\n</html>\n" && vleObsDlbrNow != null && vleObsDlbrNow != undefined && vleObsDlbrNow != ''){
+                                    console.log(vleObsDlbrNow)  
+                                    let result2 = vleObsDlbrNow.search("</p>");
+                                        console.log(result)  
+                                        console.log(result2)  
+                                    fnl = result2
+                                    inc = result + 3
+                                    bd1 = vleObsDlbrNow.substring(inc, fnl)        // Obtem apenas o BODY do HTML salvo no input
+                                    obsResultIs = obsResultIs + bd1 + '<br></br>';
+                                    console.log('/********************************************************************')
+                                    asdx++
                                 }
-                                resultadoDelbr = 'Aprovado por '+arrDefDirN[0]+' e '+arrDefDirN[1]+' e reprovado por '+reprovDefDir;
                             }
-                            else if (vt1 < vt2) { 
-                                var arrDefDirN = [];
-                                aprvDefDir = ''
-                                for(t = 0; t < arrDefnDirReprov.length; t++){
-
-                                    if(arrDefnDirAprv[t] == 0){ aprvDefDir = 'DIRAF' };
-                                    if(arrDefnDirAprv[t] == 1){ aprvDefDir = 'DISUP' };
-                                    if(arrDefnDirAprv[t] == 2){ aprvDefDir = 'DITEC' };
-
-                                    if(arrDefnDirReprov[t] == 0) {        arrDefDirN.push('DIRAF') }
-                                    else if(arrDefnDirReprov[t] == 1) {   arrDefDirN.push('DISUP') }
-                                    if(arrDefnDirReprov[t] == 2 ){        arrDefDirN.push('DITEC') }
-                                            
-                                }
-                                resultadoDelbr = 'Reprovado por '+arrDefDirN[0]+' e '+arrDefDirN[1]+' e aprovado por '+aprvDefDir;
+                            //console.log(obsObjIs)
+                            if(asdx != 0){
+                                /*dlbr_now = dlbr_now + ObsDlbrIs + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black">Deliberação:</span></span></span></b>'+
+                                '<span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black"> <b>'+resultadoDelbr+' '+obsResultIs+'</b></span></span></span></span>'+'</div></div>';*/
+                                dlbr_now = dlbr_now + ObsDlbrIs + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><p style="color:black">Deliberação: '+
+                                resultadoDelbr+obsResultIs+'</p>'+'</span></span></span></b>'+'</div></div><br>';
+                            }else{
+                                /*dlbr_now = dlbr_now + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black">Deliberação:</span></span></span></b>'+
+                                '<span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black"> <b>'+resultadoDelbr+'</b></span></span></span></span>'+'</div></div>';*/
+                                dlbr_now = dlbr_now + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><p style="color:black">Deliberação: '+
+                                resultadoDelbr+'</p>'+'</span></span></span></b>'+'</div></div><br>';
                             }
+                            objPdf = objPdf + dlbr_now;       
                         }
-
-                        let objDivTemp = document.createElement('div');
-                        
-                        let result = txtDlbr.search("body");
-                        let result2 = txtDlbr.search("/body");
-                        fnl = result2 - 1
-                        inc = result + 5
-                        bd = txtDlbr.substring(inc, fnl)        // Obtem apenas o BODY do HTML salvo no input
-                        console.log(bd)
-                        objDivTemp.innerHTML = bd
-                        objDivTemp.lastElementChild.style.cssText = ''
-                        let txtDlbrFINAL = objDivTemp.innerHTML
-                        console.log(objDivTemp.lastElementChild.style.cssText)
-                        console.log(objDivTemp.lastElementChild)
-                        console.log(objDivTemp.innerHTML)
-                        
-
-                        //dlbr_now = '<div style="margin-left:0.6cm;"><b  style="float: left">'+ numIten + '.  </b>'+bd+ '<br></br><br></br>';
-
-                        dlbr_now = '<div style="margin-left:0.6cm;"><b style="float: left">'+ numIten + '.  '+ '</b>'+
-                        '<div style="margin-left:0.6cm; text-align: justify;">'+
-                        txtDlbrFINAL+
-                        '<b style="float: left; margin-right:0.1cm;"><u><span style="font-size:12.0pt"><span style="font-family:&quot;Arial&quot;,sans-serif">Justificativa:</span></span></u></b>'+
-                        txtJstf//+'<br></br>';
-                        //objPdf = objPdf + dlbr_now;
-
-                        //'<b><u><span style="font-size:12.0pt"><span style="font-family:&quot;Arial&quot;,sans-serif">Justificativa:</span></span></u></b>'+txtJstf+'<br></br>'//<div style="margin-left:0.6cm;">'
-
-                        var obsDISUPIsN = itnDirNow[j]["txt_obsDlbrDISUP"];
-                        var obsDIRAFIsN = itnDirNow[j]["txt_obsDlbrDIRAF"];
-                        var obsDITECIsN = itnDirNow[j]["txt_obsDlbrDITEC"];
-                        asdx = 0;
-                        ObsDlbrIs = '';
-                        obsResultIs = '';
-                        arrObsDlbrIs = [obsDISUPIsN, obsDIRAFIsN, obsDITECIsN]
-                        /*obsObjIs    = {
-                            txt_obsDlbrDISUP: '',
-                            txt_obsDlbrDIRAF: '',
-                            txt_obsDlbrDITEC: ''
-                        }*/
-                        for(f = 0; f < arrObsDlbrIs.length; f++){
-                            vleObsDlbrNow = arrObsDlbrIs[f]
-                            let result = vleObsDlbrNow.search("<p>");
-                            if(result != -1 && vleObsDlbrNow != "<html>\n<head>\n\t<title></title>\n</head>\n<body></body>\n</html>\n" && vleObsDlbrNow != null && vleObsDlbrNow != undefined && vleObsDlbrNow != ''){
-                                console.log(vleObsDlbrNow)  
-                                let result2 = vleObsDlbrNow.search("</p>");
-                                    console.log(result)  
-                                    console.log(result2)  
-                                fnl = result2
-                                inc = result + 3
-                                bd1 = vleObsDlbrNow.substring(inc, fnl)        // Obtem apenas o BODY do HTML salvo no input
-                                obsResultIs = obsResultIs + bd1 + '<br></br>';
-                                console.log('/********************************************************************')
-                                asdx++
-                            }
-                        }
-                        //console.log(obsObjIs)
-                        if(asdx != 0){
-                            /*dlbr_now = dlbr_now + ObsDlbrIs + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black">Deliberação:</span></span></span></b>'+
-                            '<span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black"> <b>'+resultadoDelbr+' '+obsResultIs+'</b></span></span></span></span>'+'</div></div>';*/
-                            dlbr_now = dlbr_now + ObsDlbrIs + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><p style="color:black">Deliberação: '+
-                            resultadoDelbr+obsResultIs+'</p>'+'</span></span></span></b>'+'</div></div><br>';
-                        }else{
-                            /*dlbr_now = dlbr_now + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black">Deliberação:</span></span></span></b>'+
-                            '<span style="font-size:12.0pt"><span style="line-height:150%"><span style="color:black"> <b>'+resultadoDelbr+'</b></span></span></span></span>'+'</div></div>';*/
-                            dlbr_now = dlbr_now + '<span style="line-height:150%"><b><span style="font-size:12.0pt"><span style="line-height:150%"><p style="color:black">Deliberação: '+
-                            resultadoDelbr+'</p>'+'</span></span></span></b>'+'</div></div><br>';
-                        }
-                        objPdf = objPdf + dlbr_now;       
                     }
                 }else if(primeCheck == 0){
                     if(i == 0){ dirImed = 'DISUP' }
