@@ -180,7 +180,7 @@
                 { 'fncName': 'validation', 'fncParam': 'dt_DataSolicita' }
             ],
             validation: function () {
-                //if(item['dt_DataSolicita']){    
+                if(item['dt_DataSolicita']){    
                     let dataItm = item['dt_DataSolicita'];
                     let numItm = item['txt_NumProcess'];
                     var dtRn = item['dataSelected'];
@@ -229,7 +229,7 @@
                         else { ckii = false }
                     }
                     if (ckii == false) { return false }
-                //} else { return true }
+                } else { return true }
             },
             fnc: [
                 { 'fncName': 'a', 'fncParam': 'cmb_NomeSolicita' },
